@@ -34,16 +34,4 @@ public class Person1 {
 	  String firstTwo = input.substring(0, 2);
 	  return input.substring(2) + firstTwo;
 	}
-
-	/**
-	 * Return a string rep of this object
-	 * that varies with an input string
-	 *
-	 * @param input the varying string
-	 * @return the string representing the
-	 *         object
-	 */
-	public String toString(String input) {
-	  return name + calc(input);
-	}
 }
