@@ -54,13 +54,3 @@ public class Person4 {
     }
 
 }
-     * @param input the varying string
-     * @return the string representing the 
-     *         object
-     */
-    public String toString(String input) {
-      return name + calc(input);
-    }
-
-}
-
