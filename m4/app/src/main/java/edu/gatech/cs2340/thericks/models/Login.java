@@ -41,6 +41,7 @@ public class Login implements Serializable {
 
     /**
      * Constructor for login info
+     *
      * @param username user's username
      * @param password user's un-hashed password
      */
@@ -64,6 +65,17 @@ public class Login implements Serializable {
     }
 
     /**
+     * Generates a secure, random salt for encryption.
+     * @return salt
+     */
+    private byte[] generateSalt() {
+        SecureRandom sr = new SecureRandom();
+        byte[] saltBytes = new byte[SALT_LENGTH];
+        sr.nextBytes(saltBytes);
+        return saltBytes;
+    }
+
+    /**
      * Creates encrypted password from user's password and random salt.
      *
      * @param password user's (unencrypted) password
@@ -82,6 +94,14 @@ public class Login implements Serializable {
 
     /**
      *
+     * @return Username for login
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     *
      * @return encrypted password
      */
     public byte[] getSecurePassword() {
@@ -94,17 +114,6 @@ public class Login implements Serializable {
      */
     public byte[] getSalt() {
         return salt;
-    }
-
-    /**
-     * Generates a secure, random salt for encryption.
-     * @return salt
-     */
-    private byte[] generateSalt() {
-        SecureRandom sr = new SecureRandom();
-        byte[] saltBytes = new byte[SALT_LENGTH];
-        sr.nextBytes(saltBytes);
-        return saltBytes;
     }
 
     /**
