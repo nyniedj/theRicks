@@ -7,29 +7,27 @@ import edu.gatech.cs2340.thericks.models.*;
 import static org.junit.Assert.*;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Unit tests for the login system.
  */
 public class LoginSystemUnitTest {
 
     @Test
-    public void test_login() throws Exception {
-        User u1 = new User("Bobby123", "tacosRgood");
+    public void create_user() throws Exception {
+        User u1 = new User("Bobby123", "tacosRg00d");
         User u2 = new User("Lindsay99", "tacosRgo0d");   // check that similar passwords are completely different when encrypted
-        User u3 = new User("JillPickle", "tacosRgood");  // check that salt works with same password
+        User u3 = new User("JillPickle", "tacosRgo0d");  // check that salt works with same password
 
         System.out.println(u1.getLogin());
         System.out.println(u2.getLogin());
         System.out.println(u3.getLogin());
 
-        assertNotNull(u1.getLogin().getSecurePassword());
-        assertNotNull(u2.getLogin().getSecurePassword());
-        assertNotNull(u3.getLogin().getSecurePassword());
+        assertTrue(u1.getLogin().isValid());
+        assertTrue(u2.getLogin().isValid());
+        assertTrue(u3.getLogin().isValid());
     }
 
     @Test
-    public void test_password_validation() throws Exception {
+    public void password_validation() throws Exception {
         UserTable users = new UserTable();
 
         // Check invalid passwords
@@ -42,9 +40,30 @@ public class LoginSystemUnitTest {
         assertFalse(users.addUserFromData("username7", null));
 
         // Check valid passwords
-        assertTrue(users.addUserFromData("username1", "Pa@ssW0rd"));
+        assertTrue(users.addUserFromData("username1", "P@ssW0rd"));
         assertTrue(users.addUserFromData("username2", "A78b37?@Jfd"));
         assertTrue(users.addUserFromData("username3", "L3tMeInPlz"));
 
+    }
+
+    @Test
+    public void reset_password() throws Exception {
+        User u1 = new User("username1", "P@ssW0rd");
+        System.out.println(u1.getLogin());
+
+        // Check valid reset works
+        u1.getLogin().resetPassword("P@ssW0rd2ElectricBoogaloo");
+        System.out.println(u1.getLogin());
+        assertTrue(u1.getLogin().isValid());
+
+        // Check that invalid reset attempt does nothing
+        u1.getLogin().resetPassword("Bad Password");
+        System.out.println(u1.getLogin());
+        assertTrue(u1.getLogin().isValid());  // Should still be valid since nothing changed
+
+        // Check that resetting to same password still resets salt (i.e. encryption password changes)
+        u1.getLogin().resetPassword("P@ssW0rd2ElectricBoogaloo");
+        System.out.println(u1.getLogin());
+        assertTrue(u1.getLogin().isValid());
     }
 }
