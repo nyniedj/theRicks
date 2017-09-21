@@ -2,6 +2,11 @@ package edu.gatech.cs2340.thericks;
 
 import org.junit.Test;
 
+import java.security.Security;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import edu.gatech.cs2340.thericks.models.*;
 
 import static org.junit.Assert.*;
@@ -28,7 +33,7 @@ public class LoginSystemUnitTest {
 
     @Test
     public void password_validation() throws Exception {
-        UserTable users = new UserTable();
+        UserTable users = UserTable.getInstance();
 
         // Check invalid passwords
         assertFalse(users.addUserFromData("username1", "173839304"));

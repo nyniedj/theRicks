@@ -12,28 +12,24 @@ import java.util.ArrayList;
 
 public class UserTable {
 
-    /** List of registered users **/
-    private List<User> users = new ArrayList<>();
-
-    /**
-     * Constructor for a new user table with pre-registered users.
-     *
-     * @param oldUsers List of registered users to include.
-     */
-    public UserTable(List<User> oldUsers) {
-        for (User u : oldUsers) {
-            // Attempt to add user
-            if (!addUser(u)) {
-                Log.d("User Table", "User: " + u.getLogin().getUsername() + " could not be added to user table.");
-            }
-        }
+    /** Singleton instance **/
+    private static final UserTable instance = new UserTable();
+    public static UserTable getInstance() {
+        return instance;
     }
+
+    /** List of registered users **/
+    private List<User> users;
 
     /**
      * Constructor for empty user table.
      */
-    public UserTable() {
-        this(Collections.<User>emptyList());
+    private UserTable() {
+        users = new ArrayList<>();
+    }
+
+    public void loadDummyData() {
+        addUserFromData("Username", "P@ssw0rd");
     }
 
     /**
