@@ -13,6 +13,8 @@ import edu.gatech.cs2340.thericks.models.UserTable;
 
 /**
  * Created by Ben Lashley on 9/20/2017.
+ *
+ * Screen that appears when app starts. Allows user to login or register for an account.
  */
 
 public class WelcomeActivity extends AppCompatActivity {

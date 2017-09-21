@@ -54,25 +54,4 @@ public class LoginSystemUnitTest {
         assertNotNull(users.getUserByUsername("username2"));
         assertNotNull(users.getUserByUsername("username3"));
     }
-
-    @Test
-    public void reset_password() throws Exception {
-        User u1 = new User("username1", "P@ssW0rd");
-        System.out.println(u1.getLogin());
-
-        // Check valid reset works
-        u1.getLogin().resetPassword("P@ssW0rd2ElectricBoogaloo");
-        System.out.println(u1.getLogin());
-        assertTrue(u1.getLogin().isValid());
-
-        // Check that invalid reset attempt does nothing
-        u1.getLogin().resetPassword("Bad Password");
-        System.out.println(u1.getLogin());
-        assertTrue(u1.getLogin().isValid());  // Should still be valid since nothing changed
-
-        // Check that resetting to same password still resets salt (i.e. encryption password changes)
-        u1.getLogin().resetPassword("P@ssW0rd2ElectricBoogaloo");
-        System.out.println(u1.getLogin());
-        assertTrue(u1.getLogin().isValid());
-    }
 }

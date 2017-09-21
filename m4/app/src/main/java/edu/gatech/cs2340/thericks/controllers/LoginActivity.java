@@ -10,6 +10,7 @@ import android.widget.EditText;
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.User;
 import edu.gatech.cs2340.thericks.models.UserTable;
+import edu.gatech.cs2340.thericks.utils.Security;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                 UserTable users = UserTable.getInstance();
                 User u = users.getUserByUsername(enteredUsername);
                 if (u != null && u.getLogin() != null) {
-                    if (u.getLogin().checkPassword(enteredPassword)) {
+                    if (Security.checkPassword(enteredPassword, u.getLogin())) {
                         Log.d("Login", "Successfully logged into user account: " + u.getLogin().getUsername());
                         finish();
                     } else {
