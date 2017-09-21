@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.security.Security;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import java.security.NoSuchAlgorithmException;
@@ -113,7 +115,7 @@ public class Login implements Serializable {
      */
     private static byte[] createEncryptedPassword(String password, byte[] salt,  int iterations, int derivedKeyLength) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength * 8);
-        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         return f.generateSecret(spec).getEncoded();
     }
 
@@ -151,6 +153,35 @@ public class Login implements Serializable {
         }
         final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"+ MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
         return pw != null && pat.matcher(pw).matches();
+    }
+
+    /**
+     * Check if provided password gives correct encryption (i.e. password entered is correct)
+     *
+     * @param pw the password to check
+     * @return true if the password is correct, false if not
+     */
+    public boolean checkPassword(String pw) {
+        // Make sure Login info is valid
+        if (!isValid()) {
+            return false;
+        }
+        // Check that pw is valid
+        if (!validatePassword(pw)) {
+            return false;
+        }
+        boolean correct = false;
+        try {
+            byte[] attempt = createEncryptedPassword(pw, this.salt, ITERATIONS, KEY_LENGTH);
+            Log.d("Login", "Attempted password encrypted to: " + getPasswordString(attempt));
+            Log.d("Login", "Actual encrypted password: " + getPasswordString(securePassword));
+            correct = Arrays.equals(attempt, securePassword);
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("Login", "Algorithm requested for encryption does not exist.");
+        } catch (InvalidKeySpecException e) {
+            Log.e("Login", "Invalid specifications for secure key.");
+        }
+        return correct;
     }
 
     /**
@@ -203,22 +234,14 @@ public class Login implements Serializable {
 
     /**
      *
-     * @return salt used to encrypt password
-     */
-    public byte[] getSalt() {
-        return salt;
-    }
-
-    /**
-     *
      * @return Secure password as a readable hexadecimal string
      */
-    private String getPasswordString() {
-        if (securePassword == null) {
+    public static String getPasswordString(byte[] pw) {
+        if (pw == null) {
             return "INVALID";
         }
         final StringBuilder builder = new StringBuilder();
-        for (byte b : securePassword) {
+        for (byte b : pw) {
             builder.append(String.format("%02x", b));
         }
         return builder.toString();
@@ -237,6 +260,6 @@ public class Login implements Serializable {
      * @return Login information as a string
      */
     public String toString() {
-        return String.format("Username: %s\nEncrypted Password: %s\n", username, getPasswordString());
+        return String.format("Username: %s\nEncrypted Password: %s\n", username, getPasswordString(securePassword));
     }
 }

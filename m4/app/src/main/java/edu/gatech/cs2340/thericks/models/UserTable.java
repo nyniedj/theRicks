@@ -2,7 +2,6 @@ package edu.gatech.cs2340.thericks.models;
 
 import android.util.Log;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -59,6 +58,7 @@ public class UserTable {
     public boolean addUser(User u) {
         if (u.getLogin().isValid()) {
             users.add(u);
+            Log.d("Login", "Added new user: " + u.getLogin().getUsername());
             return true;
         } else {
             return false;

@@ -49,6 +49,10 @@ public class LoginSystemUnitTest {
         assertTrue(users.addUserFromData("username2", "A78b37?@Jfd"));
         assertTrue(users.addUserFromData("username3", "L3tMeInPlz"));
 
+        // Check that users are now in user table
+        assertNotNull(users.getUserByUsername("username1"));
+        assertNotNull(users.getUserByUsername("username2"));
+        assertNotNull(users.getUserByUsername("username3"));
     }
 
     @Test
