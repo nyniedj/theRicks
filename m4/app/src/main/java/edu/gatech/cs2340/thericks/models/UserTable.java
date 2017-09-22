@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Ben Lashley on 9/19/2017.
+ *
+ * Singleton class that holds list of registered users.
  */
 
 public class UserTable {
@@ -78,5 +80,13 @@ public class UserTable {
             }
         }
         return null;
+    }
+
+    /**
+     *
+     * @return Number of registered users
+     */
+    public int size() {
+        return users.size();
     }
 }

@@ -2,12 +2,8 @@ package edu.gatech.cs2340.thericks;
 
 import org.junit.Test;
 
-import java.security.Security;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-
 import edu.gatech.cs2340.thericks.models.*;
+import edu.gatech.cs2340.thericks.utils.Security;
 
 import static org.junit.Assert.*;
 
@@ -43,6 +39,9 @@ public class LoginSystemUnitTest {
         assertFalse(users.addUserFromData("username5", "all_lowercase"));
         assertFalse(users.addUserFromData("username6", "bad_chars^^<{}>"));
         assertFalse(users.addUserFromData("username7", null));
+        assertFalse(users.addUserFromData(null, null));
+
+        assertEquals(users.size(), 0);
 
         // Check valid passwords
         assertTrue(users.addUserFromData("username1", "P@ssW0rd"));
@@ -50,8 +49,23 @@ public class LoginSystemUnitTest {
         assertTrue(users.addUserFromData("username3", "L3tMeInPlz"));
 
         // Check that users are now in user table
+        assertEquals(users.size(), 3);
         assertNotNull(users.getUserByUsername("username1"));
         assertNotNull(users.getUserByUsername("username2"));
         assertNotNull(users.getUserByUsername("username3"));
+    }
+
+    @Test
+    public void reset_password() {
+        User u1 = new User("Username", "P@ssw0rd");
+        System.out.println("Old password: " + u1.getLogin().getPasswordString());
+
+        assertFalse(u1.getLogin().resetPassword("P@ssword!", "Op3nSesame"));
+        assertFalse(u1.getLogin().resetPassword("P@ssword", "invalid"));
+
+        assertTrue(u1.getLogin().resetPassword("P@ssw0rd", "Op3nSesame"));
+
+        System.out.println("New Password: " + u1.getLogin().getPasswordString());
+        assertArrayEquals(Security.createEncryptedPassword("Op3nSesame", u1.getLogin().getSalt()), u1.getLogin().getSecurePassword());
     }
 }

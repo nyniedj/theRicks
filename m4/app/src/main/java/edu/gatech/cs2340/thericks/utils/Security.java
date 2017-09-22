@@ -134,6 +134,7 @@ public class Security {
     }
 
     /**
+     * NOTE: Only needed for testing purposes.  Responsibility of printing password is with Login.
      *
      * @return Secure password as a readable hexadecimal string
      */
@@ -147,5 +148,4 @@ public class Security {
         }
         return builder.toString();
     }
-
 }

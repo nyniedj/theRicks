@@ -3,6 +3,7 @@ package edu.gatech.cs2340.thericks.models;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import edu.gatech.cs2340.thericks.utils.Security;
 
@@ -54,6 +55,30 @@ public class Login implements Serializable {
         }
     }
 
+    public boolean resetPassword(String oldPass, String newPass) {
+        if (!Security.validatePassword(newPass)) {
+            Log.d("Login", "Failed attempt to reset password. Invalid new password.");
+            return false;
+        }
+        if (Arrays.equals(Security.createEncryptedPassword(oldPass, salt), securePassword)) {
+            // Old password was entered correctly, so allow reset.
+            byte[] fallBack = securePassword;
+            securePassword = Security.createEncryptedPassword(newPass, salt);
+            if (securePassword == null) {
+                // Reset failed to create encrypted new password
+                securePassword = fallBack;
+                Log.e("Login", "Error resetting password. Failed to encrypt new password. Password is unchanged.");
+                return false;
+            } else {
+                // Encryption successful
+                return true;
+            }
+        } else {
+            Log.d("Login", "Failed attempt to reset password. Incorrect old password.");
+            return false;
+        }
+    }
+
     /**
      *
      * @return Username for login
@@ -65,10 +90,26 @@ public class Login implements Serializable {
 
     /**
      *
-     * @return encrypted password
+     * @return secure password
      */
     public byte[] getSecurePassword() {
         return securePassword;
+    }
+
+
+    /**
+     *
+     * @return Secure password as a readable hexadecimal string
+     */
+    public String getPasswordString() {
+        if (securePassword == null) {
+            return "INVALID";
+        }
+        final StringBuilder builder = new StringBuilder();
+        for (byte b : securePassword) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
     }
 
 
@@ -95,6 +136,6 @@ public class Login implements Serializable {
      * @return Login information as a string
      */
     public String toString() {
-        return String.format("Username: %s\nEncrypted Password: %s\n", username, Security.getPasswordString(securePassword));
+        return String.format("Username: %s\nEncrypted Password: %s\n", username, getPasswordString());
     }
 }
