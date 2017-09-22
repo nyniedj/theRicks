@@ -32,12 +32,10 @@ public class WelcomeActivity extends AppCompatActivity {
         login =    (Button) findViewById(R.id.login_button);
         register = (Button) findViewById(R.id.register_button);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, LoginActivity.class);
-                context.startActivity(intent);
-            }
+        login.setOnClickListener(v -> {
+            Context context = v.getContext();
+            Intent intent = new Intent(context, LoginActivity.class);
+            context.startActivity(intent);
         });
     }
 }

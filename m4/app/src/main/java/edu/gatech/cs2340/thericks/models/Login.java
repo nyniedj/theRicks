@@ -60,7 +60,7 @@ public class Login implements Serializable {
             Log.d("Login", "Failed attempt to reset password. Invalid new password.");
             return false;
         }
-        if (Arrays.equals(Security.createEncryptedPassword(oldPass, salt), securePassword)) {
+        if (Security.checkPassword(oldPass, this)) {
             // Old password was entered correctly, so allow reset.
             byte[] fallBack = securePassword;
             securePassword = Security.createEncryptedPassword(newPass, salt);

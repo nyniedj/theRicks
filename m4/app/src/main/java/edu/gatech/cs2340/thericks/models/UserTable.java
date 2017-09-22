@@ -2,8 +2,11 @@ package edu.gatech.cs2340.thericks.models;
 
 import android.util.Log;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+
+import edu.gatech.cs2340.thericks.utils.Security;
 
 /**
  * Created by Ben Lashley on 9/19/2017.
@@ -63,6 +66,34 @@ public class UserTable {
             Log.d("Login", "Added new user: " + u.getLogin().getUsername());
             return true;
         } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Removes user with provided username and password from table.
+     *
+     * @param username The username of the user to delete
+     * @param password The password of the user to delete
+     * @return true if user was deleted successfully, false if not
+     */
+    public boolean deleteUser(String username, String password) {
+        User u = getUserByUsername(username);
+        if (u == null) {
+            Log.d("Login", "Cannot delete: no such user");
+            return false;
+        } else if (u.getLogin() == null) {
+            Log.d("Login", "Removed user with missing login.");
+            users.remove(u);
+            return true;
+        }
+        if (Security.checkPassword(password, u.getLogin())) {
+            Log.d("Login", "Removed user: " + u.getLogin().getUsername());
+            users.remove(u);
+            return true;
+        } else {
+            Log.d("Login", "Attempt to delete user: " + u.getLogin().getPasswordString() + " failed. Invalid password.");
             return false;
         }
     }
