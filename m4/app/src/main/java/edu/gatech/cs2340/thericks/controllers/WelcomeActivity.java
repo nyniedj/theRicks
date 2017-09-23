@@ -37,5 +37,11 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(context, LoginActivity.class);
             context.startActivity(intent);
         });
+
+        register.setOnClickListener(v -> {
+            Context context = v.getContext();
+            Intent intent = new Intent(context, RegisterActivity.class);
+            context.startActivity(intent);
+        });
     }
 }

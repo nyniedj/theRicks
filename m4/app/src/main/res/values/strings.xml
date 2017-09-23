@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">The Ricks</string>
     <string name="welcome_message">Welcome!</string>
-    <string name="register_message">Create Account</string>
+    <string name="create_account_message">Create Account</string>
+    <string name="register_message">Register</string>
     <string name="login_message">Login</string>
     <string name="password_label">Password</string>
     <string name="username_label">Username</string>

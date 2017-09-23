@@ -80,7 +80,7 @@
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register_message"
+        android:text="@string/create_account_message"
         app:layout_constraintTop_toBottomOf="@+id/registration_reenter_password_entry"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
