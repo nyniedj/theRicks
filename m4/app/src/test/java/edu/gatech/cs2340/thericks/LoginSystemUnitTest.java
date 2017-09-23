@@ -3,6 +3,7 @@ package edu.gatech.cs2340.thericks;
 import org.junit.Test;
 
 import edu.gatech.cs2340.thericks.models.*;
+import edu.gatech.cs2340.thericks.utils.Security;
 
 import static org.junit.Assert.*;
 
@@ -28,7 +29,7 @@ public class LoginSystemUnitTest {
 
     @Test
     public void password_validation() throws Exception {
-        UserTable users = new UserTable();
+        UserTable users = UserTable.getInstance();
 
         // Check invalid passwords
         assertFalse(users.addUserFromData("username1", "173839304"));
@@ -38,32 +39,33 @@ public class LoginSystemUnitTest {
         assertFalse(users.addUserFromData("username5", "all_lowercase"));
         assertFalse(users.addUserFromData("username6", "bad_chars^^<{}>"));
         assertFalse(users.addUserFromData("username7", null));
+        assertFalse(users.addUserFromData(null, null));
+
+        assertEquals(users.size(), 0);
 
         // Check valid passwords
         assertTrue(users.addUserFromData("username1", "P@ssW0rd"));
         assertTrue(users.addUserFromData("username2", "A78b37?@Jfd"));
         assertTrue(users.addUserFromData("username3", "L3tMeInPlz"));
 
+        // Check that users are now in user table
+        assertEquals(users.size(), 3);
+        assertNotNull(users.getUserByUsername("username1"));
+        assertNotNull(users.getUserByUsername("username2"));
+        assertNotNull(users.getUserByUsername("username3"));
     }
 
     @Test
-    public void reset_password() throws Exception {
-        User u1 = new User("username1", "P@ssW0rd");
-        System.out.println(u1.getLogin());
+    public void reset_password() {
+        User u1 = new User("Username", "P@ssw0rd");
+        System.out.println("Old password: " + u1.getLogin().getPasswordString());
 
-        // Check valid reset works
-        u1.getLogin().resetPassword("P@ssW0rd2ElectricBoogaloo");
-        System.out.println(u1.getLogin());
-        assertTrue(u1.getLogin().isValid());
+        assertFalse(u1.getLogin().resetPassword("P@ssword!", "Op3nSesame"));
+        assertFalse(u1.getLogin().resetPassword("P@ssword", "invalid"));
 
-        // Check that invalid reset attempt does nothing
-        u1.getLogin().resetPassword("Bad Password");
-        System.out.println(u1.getLogin());
-        assertTrue(u1.getLogin().isValid());  // Should still be valid since nothing changed
+        assertTrue(u1.getLogin().resetPassword("P@ssw0rd", "Op3nSesame"));
 
-        // Check that resetting to same password still resets salt (i.e. encryption password changes)
-        u1.getLogin().resetPassword("P@ssW0rd2ElectricBoogaloo");
-        System.out.println(u1.getLogin());
-        assertTrue(u1.getLogin().isValid());
+        System.out.println("New Password: " + u1.getLogin().getPasswordString());
+        assertArrayEquals(Security.createEncryptedPassword("Op3nSesame", u1.getLogin().getSalt()), u1.getLogin().getSecurePassword());
     }
 }

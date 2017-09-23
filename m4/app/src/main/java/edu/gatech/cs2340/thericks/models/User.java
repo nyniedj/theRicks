@@ -11,6 +11,10 @@ public class User {
     /** User's secure login data **/
     private Login loginInfo;
 
+    /** User's login status **/
+    private boolean loggedIn;
+
+
     /**
      * Constructor for new user
      * @param username user's username
@@ -19,7 +23,11 @@ public class User {
     public User(String username, String password) {
         // Generate secure login information
         loginInfo = new Login(username, password);
+        loggedIn = false;
     }
+
+
+
 
     /**
      *
