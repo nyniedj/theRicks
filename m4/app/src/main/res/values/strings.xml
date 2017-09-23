@@ -5,5 +5,8 @@
     <string name="login_message">Login</string>
     <string name="password_label">Password</string>
     <string name="username_label">Username</string>
+    <string name="create_username_label">Create Username</string>
+    <string name="create_password_label">Create Password</string>
+    <string name="reenter_password_label">Re-enter Password</string>
     <string name="empty_message" />
 </resources>
