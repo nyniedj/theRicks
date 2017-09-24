@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.thericks.controllers;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +41,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (u != null && u.getLogin() != null) {
                     if (Security.checkPassword(enteredPassword, u.getLogin())) {
                         Log.d("Login", "Successfully logged into user account: " + u.getLogin().getUsername());
-                        finish();
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, LoggedinActivity.class);
+                        context.startActivity(intent);
                     } else {
                         Log.d("Login", "Incorrect password");
                     }

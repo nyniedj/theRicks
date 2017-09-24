@@ -21,7 +21,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private Button login;
     private Button register;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
