@@ -33,7 +33,7 @@ public class UserTable {
     }
 
     public void loadDummyData() {
-        addUserFromData("Username", "P@ssw0rd");
+        addUserFromData("user", "pass");
     }
 
     /**
