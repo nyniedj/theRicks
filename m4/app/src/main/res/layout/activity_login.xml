@@ -59,6 +59,19 @@
         app:layout_constraintTop_toBottomOf="@+id/login_password_label"
         android:layout_marginBottom="-1dp" />
 
+    <TextView
+        android:id="@+id/incorrect_login_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/incorrect_login_message"
+        android:textColor="@color/errorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/login_password_entry"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.502" />
+
     <Button
         android:id="@+id/login_button"
         android:layout_width="wrap_content"

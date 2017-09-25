@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.User;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private Button login;
+    private TextView error;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.login_username_entry);
         password = (EditText) findViewById(R.id.login_password_entry);
         login    = (Button)   findViewById(R.id.login_button);
+        error    = (TextView) findViewById(R.id.incorrect_login_label);
+
+        error.setVisibility(View.GONE);
 
         login.setOnClickListener((View v) -> {
                 Log.d("Login", "Attempt to log into account");
@@ -46,9 +51,11 @@ public class LoginActivity extends AppCompatActivity {
                         context.startActivity(intent);
                     } else {
                         Log.d("Login", "Incorrect password");
+                        error.setVisibility(View.VISIBLE);
                     }
                 } else {
                     Log.d("Login", "Incorrect username");
+                    error.setVisibility(View.VISIBLE);
                 }
             }
         );
