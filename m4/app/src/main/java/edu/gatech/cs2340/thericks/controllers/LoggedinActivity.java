@@ -27,6 +27,7 @@ public class LoggedinActivity extends AppCompatActivity {
             Context context = v.getContext();
             Intent intent = new Intent(context, WelcomeActivity.class);
             context.startActivity(intent);
+            finish();
         });
     }
 }

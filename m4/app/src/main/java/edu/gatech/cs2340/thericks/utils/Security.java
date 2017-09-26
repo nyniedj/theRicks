@@ -89,7 +89,7 @@ public class Security {
      */
     public static boolean validateUsername(String username) {
         // Check if username is valid
-        if (username == null) {
+        if (username == null || username.length() == 0) {
             return false;
         } //else if (username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
           //  return false;
@@ -112,7 +112,7 @@ public class Security {
     public static boolean validatePassword(String pw) {
         //final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"+ MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
         //return pw != null && pat.matcher(pw).matches();
-        return true; //uncomment after m4
+        return pw != null && pw.length() > 0; //uncomment after m4
     }
 
     /**
