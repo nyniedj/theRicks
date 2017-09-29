@@ -15,4 +15,9 @@
     <string name="invalid_username_message">Invalid username</string>
     <string name="registration_password_mismatch">Password entries don\'t match</string>
     <string name="invalid_password_message">Invalid password</string>
+    <string name="map_message">Map</string>
+    <string name="rat_list_data_message">Rat Data</string>
+    <string name="profile_message">Profile</string>
+    <string name="settings_message">Settings</string>
+    <string name="report_message">Report a Rat</string>
 </resources>
