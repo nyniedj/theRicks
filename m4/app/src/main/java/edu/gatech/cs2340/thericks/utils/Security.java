@@ -91,9 +91,9 @@ public class Security {
         // Check if username is valid
         if (username == null || username.length() == 0) {
             return false;
-        } //else if (username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
-          //  return false;
-        //}     uncomment these lines after m4
+        } else if (username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
+            return false;
+        }
         return true;
     }
 
@@ -110,9 +110,8 @@ public class Security {
      * @return true if password is valid, false if not
      */
     public static boolean validatePassword(String pw) {
-        //final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"+ MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
-        //return pw != null && pat.matcher(pw).matches();
-        return pw != null && pw.length() > 0; //uncomment after m4
+        final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"+ MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
+        return pw != null && pat.matcher(pw).matches();
     }
 
     /**
