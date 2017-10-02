@@ -20,4 +20,6 @@
     <string name="profile_message">Profile</string>
     <string name="settings_message">Settings</string>
     <string name="report_message">Report a Rat</string>
+    <string name="normal_label">Normal</string>
+    <string name="admin_label">Admin</string>
 </resources>

@@ -3,7 +3,6 @@ package edu.gatech.cs2340.thericks.models;
 import android.util.Log;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 import edu.gatech.cs2340.thericks.utils.Security;
 

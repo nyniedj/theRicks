@@ -2,6 +2,7 @@ package edu.gatech.cs2340.thericks.controllers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("Login", "Successfully logged into user account: " + u.getLogin().getUsername());
                         Context context = v.getContext();
                         Intent intent = new Intent(context, LoggedinActivity.class);
+                        intent.putExtra("edu.gatech.cs2340.thericks.User", u);
                         context.startActivity(intent);
                     } else {
                         Log.d("Login", "Incorrect password");

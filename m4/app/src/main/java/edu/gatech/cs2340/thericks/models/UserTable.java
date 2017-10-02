@@ -33,7 +33,7 @@ public class UserTable {
     }
 
     public void loadDummyData() {
-        addUserFromData("username", "Passw0rd");
+        addUserFromData("username", "Passw0rd", Privilege.NORMAL);
     }
 
     /**
@@ -43,7 +43,7 @@ public class UserTable {
      * @param  password Desired (unencrypted) password
      * @return true if user was created and added successfully, false if not
      */
-    public boolean addUserFromData(String username, String password) {
+    public boolean addUserFromData(String username, String password, Privilege privilege) {
         // Check username availability
         for (User u : users) {
             if (u.getLogin().getUsername().equals(username)) {
@@ -51,7 +51,7 @@ public class UserTable {
             }
         }
         // Create new user
-        User newUser = new User(username, password);
+        User newUser = new User(username, password, privilege);
         return addUser(newUser);
     }
 
