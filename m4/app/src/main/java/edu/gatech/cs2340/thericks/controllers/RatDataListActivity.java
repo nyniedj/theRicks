@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.thericks.controllers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -43,6 +44,21 @@ public class RatDataListActivity extends AppCompatActivity {
                 Object o = ratDataList.getItemAtPosition(position);
                 RatData ratData = (RatData) o;
                 Log.d("Rat Data List", "Selected: " + ratData.toString());
+            }
+
+        });
+        ratDataList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> a, View v, int position, long id) {
+                Object o = ratDataList.getItemAtPosition(position);
+                RatData ratData = (RatData) o;
+                Log.d("Rat Data List", "Selected for opening: " + ratData.toString());
+                Context context = v.getContext();
+                Intent intent = new Intent(context, RatEntryActivity.class);
+                intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
+                context.startActivity(intent);
+                return true;
             }
         });
 

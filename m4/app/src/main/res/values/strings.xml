@@ -22,5 +22,11 @@
     <string name="report_message">Report a Rat</string>
     <string name="normal_label">Normal</string>
     <string name="admin_label">Admin</string>
-    <string name="map_button_message">Map</string>
+    <string name="date_created_label">Date Created</string>
+    <string name="city_label">City</string>
+    <string name="borough_label">Borough</string>
+    <string name="address_label">Address</string>
+    <string name="zipcod_label">Zipcode</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
 </resources>
