@@ -22,4 +22,5 @@
     <string name="report_message">Report a Rat</string>
     <string name="normal_label">Normal</string>
     <string name="admin_label">Admin</string>
+    <string name="map_button_message">Map</string>
 </resources>

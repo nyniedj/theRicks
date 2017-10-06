@@ -4,48 +4,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/ratbackground">
 
     <Button
         android:id="@+id/map_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:text="@string/map_message"
+        android:textSize="24dp"
+        android:textAllCaps="false"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/rat_data_list_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:text="@string/rat_list_data_message"
+        android:textSize="24dp"
+        android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/map_button" />
 
     <Button
         android:id="@+id/profile_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:text="@string/profile_message"
+        android:textSize="24dp"
+        android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/rat_data_list_button" />
 
     <Button
         android:id="@+id/settings_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:text="@string/settings_message"
+        android:textSize="24dp"
+        android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/profile_button" />
 
     <Button
         android:id="@+id/report_rat_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:text="@string/report_message"
+        android:textSize="24dp"
+        android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/settings_button" />
 
     <Button
         android:id="@+id/logout_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:text="@string/logout_message"
+        android:textSize="24dp"
+        android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/report_rat_button" />
 
 </android.support.constraint.ConstraintLayout>

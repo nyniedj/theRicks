@@ -101,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
                 UserTable.getInstance().addUser(u);
 
                 Context context = v.getContext();
-                Intent intent = new Intent(context, LoggedinActivity.class);
+                Intent intent = new Intent(context, DashboardActivity.class);
                 intent.putExtra("edu.gatech.cs2340.thericks.User", u);
                 context.startActivity(intent);
                 finish();

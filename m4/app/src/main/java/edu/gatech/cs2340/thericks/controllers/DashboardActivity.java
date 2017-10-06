@@ -52,8 +52,10 @@ public class DashboardActivity extends AppCompatActivity{
         });
 
         listRatDataButton.setOnClickListener((View v) -> {
+            Log.d("RatDataList", "Rat Data List button pressed");
             Context context = v.getContext();
             Intent intent = new Intent(context, RatDataListActivity.class);
+            context.startActivity(intent);
         });
     }
 }
