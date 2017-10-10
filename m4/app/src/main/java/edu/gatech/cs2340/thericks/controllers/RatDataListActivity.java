@@ -2,6 +2,7 @@ package edu.gatech.cs2340.thericks.controllers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,11 +14,17 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.time.LocalDateTime;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatDataManager;
 
 /**
  * Created by Cameron on 10/5/2017.
@@ -25,42 +32,39 @@ import edu.gatech.cs2340.thericks.models.RatData;
 
 public class RatDataListActivity extends AppCompatActivity {
 
+    private static final String TAG = RatDataListActivity.class.getSimpleName();
+
+    private final static int DISPLAY_LIMIT = 50; // Max number of rat sightings to display at once
+
     private ListView ratDataList;
+    private CustomListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rat_data_list);
 
+        /* Display empty list view until data finishes loading. */
         ratDataList = (ListView) findViewById(R.id.rat_data_list_view);
-
-        ArrayList<RatData> ratDataArrayList = new ArrayList<RatData>(); //pull data from database
-
-        ratDataList.setAdapter(new CustomListAdapter(this, ratDataArrayList));
-        ratDataList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                Object o = ratDataList.getItemAtPosition(position);
-                RatData ratData = (RatData) o;
-                Log.d("Rat Data List", "Selected: " + ratData.toString());
-            }
-
+        adapter = new CustomListAdapter(ratDataList.getContext(), new ArrayList<>());
+        ratDataList.setAdapter(adapter);
+        ratDataList.setOnItemClickListener((AdapterView<?> a, View v, int position, long id) -> {
+            Object o = ratDataList.getItemAtPosition(position);
+            RatData ratData = (RatData) o;
+            Log.d("Rat Data List", "Selected: " + ratData.toString());
         });
-        ratDataList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> a, View v, int position, long id) {
-                Object o = ratDataList.getItemAtPosition(position);
-                RatData ratData = (RatData) o;
-                Log.d("Rat Data List", "Selected for opening: " + ratData.toString());
-                Context context = v.getContext();
-                Intent intent = new Intent(context, RatEntryActivity.class);
-                intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
-                context.startActivity(intent);
-                return true;
-            }
+        ratDataList.setOnItemLongClickListener((AdapterView<?> a, View v, int position, long id) -> {
+            Object o = ratDataList.getItemAtPosition(position);
+            RatData ratData = (RatData) o;
+            Log.d("Rat Data List", "Selected for opening: " + ratData.toString());
+            Context context = v.getContext();
+            Intent intent = new Intent(context, RatEntryActivity.class);
+            intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
+            context.startActivity(intent);
+            return true;
         });
+
+        new LoadRatDataTask().execute();
 
     }
 
@@ -112,5 +116,79 @@ public class RatDataListActivity extends AppCompatActivity {
             private TextView addressView;
             private TextView createdDateView;
         }
+    }
+
+    private class LoadRatDataTask extends AsyncTask<Void, Void, Long> {
+        protected Long doInBackground(Void... voids) {
+            RatDataManager mgr = RatDataManager.getInstance();
+            long lineCount = 0;
+            try {
+                InputStream input = getResources().openRawResource(R.raw.rat_data);
+                BufferedReader br = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
+
+                String line;
+                br.readLine(); //get rid of header line
+                while ((line = br.readLine()) != null) {
+                    lineCount++;
+                    String[] tokens = line.split(",");
+
+                    int key = 0;
+                    try {
+                        key = Integer.parseInt(tokens[0]);
+                    } catch (NumberFormatException e) {
+                        key = 0;
+                    }
+                    String createdDateTime = tokens[1];
+                    String locationType = tokens[7];
+                    int incidentZip = 0;
+                    try {
+                        incidentZip = Integer.parseInt(tokens[8]);
+                    } catch (NumberFormatException e) {
+                        incidentZip = 0;
+                    }
+                    String incidentAddress = tokens[9];
+                    String city = tokens[16];
+                    String borough = tokens[23];
+                    double latitude = 0;
+                    try {
+                        latitude = Double.parseDouble(tokens[25]);
+                    } catch (NumberFormatException e) {
+                        latitude = 0;
+                    }
+                    double longitude = 0;
+                    try {
+                        longitude = Double.parseDouble(tokens[24]);
+                    } catch (NumberFormatException e) {
+                        longitude = 0;
+                    }
+                    mgr.addRatData(key, createdDateTime, locationType, incidentZip, incidentAddress, city, borough, latitude, longitude);
+                }
+                br.close();
+            } catch (IOException e) {
+                Log.e(TAG, "error reading rat data", e);
+            }
+            return lineCount;
+        }
+
+        protected void onPostExecute(Long result) {
+            Log.d(TAG, "Loaded " + result + " rat data entries");
+            updateRatDataList();
+        }
+    }
+
+    /**
+     * Update the list view to show the first DISPLAY_LIMIT rat data entries.
+     */
+    private void updateRatDataList() {
+        ArrayList<RatData> ratDataArrayList = new ArrayList<>();
+        List<RatData> fullDataList = RatDataManager.getInstance().getRatDataList();
+
+        for (int i = 0; i < DISPLAY_LIMIT && i < fullDataList.size(); i++) {
+            ratDataArrayList.add(fullDataList.get(i));
+        }
+        adapter = new CustomListAdapter(ratDataList.getContext(), ratDataArrayList);
+        ratDataList.setAdapter(adapter);
+        // Inform the list view of changes to adapter
+        adapter.notifyDataSetChanged();
     }
 }
