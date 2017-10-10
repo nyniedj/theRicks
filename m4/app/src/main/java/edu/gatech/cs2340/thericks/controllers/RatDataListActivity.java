@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatData;
@@ -39,10 +41,15 @@ public class RatDataListActivity extends AppCompatActivity {
     private ListView ratDataList;
     private CustomListAdapter adapter;
 
+    /* Filters for displayed rat data */
+    private List<Predicate<RatData>> filters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rat_data_list);
+
+        filters = new ArrayList<>();
 
         /* Display empty list view until data finishes loading. */
         ratDataList = (ListView) findViewById(R.id.rat_data_list_view);
@@ -63,6 +70,13 @@ public class RatDataListActivity extends AppCompatActivity {
             context.startActivity(intent);
             return true;
         });
+
+        /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
+//        Predicate<RatData> inNewYork = ratData -> ratData.getCity().equalsIgnoreCase("NEW YORK");
+//        Predicate<RatData> commercialLocation = ratData -> ratData.getLocationType().equalsIgnoreCase("Commercial Building");
+//        filters.add(inNewYork);
+//        filters.add(commercialLocation);
+        /* End of predicates */
 
         /* Check if rat data has already been loaded. */
         if (!RatDataManager.getInstance().isDataLoaded()) {
@@ -184,20 +198,34 @@ public class RatDataListActivity extends AppCompatActivity {
     }
 
     /**
-     * Update the list view to show the first DISPLAY_LIMIT rat data entries.
+     * Update the list view to show the first %DISPLAY_LIMIT% rat data entries that satisfy all
+     * currently applied filters.
      */
     private void updateRatDataList() {
-        ArrayList<RatData> ratDataArrayList = new ArrayList<>();
-        List<RatData> fullDataList = RatDataManager.getInstance().getRatDataList();
+        ArrayList<RatData> dataToDisplay = new ArrayList<>();
+        List<RatData> fullList = RatDataManager.getInstance().getRatDataList();
+        List<RatData> filteredDataList = applyFilters(fullList, filters);
 
-        for (int i = 0; i < DISPLAY_LIMIT && i < fullDataList.size(); i++) {
-            ratDataArrayList.add(fullDataList.get(i));
+        for (int i = 0; i < DISPLAY_LIMIT && i < filteredDataList.size(); i++) {
+            dataToDisplay.add(filteredDataList.get(i));
         }
-        adapter = new CustomListAdapter(ratDataList.getContext(), ratDataArrayList);
+        adapter = new CustomListAdapter(ratDataList.getContext(), dataToDisplay);
         ratDataList.setAdapter(adapter);
         // Inform the list view of changes to adapter
         adapter.notifyDataSetChanged();
         // Done loading data
         RatDataManager.getInstance().finishLoading();
+    }
+
+
+    /**
+     * Returns list of rat data that satisfy all of the provided filters.
+     *
+     * @param filters List of filters to apply
+     * @return List of data in full list satisfying all filters
+     */
+    private List<RatData> applyFilters(List<RatData> fullList, List<Predicate<RatData>> filters) {
+        Predicate<RatData> allPredicates = filters.stream().reduce(f -> true, Predicate::and);
+        return fullList.stream().filter(allPredicates).collect(Collectors.toList());
     }
 }
