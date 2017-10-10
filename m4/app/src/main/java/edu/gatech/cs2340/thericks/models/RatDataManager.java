@@ -3,8 +3,6 @@ package edu.gatech.cs2340.thericks.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.gatech.cs2340.thericks.R;
-
 /**
  * Created by Ben Lashley on 10/9/2017.
  */
@@ -18,8 +16,11 @@ public class RatDataManager {
 
     private List<RatData> ratDataList;
 
+    private boolean dataLoaded;
+
     private RatDataManager() {
         ratDataList = new ArrayList<>(100000);
+        dataLoaded = false;
     }
 
     public void addRatData(int key, String createdDateTime, String locationType, int incidentZip,
@@ -32,5 +33,13 @@ public class RatDataManager {
 
     public List<RatData> getRatDataList() {
         return ratDataList;
+    }
+
+    public boolean isDataLoaded() {
+        return dataLoaded;
+    }
+
+    public void finishLoading() {
+        dataLoaded = true;
     }
 }

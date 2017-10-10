@@ -64,8 +64,15 @@ public class RatDataListActivity extends AppCompatActivity {
             return true;
         });
 
-        new LoadRatDataTask().execute();
+        /* Check if rat data has already been loaded. */
+        if (!RatDataManager.getInstance().isDataLoaded()) {
+            // Load in data for first time
+            new LoadRatDataTask().execute();
 
+        } else {
+            // Already loaded
+            updateRatDataList();
+        }
     }
 
     private class CustomListAdapter extends BaseAdapter {
@@ -132,7 +139,7 @@ public class RatDataListActivity extends AppCompatActivity {
                     lineCount++;
                     String[] tokens = line.split(",");
 
-                    int key = 0;
+                    int key;
                     try {
                         key = Integer.parseInt(tokens[0]);
                     } catch (NumberFormatException e) {
@@ -140,7 +147,7 @@ public class RatDataListActivity extends AppCompatActivity {
                     }
                     String createdDateTime = tokens[1];
                     String locationType = tokens[7];
-                    int incidentZip = 0;
+                    int incidentZip;
                     try {
                         incidentZip = Integer.parseInt(tokens[8]);
                     } catch (NumberFormatException e) {
@@ -149,13 +156,13 @@ public class RatDataListActivity extends AppCompatActivity {
                     String incidentAddress = tokens[9];
                     String city = tokens[16];
                     String borough = tokens[23];
-                    double latitude = 0;
+                    double latitude;
                     try {
                         latitude = Double.parseDouble(tokens[25]);
                     } catch (NumberFormatException e) {
                         latitude = 0;
                     }
-                    double longitude = 0;
+                    double longitude;
                     try {
                         longitude = Double.parseDouble(tokens[24]);
                     } catch (NumberFormatException e) {
@@ -190,5 +197,7 @@ public class RatDataListActivity extends AppCompatActivity {
         ratDataList.setAdapter(adapter);
         // Inform the list view of changes to adapter
         adapter.notifyDataSetChanged();
+        // Done loading data
+        RatDataManager.getInstance().finishLoading();
     }
 }
