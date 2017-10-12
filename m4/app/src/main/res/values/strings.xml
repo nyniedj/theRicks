@@ -29,4 +29,5 @@
     <string name="zipcod_label">Zipcode</string>
     <string name="latitude_label">Latitude</string>
     <string name="longitude_label">Longitude</string>
+    <string name="rat_data_list_title">Rat Data</string>
 </resources>
