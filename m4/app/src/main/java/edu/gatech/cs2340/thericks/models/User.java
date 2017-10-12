@@ -36,6 +36,14 @@ public class User implements Parcelable {
         return privilege;
     }
 
+    public String getUsername() {
+        if (loginInfo != null) {
+            return loginInfo.getUsername();
+        } else {
+            return "";
+        }
+    }
+
     public void login() {
         loggedIn = true;
     }
@@ -92,5 +100,5 @@ public class User implements Parcelable {
         }
     };
 
-    /** ****************************************************/
+    /* *****************************************************/
 }

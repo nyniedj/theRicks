@@ -46,7 +46,7 @@ public class UserTable {
     public boolean addUserFromData(String username, String password, Privilege privilege) {
         // Check username availability
         for (User u : users) {
-            if (u.getLogin().getUsername().equals(username)) {
+            if (u.getUsername().equals(username)) {
                 return false;
             }
         }
@@ -63,7 +63,7 @@ public class UserTable {
     public boolean addUser(User u) {
         if (u.getLogin().isValid()) {
             users.add(u);
-            Log.d("Login", "Added new user: " + u.getLogin().getUsername());
+            Log.d("Login", "Added new user: " + u.getUsername());
             return true;
         } else {
             return false;
@@ -106,7 +106,7 @@ public class UserTable {
      */
     public User getUserByUsername(String username) {
         for (User u : users) {
-            if (u.getLogin().getUsername().equals(username)) {
+            if (u.getUsername().equals(username)) {
                 return u;
             }
         }

@@ -38,6 +38,17 @@ public class RatDataListActivity extends AppCompatActivity {
 
     private final static int DISPLAY_LIMIT = 50; // Max number of rat sightings to display at once
 
+    /* Column indexes for relevant headers in rat_data.csv file. */
+    private static final int UNIQUE_KEY_COLUMN = 0;
+    private static final int CREATED_TIME_COLUMN = 1;
+    private static final int LOCATION_TYPE_COLUMN = 7;
+    private static final int INCIDENT_ZIP_COLUMN = 8;
+    private static final int INCIDENT_ADDRESS_COLUMN = 9;
+    private static final int CITY_COLUMN = 16;
+    private static final int BOROUGH_COLUMN = 23;
+    private static final int LATITUDE_COLUMN = 25;
+    private static final int LONGITUDE_COLUMN = 24;
+
     private ListView ratDataList;
     private CustomListAdapter adapter;
 
@@ -79,11 +90,11 @@ public class RatDataListActivity extends AppCompatActivity {
         /* End of predicates */
 
         /* Check if rat data has already been loaded. */
-        if (!RatDataManager.getInstance().isDataLoaded()) {
+        RatDataManager mgr = RatDataManager.getInstance();
+        if (!mgr.isDataLoaded() && !mgr.isDataLoading()) {
             // Load in data for first time
             new LoadRatDataTask().execute();
-
-        } else {
+        } else if (!mgr.isDataLoading()){
             // Already loaded
             updateRatDataList();
         }
@@ -142,6 +153,7 @@ public class RatDataListActivity extends AppCompatActivity {
     private class LoadRatDataTask extends AsyncTask<Void, Void, Long> {
         protected Long doInBackground(Void... voids) {
             RatDataManager mgr = RatDataManager.getInstance();
+            mgr.startLoading();
             long lineCount = 0;
             try {
                 InputStream input = getResources().openRawResource(R.raw.rat_data);
@@ -153,35 +165,35 @@ public class RatDataListActivity extends AppCompatActivity {
                     lineCount++;
                     String[] tokens = line.split(",");
 
-                    int key;
+                    int key, incidentZip;
+                    double longitude, latitude;
+                    // Record relevant data from tokens.
                     try {
-                        key = Integer.parseInt(tokens[0]);
+                        key = Integer.parseInt(tokens[UNIQUE_KEY_COLUMN]);
                     } catch (NumberFormatException e) {
                         key = 0;
                     }
-                    String createdDateTime = tokens[1];
-                    String locationType = tokens[7];
-                    int incidentZip;
+                    String createdDateTime = tokens[CREATED_TIME_COLUMN];
+                    String locationType = tokens[LOCATION_TYPE_COLUMN];
                     try {
-                        incidentZip = Integer.parseInt(tokens[8]);
+                        incidentZip = Integer.parseInt(tokens[INCIDENT_ZIP_COLUMN]);
                     } catch (NumberFormatException e) {
                         incidentZip = 0;
                     }
-                    String incidentAddress = tokens[9];
-                    String city = tokens[16];
-                    String borough = tokens[23];
-                    double latitude;
+                    String incidentAddress = tokens[INCIDENT_ADDRESS_COLUMN];
+                    String city = tokens[CITY_COLUMN];
+                    String borough = tokens[BOROUGH_COLUMN];
                     try {
-                        latitude = Double.parseDouble(tokens[25]);
+                        latitude = Double.parseDouble(tokens[LATITUDE_COLUMN]);
                     } catch (NumberFormatException e) {
                         latitude = 0;
                     }
-                    double longitude;
                     try {
-                        longitude = Double.parseDouble(tokens[24]);
+                        longitude = Double.parseDouble(tokens[LONGITUDE_COLUMN]);
                     } catch (NumberFormatException e) {
                         longitude = 0;
                     }
+                    // Create new rat data from data found in tokens
                     mgr.addRatData(key, createdDateTime, locationType, incidentZip, incidentAddress, city, borough, latitude, longitude);
                 }
                 br.close();
@@ -194,6 +206,8 @@ public class RatDataListActivity extends AppCompatActivity {
         protected void onPostExecute(Long result) {
             Log.d(TAG, "Loaded " + result + " rat data entries");
             updateRatDataList();
+            // Done loading data
+            RatDataManager.getInstance().finishLoading();
         }
     }
 
@@ -213,8 +227,6 @@ public class RatDataListActivity extends AppCompatActivity {
         ratDataList.setAdapter(adapter);
         // Inform the list view of changes to adapter
         adapter.notifyDataSetChanged();
-        // Done loading data
-        RatDataManager.getInstance().finishLoading();
     }
 
 
