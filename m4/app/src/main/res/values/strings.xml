@@ -22,12 +22,15 @@
     <string name="report_message">Report a Rat</string>
     <string name="normal_label">Normal</string>
     <string name="admin_label">Admin</string>
+
     <string name="date_created_label">Date Created</string>
     <string name="city_label">City</string>
     <string name="borough_label">Borough</string>
     <string name="address_label">Address</string>
-    <string name="zipcod_label">Zipcode</string>
+    <string name="zipcode_label">Zipcode</string>
     <string name="latitude_label">Latitude</string>
     <string name="longitude_label">Longitude</string>
     <string name="rat_data_list_title">Rat Data</string>
+    <string name="unique_key_label">Unique Key</string>
+    <string name="location_type_label">Location Type</string>
 </resources>
