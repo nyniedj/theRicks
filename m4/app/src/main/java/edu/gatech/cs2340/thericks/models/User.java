@@ -14,6 +14,7 @@ public class User implements Parcelable {
     /** User's secure login data **/
     private Login loginInfo;
 
+    /** User's privilege status - either normal or admin**/
     private Privilege privilege;
 
     /** User's login status **/
@@ -24,6 +25,7 @@ public class User implements Parcelable {
      * Constructor for new user
      * @param username user's username
      * @param password user's unencrypted password
+     * @param privilege user's privilege status
      */
     public User(String username, String password, Privilege privilege) {
         // Generate secure login information
