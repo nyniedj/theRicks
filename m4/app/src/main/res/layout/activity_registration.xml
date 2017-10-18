@@ -118,16 +118,17 @@
         app:layout_constraintTop_toBottomOf="@id/registration_password_mismatch">
 
         <RadioButton
+            android:id="@+id/admin_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_label" />
+
+        <RadioButton
             android:id="@+id/normal_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/normal_label"/>
 
-        <RadioButton
-            android:id="@+id/admin_radio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/admin_label"/>
     </RadioGroup>
 
     <Button
