@@ -22,62 +22,71 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
-            android:text="@string/unique_key_label" />
+            android:text="@string/unique_key_label"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rat_data_date_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/date_created_label"
-            android:layout_weight="0.03" />
+            android:layout_weight="0.03"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rat_data_location_type_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/location_type_label"
-            android:layout_weight="0.04" />
+            android:layout_weight="0.04"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rat_data_incident_address_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
-            android:text="@string/address_label" />
+            android:text="@string/address_label"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rat_data_incident_zip_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
-            android:text="@string/zipcode_label" />
+            android:text="@string/zipcode_label"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rat_data_borough_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
-            android:text="@string/borough_label" />
+            android:text="@string/borough_label"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rat_data_city_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
-            android:text="@string/city_label" />
+            android:text="@string/city_label"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rat_data_latitude_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
-            android:text="@string/latitude_label" />
+            android:text="@string/latitude_label"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/rat_data_longitude_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
-            android:text="@string/longitude_label" />
+            android:text="@string/longitude_label"
+            android:textSize="16sp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

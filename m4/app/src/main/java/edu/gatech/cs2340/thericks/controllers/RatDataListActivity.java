@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -51,6 +52,7 @@ public class RatDataListActivity extends AppCompatActivity {
 
     private ListView ratDataList;
     private CustomListAdapter adapter;
+    private ProgressBar progressBar;
 
     /* Filters for displayed rat data */
     private List<Predicate<RatData>> filters;
@@ -62,6 +64,8 @@ public class RatDataListActivity extends AppCompatActivity {
 
         filters = new ArrayList<>();
 
+        progressBar = (ProgressBar) findViewById(R.id.rat_data_list_progress_bar);
+
         /* Display empty list view until data finishes loading. */
         ratDataList = (ListView) findViewById(R.id.rat_data_list_view);
         adapter = new CustomListAdapter(ratDataList.getContext(), new ArrayList<>());
@@ -69,17 +73,11 @@ public class RatDataListActivity extends AppCompatActivity {
         ratDataList.setOnItemClickListener((AdapterView<?> a, View v, int position, long id) -> {
             Object o = ratDataList.getItemAtPosition(position);
             RatData ratData = (RatData) o;
-            Log.d("Rat Data List", "Selected: " + ratData.toString());
-        });
-        ratDataList.setOnItemLongClickListener((AdapterView<?> a, View v, int position, long id) -> {
-            Object o = ratDataList.getItemAtPosition(position);
-            RatData ratData = (RatData) o;
             Log.d("Rat Data List", "Selected for opening: " + ratData.toString());
             Context context = v.getContext();
             Intent intent = new Intent(context, RatEntryActivity.class);
             intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
             context.startActivity(intent);
-            return true;
         });
 
         /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
@@ -127,7 +125,7 @@ public class RatDataListActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = layoutInflater.inflate(R.layout.rat_list_row_layout, null);
+                convertView = layoutInflater.inflate(R.layout.rat_list_row_view, null);
                 holder = new ViewHolder();
                 holder.cityView = (TextView) convertView.findViewById(R.id.rat_data_city_text);
                 holder.addressView = (TextView) convertView.findViewById(R.id.rat_data_incident_address_text);
@@ -206,6 +204,7 @@ public class RatDataListActivity extends AppCompatActivity {
         protected void onPostExecute(Long result) {
             Log.d(TAG, "Loaded " + result + " rat data entries");
             updateRatDataList();
+            progressBar.setVisibility(View.GONE);
             // Done loading data
             RatDataManager.getInstance().finishLoading();
         }
