@@ -1,0 +1,134 @@
+package edu.gatech.cs2340.thericks.database;
+
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.function.Predicate;
+
+import edu.gatech.cs2340.thericks.R;
+import edu.gatech.cs2340.thericks.models.RatData;
+
+/**
+ * Created by Ben Lashley on 10/18/2017.
+ */
+
+class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
+    private static final String TAG = LoadRatDataTask.class.getSimpleName();
+
+    private static boolean isLoadingData = false;
+    private static boolean doneLoading = false;
+
+    private ArrayAdapter adapter;
+    private List<RatData> data;
+    private ProgressBar progressBar;
+    private List<Predicate<RatData>> filters;
+
+    // Indexes for relevant columns in raw/rat_data.csv
+    private static final int UNIQUE_KEY_NUMBER = 0;
+    private static final int CREATED_TIME_NUMBER = 1;
+    private static final int LOCATION_TYPE_NUMBER = 7;
+    private static final int INCIDENT_ZIP_NUMBER = 8;
+    private static final int INCIDENT_ADDRESS_NUMBER = 9;
+    private static final int CITY_NUMBER = 16;
+    private static final int BOROUGH_NUMBER = 23;
+    private static final int LATITUDE_NUMBER = 25;
+    private static final int LONGITUDE_NUMBER = 24;
+
+    // Load in rat data from raw/rat_data.csv
+    @Override
+    protected Long doInBackground(SQLiteDatabase ... dbs) {
+        isLoadingData = true;
+        SQLiteDatabase db = dbs[0];
+        db.beginTransaction();
+        long lineCount = 0;
+        try {
+            InputStream input = RatTrackerApplication.getAppContext().getResources().openRawResource(R.raw.rat_data);
+            BufferedReader br = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
+
+            String line;
+            br.readLine(); //get rid of header line
+            while ((line = br.readLine()) != null) {
+                lineCount++;
+                String[] tokens = line.split(",");
+
+                int key, incidentZip;
+                double longitude, latitude;
+                // Record relevant data from tokens.
+                try {
+                    key = Integer.parseInt(tokens[UNIQUE_KEY_NUMBER]);
+                } catch (NumberFormatException e) {
+                    key = 0;
+                }
+                String createdDateTime = tokens[CREATED_TIME_NUMBER];
+                String locationType = tokens[LOCATION_TYPE_NUMBER];
+                try {
+                    incidentZip = Integer.parseInt(tokens[INCIDENT_ZIP_NUMBER]);
+                } catch (NumberFormatException e) {
+                    incidentZip = 0;
+                }
+                String incidentAddress = tokens[INCIDENT_ADDRESS_NUMBER];
+                String city = tokens[CITY_NUMBER];
+                String borough = tokens[BOROUGH_NUMBER];
+                try {
+                    latitude = Double.parseDouble(tokens[LATITUDE_NUMBER]);
+                } catch (NumberFormatException e) {
+                    latitude = 0;
+                }
+                try {
+                    longitude = Double.parseDouble(tokens[LONGITUDE_NUMBER]);
+                } catch (NumberFormatException e) {
+                    longitude = 0;
+                }
+                // Add new rat data to database
+                RatDataDAO.createRatData(db, key, createdDateTime, locationType, incidentZip, incidentAddress, city, borough, latitude, longitude);
+            }
+            br.close();
+
+            db.setTransactionSuccessful();
+        } catch (IOException e) {
+            Log.e(TAG, "error reading rat data", e);
+        } catch (SQLException e) {
+            Log.e(TAG, "error inserting into database", e);
+        } finally {
+            db.endTransaction();
+        }
+        return lineCount;
+    }
+
+    protected void onPostExecute(Long lineCount) {
+        Log.d(TAG, "Loaded " + lineCount + " rat data entries");
+        // Done loading data
+        doneLoading = true;
+        isLoadingData = false;
+        if (data != null && adapter != null) {
+            data.clear();
+            data.addAll(new RatDatabase(RatTrackerApplication.getAppContext()).getFilteredRatData(filters));
+            adapter.notifyDataSetChanged();
+        }
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    public static boolean isReady() {
+        return !isLoadingData && !doneLoading;
+    }
+
+    public void attachViews(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
+        adapter = a;
+        this.data = data;
+        this.progressBar = progressBar;
+        this.filters = filters;
+    }
+}
