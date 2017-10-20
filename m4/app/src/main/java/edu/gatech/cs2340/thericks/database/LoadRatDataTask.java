@@ -20,6 +20,8 @@ import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatData;
 
 /**
+ * Async task that loads in rat data from the csv file and inserts it into a SQLite database.
+ *
  * Created by Ben Lashley on 10/18/2017.
  */
 
@@ -101,16 +103,19 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         } catch (SQLException e) {
             Log.e(TAG, "error inserting into database", e);
         } finally {
+            // Let database know we are done inserting data
             db.endTransaction();
         }
         return lineCount;
     }
 
+    // Mark that data is done loading and update any provided views
     protected void onPostExecute(Long lineCount) {
         Log.d(TAG, "Loaded " + lineCount + " rat data entries");
         // Done loading data
         doneLoading = true;
         isLoadingData = false;
+        // Update passed in UI
         if (data != null && adapter != null) {
             data.clear();
             data.addAll(new RatDatabase(RatTrackerApplication.getAppContext()).getFilteredRatData(filters));
@@ -121,10 +126,12 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         }
     }
 
+    // Returns true if data is ready to start loading into the database for the first time
     public static boolean isReady() {
         return !isLoadingData && !doneLoading;
     }
 
+    // Provides views from an activity calling the task, allowing for the UI to be asynchronously updated in onPostExecute
     public void attachViews(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         adapter = a;
         this.data = data;

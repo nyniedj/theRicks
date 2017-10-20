@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 import edu.gatech.cs2340.thericks.models.RatData;
 
 /**
+ * Class handling direct access with the SQLite database.  Provides the low-level implementation of
+ * RatDatabase's methods for adding, getting, and removing rat data.
+ *
  * Created by Ben Lashley on 10/18/2017.
  */
 
@@ -36,6 +39,7 @@ class RatDataDAO {
 
     private static List<RatData> ratDataList = null;
 
+    // Create a rat data table in the database
     static void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "CREATE TABLE " + TABLE_RAT_DATA + "(" +
                 COLUMN_KEY + "INTEGER PRIMARY KEY, " +
@@ -51,6 +55,7 @@ class RatDataDAO {
         sqLiteDatabase.execSQL(query);
     }
 
+    // Currently re-creates table on all upgrades
     static void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         // Get rid of the old table
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_RAT_DATA);
@@ -79,6 +84,7 @@ class RatDataDAO {
         db.insertWithOnConflict(TABLE_RAT_DATA, null, values, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
+    // Convert cursor's current position into rat data
     private static RatData cursorToRatData(Cursor cursor) {
         return new RatData(cursor.getInt(cursor.getColumnIndex(COLUMN_KEY)), cursor.getString(cursor.getColumnIndex(COLUMN_DATE_TIME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_LOC_TYPE)), cursor.getInt(cursor.getColumnIndex(COLUMN_ZIP)),
@@ -87,6 +93,7 @@ class RatDataDAO {
                 cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE)));
     }
 
+    // Removes all rat data with the provided key
     static void deleteRatData(SQLiteDatabase db, int key) {
         db.delete(TABLE_RAT_DATA, "key=?", new String[]{"key"});
     }

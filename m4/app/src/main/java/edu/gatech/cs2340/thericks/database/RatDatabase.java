@@ -12,6 +12,8 @@ import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;
 
 /**
+ * Class representing a database of rat data.  This class is used as an interface between the database and the activities.
+ *
  * Created by Ben Lashley on 10/18/2017.
  */
 

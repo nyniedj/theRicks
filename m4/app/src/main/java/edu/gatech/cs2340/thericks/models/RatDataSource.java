@@ -3,6 +3,8 @@ package edu.gatech.cs2340.thericks.models;
 import java.util.List;
 
 /**
+ * Interface for a source of rat data with basic operations for managing a collection of rat data.
+ *
  * Created by Ben Lashley on 10/18/2017.
  */
 
