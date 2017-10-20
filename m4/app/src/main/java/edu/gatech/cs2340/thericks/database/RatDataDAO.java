@@ -42,7 +42,7 @@ class RatDataDAO {
     // Create a rat data table in the database
     static void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "CREATE TABLE " + TABLE_RAT_DATA + "(" +
-                COLUMN_KEY + "INTEGER PRIMARY KEY, " +
+                COLUMN_KEY + " INTEGER PRIMARY KEY, " +
                 COLUMN_DATE_TIME + " TEXT, " +
                 COLUMN_LOC_TYPE + " TEXT, " +
                 COLUMN_ZIP + " INTEGER, " +
