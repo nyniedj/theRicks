@@ -53,17 +53,21 @@ public class RatEntryActivity extends AppCompatActivity {
         saveButton = (Button) findViewById(R.id.rat_data_save_entry_button);
 
         Bundle b = getIntent().getExtras();
-        ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
+        if (b != null) {
+            ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
 
-        key.setText(ratData.getKey());
-        date.setText(ratData.getCreatedDateTime());
-        locationType.setText(ratData.getLocationType());
-        address.setText(ratData.getIncidentAddress());
-        zip.setText(ratData.getIncidentZip());
-        borough.setText(ratData.getBorough());
-        city.setText(ratData.getCity());
-        latitude.setText(ratData.getLatitude() + "");
-        longitude.setText(ratData.getLongitude() + "");
+            key.setText(ratData.getKey());
+            date.setText(ratData.getCreatedDateTime());
+            locationType.setText(ratData.getLocationType());
+            address.setText(ratData.getIncidentAddress());
+            zip.setText(ratData.getIncidentZip());
+            borough.setText(ratData.getBorough());
+            city.setText(ratData.getCity());
+            latitude.setText(ratData.getLatitude() + "");
+            longitude.setText(ratData.getLongitude() + "");
+        } else {
+            ratData = null;
+        }
 
         key.addTextChangedListener(new TextWatcher() {
             @Override

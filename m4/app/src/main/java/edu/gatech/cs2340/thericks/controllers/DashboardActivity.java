@@ -41,6 +41,20 @@ public class DashboardActivity extends AppCompatActivity{
         user.login();
         Log.d("LoggedIn", user.getLogin().getUsername() + " is logged in = " + user.isLoggedIn());
 
+        listRatDataButton.setOnClickListener((View v) -> {
+            Log.d("RatDataList", "Rat Data List button pressed");
+            Context context = v.getContext();
+            Intent intent = new Intent(context, RatDataListActivity.class);
+            context.startActivity(intent);
+        });
+
+        reportRatButton.setOnClickListener((View v) -> {
+            Log.d("RatDataEntry", "Report a Rat button pushed");
+            Context context = v.getContext();
+            Intent intent = new Intent(context, RatEntryActivity.class);
+            context.startActivity(intent);
+        });
+
         logoutButton.setOnClickListener(v -> {
             user.logout();
             Log.d("LoggedIn", "Logout button pressed");
@@ -49,13 +63,6 @@ public class DashboardActivity extends AppCompatActivity{
             Intent intent = new Intent(context, WelcomeActivity.class);
             context.startActivity(intent);
             finish();
-        });
-
-        listRatDataButton.setOnClickListener((View v) -> {
-            Log.d("RatDataList", "Rat Data List button pressed");
-            Context context = v.getContext();
-            Intent intent = new Intent(context, RatDataListActivity.class);
-            context.startActivity(intent);
         });
     }
 }
