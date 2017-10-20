@@ -115,7 +115,7 @@ public class RatDataListActivity extends AppCompatActivity {
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = layoutInflater.inflate(R.layout.rat_list_row_layout, null);
+                convertView = layoutInflater.inflate(R.layout.rat_list_row_view, null);
                 holder = new ViewHolder();
                 holder.cityView = (TextView) convertView.findViewById(R.id.rat_data_city_text);
                 holder.addressView = (TextView) convertView.findViewById(R.id.rat_data_incident_address_text);
