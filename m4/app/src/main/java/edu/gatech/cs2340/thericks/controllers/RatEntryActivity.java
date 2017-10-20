@@ -15,42 +15,42 @@ import edu.gatech.cs2340.thericks.models.RatData;
 public class RatEntryActivity extends AppCompatActivity {
 
     private RatData ratData;
-    private TextView key;
-    private TextView date;
-    private TextView locationType;
-    private TextView address;
-    private TextView zip;
-    private TextView borough;
-    private TextView city;
-    private TextView latitude;
-    private TextView longitude;
+    private EditText key;
+    private EditText date;
+    private EditText locationType;
+    private EditText address;
+    private EditText zip;
+    private EditText borough;
+    private EditText city;
+    private EditText latitude;
+    private EditText longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rat_entry);
 
-        key = (TextView) findViewById(R.id.rat_data_key_text);
-        date = (TextView) findViewById(R.id.rat_data_date_text);
-        locationType = (TextView) findViewById(R.id.rat_data_location_type_text);
-        address = (TextView) findViewById(R.id.rat_data_incident_address_text);
-        zip = (TextView) findViewById(R.id.rat_data_incident_zip_text);
-        borough = (TextView) findViewById(R.id.rat_data_borough_text);
-        city = (TextView) findViewById(R.id.rat_data_city_text);
-        latitude = (TextView) findViewById(R.id.rat_data_latitude_text);
-        longitude = (TextView) findViewById(R.id.rat_data_longitude_text);
+        key = (EditText) findViewById(R.id.rat_data_key_entry);
+        date = (EditText) findViewById(R.id.rat_data_date_entry);
+        locationType = (EditText) findViewById(R.id.rat_data_location_type_entry);
+        address = (EditText) findViewById(R.id.rat_data_incident_address_entry);
+        zip = (EditText) findViewById(R.id.rat_data_incident_zip_entry);
+        borough = (EditText) findViewById(R.id.rat_data_borough_entry);
+        city = (EditText) findViewById(R.id.rat_data_city_entry);
+        latitude = (EditText) findViewById(R.id.rat_data_latitude_entry);
+        longitude = (EditText) findViewById(R.id.rat_data_longitude_entry);
 
         Bundle b = getIntent().getExtras();
         ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
 
-        key.setText("Key: " + ratData.getKey());
-        date.setText("Created Date and Time: " + ratData.getCreatedDateTime());
-        locationType.setText("Location type: " + ratData.getLocationType());
-        address.setText("Incident Address: " + ratData.getIncidentAddress());
-        zip.setText("Incident ZIP: " + ratData.getIncidentZip());
-        borough.setText("Borough: " + ratData.getBorough());
-        city.setText("City: " + ratData.getCity());
-        latitude.setText("Latitude: " + ratData.getLatitude());
-        longitude.setText("Longitude: " +ratData.getLongitude());
+        key.setText(ratData.getKey());
+        date.setText(ratData.getCreatedDateTime());
+        locationType.setText(ratData.getLocationType());
+        address.setText(ratData.getIncidentAddress());
+        zip.setText(ratData.getIncidentZip());
+        borough.setText(ratData.getBorough());
+        city.setText(ratData.getCity());
+        latitude.setText(ratData.getLatitude() + "");
+        longitude.setText(ratData.getLongitude() + "");
     }
 }

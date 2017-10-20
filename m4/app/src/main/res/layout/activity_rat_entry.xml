@@ -6,87 +6,201 @@
     android:layout_height="match_parent"
     android:background="@drawable/ratbackground">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="368dp"
-        android:layout_height="495dp"
-        android:orientation="vertical"
-        android:weightSum="1"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        tools:layout_editor_absoluteX="8dp">
 
-        <TextView
-            android:id="@+id/rat_data_key_text"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.04"
-            android:text="@string/unique_key_label"
-            android:textSize="16sp" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/rat_data_date_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/date_created_label"
-            android:layout_weight="0.03"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/rat_data_key_text"
+                android:layout_width="368dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"
+                android:text="@string/unique_key_label"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
-        <TextView
-            android:id="@+id/rat_data_location_type_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/location_type_label"
-            android:layout_weight="0.04"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/rat_data_key_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_key_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
-            android:id="@+id/rat_data_incident_address_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.04"
-            android:text="@string/address_label"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/rat_data_date_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/date_created_label"
+                android:layout_weight="0.03"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_key_entry"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
-        <TextView
-            android:id="@+id/rat_data_incident_zip_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.04"
-            android:text="@string/zipcode_label"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/rat_data_date_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_date_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
-            android:id="@+id/rat_data_borough_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.04"
-            android:text="@string/borough_label"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/rat_data_location_type_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/location_type_label"
+                android:layout_weight="0.04"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_date_entry"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
-        <TextView
-            android:id="@+id/rat_data_city_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.04"
-            android:text="@string/city_label"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/rat_data_location_type_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_location_type_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
-            android:id="@+id/rat_data_latitude_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.04"
-            android:text="@string/latitude_label"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/rat_data_incident_address_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"
+                android:text="@string/address_label"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_location_type_entry"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
-        <TextView
-            android:id="@+id/rat_data_longitude_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.04"
-            android:text="@string/longitude_label"
-            android:textSize="16sp" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/rat_data_incident_address_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_incident_address_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                android:id="@+id/rat_data_incident_zip_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"
+                android:text="@string/zipcode_label"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_incident_address_entry"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <EditText
+                android:id="@+id/rat_data_incident_zip_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_incident_zip_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                android:id="@+id/rat_data_borough_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"
+                android:text="@string/borough_label"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_incident_zip_entry"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <EditText
+                android:id="@+id/rat_data_borough_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_borough_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                android:id="@+id/rat_data_city_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"
+                android:text="@string/city_label"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_borough_entry"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <EditText
+                android:id="@+id/rat_data_city_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_city_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                android:id="@+id/rat_data_latitude_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"
+                android:text="@string/latitude_label"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_city_entry"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <EditText
+                android:id="@+id/rat_data_latitude_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_latitude_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                android:id="@+id/rat_data_longitude_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.04"
+                android:text="@string/longitude_label"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_latitude_entry"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <EditText
+                android:id="@+id/rat_data_longitude_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/rat_data_longitude_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <Button
+                android:id="@+id/rat_data_save_entry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Entry"
+                app:layout_constraintTop_toBottomOf="@id/rat_data_longitude_entry"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>
