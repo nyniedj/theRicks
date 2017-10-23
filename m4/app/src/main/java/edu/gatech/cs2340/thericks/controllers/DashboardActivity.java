@@ -41,6 +41,13 @@ public class DashboardActivity extends AppCompatActivity{
         user.login();
         Log.d("LoggedIn", user.getLogin().getUsername() + " is logged in = " + user.isLoggedIn());
 
+        mapButton.setOnClickListener((View v) -> {
+            Log.d("RatMap", "Rat Map Button pressed");
+            Context context = v.getContext();
+            Intent intent = new Intent(context, MapActivity.class);
+            context.startActivity(intent);
+        });
+
         listRatDataButton.setOnClickListener((View v) -> {
             Log.d("RatDataList", "Rat Data List button pressed");
             Context context = v.getContext();
