@@ -41,7 +41,7 @@ class RatDataDAO {
 
     // Create a rat data table in the database
     static void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String query = "CREATE TABLE " + TABLE_RAT_DATA + "(" +
+        String query = "CREATE TABLE IF NOT EXISTS " + TABLE_RAT_DATA + "(" +
                 COLUMN_KEY + " INTEGER PRIMARY KEY, " +
                 COLUMN_DATE_TIME + " TEXT, " +
                 COLUMN_LOC_TYPE + " TEXT, " +
@@ -63,10 +63,10 @@ class RatDataDAO {
         onCreate(sqLiteDatabase);
     }
 
-    // Insert new rat data into database.
+    // Insert new rat data into database if key does not exist. If key already exists, replace the existing data.
     static void createRatData(SQLiteDatabase db, int key, String createdDateTime, String locationType,
-                           int incidentZip, String incidentAddress, String city,
-                           String borough, double latitude, double longitude) {
+                              int incidentZip, String incidentAddress, String city,
+                              String borough, double latitude, double longitude) {
 
         // Create values to fill the new row of the table
         ContentValues values = new ContentValues();
@@ -81,7 +81,7 @@ class RatDataDAO {
         values.put(COLUMN_LONGITUDE, longitude);
 
         // Insert new row into table
-        db.insertWithOnConflict(TABLE_RAT_DATA, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        db.insertWithOnConflict(TABLE_RAT_DATA, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     // Convert cursor's current position into rat data
@@ -98,7 +98,7 @@ class RatDataDAO {
         db.delete(TABLE_RAT_DATA, "key=?", new String[]{"key"});
     }
 
-    // Get single piece of rat data by key
+    // Get single piece of rat data by key; returns null if data is not found
     static RatData findRatDataByKey(SQLiteDatabase db, int key) {
 
         // Query the table for entries with the given key
