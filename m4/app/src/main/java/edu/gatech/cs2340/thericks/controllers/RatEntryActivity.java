@@ -6,10 +6,12 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
+import android.content.Intent;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
@@ -21,7 +23,10 @@ import edu.gatech.cs2340.thericks.models.RatData;
 
 public class RatEntryActivity extends AppCompatActivity {
 
+    private static final String TAG = RatEntryActivity.class.getSimpleName();
+
     private RatData ratData;
+    private int index;
 
     private EditText key;
     private EditText date;
@@ -34,6 +39,7 @@ public class RatEntryActivity extends AppCompatActivity {
     private EditText longitude;
 
     private Button saveButton;
+    private Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +57,12 @@ public class RatEntryActivity extends AppCompatActivity {
         longitude = (EditText) findViewById(R.id.rat_data_longitude_entry);
 
         saveButton = (Button) findViewById(R.id.rat_data_save_entry_button);
+        cancelButton = (Button) findViewById(R.id.rat_data_cancel_entry_button);
 
         Bundle b = getIntent().getExtras();
         if (b != null) {
             ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
+            index = b.getInt("INDEX");
 
             key.setText(ratData.getKey() + "");
             date.setText(ratData.getCreatedDateTime());
@@ -67,6 +75,7 @@ public class RatEntryActivity extends AppCompatActivity {
             longitude.setText(ratData.getLongitude() + "");
         } else {
             ratData = null;
+            index = -1;
         }
 
         key.addTextChangedListener(new TextWatcher() {
@@ -82,6 +91,7 @@ public class RatEntryActivity extends AppCompatActivity {
                     Integer.parseInt(text);
                     key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
                 } catch (NumberFormatException e) {
+                    Log.d(TAG, "Improperly formatted input detected: " + text);
                     key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
                 }
             }
@@ -105,6 +115,7 @@ public class RatEntryActivity extends AppCompatActivity {
                     Integer.parseInt(text);
                     zip.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
                 } catch (NumberFormatException e) {
+                    Log.d(TAG, "Improperly formatted input detected: " + text);
                     zip.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
                 }
             }
@@ -128,6 +139,7 @@ public class RatEntryActivity extends AppCompatActivity {
                     Double.parseDouble(text);
                     latitude.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
                 } catch (NumberFormatException e) {
+                    Log.d(TAG, "Improperly formatted input detected: " + text);
                     latitude.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
                 }
             }
@@ -151,6 +163,7 @@ public class RatEntryActivity extends AppCompatActivity {
                     Double.parseDouble(text);
                     longitude.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
                 } catch (NumberFormatException e) {
+                    Log.d(TAG, "Improperly formatted input detected: " + text);
                     longitude.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
                 }
             }
@@ -161,48 +174,70 @@ public class RatEntryActivity extends AppCompatActivity {
             }
         });
 
+        cancelButton.setOnClickListener((View v) -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
+
         saveButton.setOnClickListener((View v) -> {
             int iKey = 0;
             int iZip = 0;
             double dLatitude = 0;
             double dLongitude = 0;
 
+            Log.d(TAG, "Confirming rat data is valid");
             try {
                 iKey = Integer.parseInt(key.getText().toString());
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Log.d(TAG, "Improperly formatted input detected in the key");
                 return;
             }
             try {
                 iZip = Integer.parseInt(zip.getText().toString());
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Log.d(TAG, "Improperly formatted input detected in the zip");
                 return;
             }
             try {
                 dLatitude = Double.parseDouble(latitude.getText().toString());
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Log.d(TAG, "Improperly formatted input detected in the latitude");
                 return;
             }
             try {
                 dLongitude = Double.parseDouble(longitude.getText().toString());
             } catch (NumberFormatException e) {
+                Log.d(TAG, "Improperly formatted input detected in the longitude");
                 e.printStackTrace();
                 return;
             }
-
-            RatDatabase database = new RatDatabase(v.getContext());
-
-            database.createRatData(iKey,
+//            Log.d(TAG, "Valid rat data entered, passing rat meta data to the database");
+//            RatDatabase database = new RatDatabase(v.getContext());
+//
+//            database.createRatData(iKey,
+//                    date.getText().toString(),
+//                    locationType.getText().toString(),
+//                    iZip,
+//                    address.getText().toString(),
+//                    city.getText().toString(),
+//                    borough.getText().toString(),
+//                    dLatitude,
+//                    dLongitude);
+            Log.d(TAG, "Valid rat data entered, passing new RatData to parent activity");
+            Intent intent = new Intent();
+            intent.putExtra("edu.gatech.cs2340.thericks.RatData", new RatData(iKey,
                     date.getText().toString(),
                     locationType.getText().toString(),
                     iZip,
                     address.getText().toString(),
-                    borough.getText().toString(),
                     city.getText().toString(),
+                    borough.getText().toString(),
                     dLatitude,
-                    dLongitude);
+                    dLongitude));
+            intent.putExtra("INDEX", index);
+            setResult(RESULT_OK, intent);
+//            setResult(RESULT_OK);
+            finish();
         });
     }
 }

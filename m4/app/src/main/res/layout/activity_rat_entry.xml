@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/ratbackground">
+    android:layout_height="match_parent" >
 
     <ScrollView
         android:layout_width="368dp"
@@ -196,7 +195,14 @@
                 android:layout_height="wrap_content"
                 android:text="Save Entry"
                 app:layout_constraintTop_toBottomOf="@id/rat_data_longitude_entry"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <Button
+                android:id="@+id/rat_data_cancel_entry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel Entry"
+                app:layout_constraintTop_toBottomOf="@id/rat_data_longitude_entry"
                 app:layout_constraintRight_toRightOf="parent" />
 
         </android.support.constraint.ConstraintLayout>

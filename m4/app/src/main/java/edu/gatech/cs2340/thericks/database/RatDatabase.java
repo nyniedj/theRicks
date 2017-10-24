@@ -2,12 +2,14 @@ package edu.gatech.cs2340.thericks.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
 import java.util.List;
 import java.util.function.Predicate;
 
+import edu.gatech.cs2340.thericks.controllers.RatDataListActivity;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;
 
@@ -19,6 +21,7 @@ import edu.gatech.cs2340.thericks.models.RatDataSource;
 
 public class RatDatabase implements RatDataSource {
 
+    private static final String TAG = RatDatabase.class.getSimpleName();
     private DatabaseHandler handler;
     private SQLiteDatabase db;
 
@@ -40,6 +43,7 @@ public class RatDatabase implements RatDataSource {
 
     public void loadData(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         if (!LoadRatDataTask.isReady()) {
+            Log.d(TAG, "LoadRatDataTask was not ready to load data");
             return;
         }
         LoadRatDataTask loadData = new LoadRatDataTask();
