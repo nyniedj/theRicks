@@ -196,7 +196,14 @@
                 android:layout_height="wrap_content"
                 android:text="Save Entry"
                 app:layout_constraintTop_toBottomOf="@id/rat_data_longitude_entry"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <Button
+                android:id="@+id/rat_data_cancel_entry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel Entry"
+                app:layout_constraintTop_toBottomOf="@id/rat_data_longitude_entry"
                 app:layout_constraintRight_toRightOf="parent" />
 
         </android.support.constraint.ConstraintLayout>

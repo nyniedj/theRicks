@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 
 import edu.gatech.cs2340.thericks.R;
+import edu.gatech.cs2340.thericks.database.TempFilteredDataHolder;
+import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.User;
 
 /**
@@ -16,6 +18,9 @@ import edu.gatech.cs2340.thericks.models.User;
  */
 
 public class DashboardActivity extends AppCompatActivity{
+
+    private static final String TAG = DashboardActivity.class.getSimpleName();
+    static final int ADD_RAT_DATA_REQUEST = 2;
 
     private Button mapButton;
     private Button listRatDataButton;
@@ -59,7 +64,7 @@ public class DashboardActivity extends AppCompatActivity{
             Log.d("RatDataEntry", "Report a Rat button pushed");
             Context context = v.getContext();
             Intent intent = new Intent(context, RatEntryActivity.class);
-            context.startActivity(intent);
+            startActivityForResult(intent, ADD_RAT_DATA_REQUEST);
         });
 
         logoutButton.setOnClickListener(v -> {
@@ -71,5 +76,17 @@ public class DashboardActivity extends AppCompatActivity{
             context.startActivity(intent);
             finish();
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "Recieved result from RatEntryActivity");
+        if (requestCode == ADD_RAT_DATA_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Bundle b = data.getExtras();
+                RatData passedData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
+                TempFilteredDataHolder.add(passedData);
+            }
+        }
     }
 }

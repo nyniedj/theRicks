@@ -22,6 +22,7 @@ import java.util.function.Predicate;
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
+import edu.gatech.cs2340.thericks.database.TempFilteredDataHolder;
 import edu.gatech.cs2340.thericks.models.RatData;
 
 /**
@@ -31,6 +32,7 @@ import edu.gatech.cs2340.thericks.models.RatData;
 public class RatDataListActivity extends AppCompatActivity {
 
     private static final String TAG = RatDataListActivity.class.getSimpleName();
+    static final int EDIT_RAT_DATA_REQUEST = 0;
 
     private ListView ratDataList;
     private static CustomListAdapter adapter;
@@ -56,10 +58,10 @@ public class RatDataListActivity extends AppCompatActivity {
             filters = new ArrayList<>();
         }
         if (ratDataArrayList == null) {
-            ratDataArrayList = new ArrayList<>();
+            ratDataArrayList = TempFilteredDataHolder.getFilteredData();
         }
         if (adapter == null) {
-            adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(),ratDataArrayList);
+            adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(), ratDataArrayList);
         }
         /* Display empty list view until data finishes loading. */
         ratDataList = (ListView) findViewById(R.id.rat_data_list_view);
@@ -71,7 +73,8 @@ public class RatDataListActivity extends AppCompatActivity {
             Context context = v.getContext();
             Intent intent = new Intent(context, RatEntryActivity.class);
             intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
-            context.startActivity(intent);
+            intent.putExtra("INDEX", position);
+            startActivityForResult(intent, EDIT_RAT_DATA_REQUEST);
         });
 
         /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
@@ -82,8 +85,43 @@ public class RatDataListActivity extends AppCompatActivity {
             filters.add(commercialLocation);
         }
         /* End of predicates */
+        Log.d(TAG, "Calling the RatDatabase to load the data");
+        //database.loadData(adapter, adapter.listData, progressBar, filters);
+        TempFilteredDataHolder.loadData(adapter, progressBar, filters);
+    }
 
-        database.loadData(adapter, adapter.listData, progressBar, filters);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "Recieved result from RatEntryActivity");
+        if (requestCode == EDIT_RAT_DATA_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                progressBar.setVisibility(View.VISIBLE);
+                ratDataList.setVisibility(View.GONE);
+                Bundle b = data.getExtras();
+                RatData passedData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
+                int index = b.getInt("INDEX");
+                RatData currDataAtIndex = ratDataArrayList.get(index);
+                if (passedData.getKey() == currDataAtIndex.getKey()) {
+                    Log.d(TAG, "Updating existing RatData");
+                    ratDataArrayList.set(index, passedData);
+                    ((CustomListAdapter) ratDataList.getAdapter()).notifyDataSetChanged();
+                } else {
+                    Log.d(TAG, "Adding new RatData");
+                    ratDataArrayList.add(passedData);
+                }
+                ((CustomListAdapter) ratDataList.getAdapter()).notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                ratDataList.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
+//                ratDataList.setVisibility(View.GONE);
+//                ratDataArrayList.clear();
+//                Log.d(TAG, "Refreshing data from the database");
+//                ratDataArrayList.addAll(database.getFilteredRatData(filters));
+//                ((CustomListAdapter) ratDataList.getAdapter()).notifyDataSetChanged();
+//                progressBar.setVisibility(View.GONE);
+//                ratDataList.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private class CustomListAdapter extends ArrayAdapter {
