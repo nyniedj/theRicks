@@ -56,11 +56,11 @@ public class RatEntryActivity extends AppCompatActivity {
         if (b != null) {
             ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
 
-            key.setText(ratData.getKey());//Error occurs here
+            key.setText(ratData.getKey() + "");
             date.setText(ratData.getCreatedDateTime());
             locationType.setText(ratData.getLocationType());
             address.setText(ratData.getIncidentAddress());
-            zip.setText(ratData.getIncidentZip());
+            zip.setText(ratData.getIncidentZip() + "");
             borough.setText(ratData.getBorough());
             city.setText(ratData.getCity());
             latitude.setText(ratData.getLatitude() + "");
