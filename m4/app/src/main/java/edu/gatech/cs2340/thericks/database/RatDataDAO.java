@@ -37,8 +37,6 @@ class RatDataDAO {
             COLUMN_LOC_TYPE, COLUMN_ZIP, COLUMN_ADDRESS, COLUMN_CITY, COLUMN_BOROUGH,
             COLUMN_LATITUDE, COLUMN_LONGITUDE };
 
-    private static List<RatData> ratDataList = null;
-
     // Create a rat data table in the database
     static void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "CREATE TABLE IF NOT EXISTS " + TABLE_RAT_DATA + "(" +
@@ -56,11 +54,13 @@ class RatDataDAO {
     }
 
     // Currently re-creates table on all upgrades
-    static void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        // Get rid of the old table
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_RAT_DATA);
-        // Create new table
-        onCreate(sqLiteDatabase);
+    static void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        if (oldVersion < newVersion) {
+            // Get rid of the old table
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_RAT_DATA);
+            // Create new table
+            onCreate(sqLiteDatabase);
+        }
     }
 
     // Insert new rat data into database if key does not exist. If key already exists, replace the existing data.
@@ -120,24 +120,22 @@ class RatDataDAO {
 
     // Get all rat data as a list
     static List<RatData> getAllRatData(SQLiteDatabase db) {
-        if (ratDataList == null) {
-            ratDataList = new ArrayList<>(100100);
-            String selectAllQuery = "SELECT * FROM " + TABLE_RAT_DATA;
+        List<RatData> ratDataList = new ArrayList<>(100100);
+        String selectAllQuery = "SELECT * FROM " + TABLE_RAT_DATA;
 
-            Cursor cursor = db.rawQuery(selectAllQuery, null);
+        Cursor cursor = db.rawQuery(selectAllQuery, null);
 
-            // Loop through all rows and add as new rat data instance
-            if (cursor.moveToFirst()) {
-                do {
-                    // Create rat data from values of the current row
-                    RatData data = cursorToRatData(cursor);
-                    // Add rat data to list
-                    ratDataList.add(data);
-                } while (cursor.moveToNext());
-            }
-            // Free up cursor
-            cursor.close();
+        // Loop through all rows and add as new rat data instance
+        if (cursor.moveToFirst()) {
+            do {
+                // Create rat data from values of the current row
+                RatData data = cursorToRatData(cursor);
+                // Add rat data to list
+                ratDataList.add(data);
+            } while (cursor.moveToNext());
         }
+        // Free up cursor
+        cursor.close();
         return ratDataList;
     }
 

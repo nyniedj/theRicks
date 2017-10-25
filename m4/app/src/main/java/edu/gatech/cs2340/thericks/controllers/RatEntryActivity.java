@@ -26,7 +26,6 @@ public class RatEntryActivity extends AppCompatActivity {
     private static final String TAG = RatEntryActivity.class.getSimpleName();
 
     private RatData ratData;
-    private int index;
 
     private EditText key;
     private EditText date;
@@ -62,7 +61,6 @@ public class RatEntryActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         if (b != null) {
             ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
-            index = b.getInt("INDEX");
 
             key.setText(ratData.getKey() + "");
             date.setText(ratData.getCreatedDateTime());
@@ -75,7 +73,6 @@ public class RatEntryActivity extends AppCompatActivity {
             longitude.setText(ratData.getLongitude() + "");
         } else {
             ratData = null;
-            index = -1;
         }
 
         key.addTextChangedListener(new TextWatcher() {
@@ -175,7 +172,6 @@ public class RatEntryActivity extends AppCompatActivity {
         });
 
         cancelButton.setOnClickListener((View v) -> {
-            setResult(RESULT_CANCELED);
             finish();
         });
 
@@ -211,21 +207,11 @@ public class RatEntryActivity extends AppCompatActivity {
                 e.printStackTrace();
                 return;
             }
-//            Log.d(TAG, "Valid rat data entered, passing rat meta data to the database");
-//            RatDatabase database = new RatDatabase(v.getContext());
-//
-//            database.createRatData(iKey,
-//                    date.getText().toString(),
-//                    locationType.getText().toString(),
-//                    iZip,
-//                    address.getText().toString(),
-//                    city.getText().toString(),
-//                    borough.getText().toString(),
-//                    dLatitude,
-//                    dLongitude);
-            Log.d(TAG, "Valid rat data entered, passing new RatData to parent activity");
-            Intent intent = new Intent();
-            intent.putExtra("edu.gatech.cs2340.thericks.RatData", new RatData(iKey,
+
+            Log.d(TAG, "Valid rat data entered, passing rat meta data to the database");
+            RatDatabase database = new RatDatabase(v.getContext());
+
+            database.createRatData(iKey,
                     date.getText().toString(),
                     locationType.getText().toString(),
                     iZip,
@@ -233,10 +219,9 @@ public class RatEntryActivity extends AppCompatActivity {
                     city.getText().toString(),
                     borough.getText().toString(),
                     dLatitude,
-                    dLongitude));
-            intent.putExtra("INDEX", index);
-            setResult(RESULT_OK, intent);
-//            setResult(RESULT_OK);
+                    dLongitude);
+
+            RatDataListActivity.updateUI();
             finish();
         });
     }

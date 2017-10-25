@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 import java.util.List;
 import java.util.function.Predicate;
 
-import edu.gatech.cs2340.thericks.controllers.RatDataListActivity;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;
 
@@ -22,23 +21,17 @@ import edu.gatech.cs2340.thericks.models.RatDataSource;
 public class RatDatabase implements RatDataSource {
 
     private static final String TAG = RatDatabase.class.getSimpleName();
-    private DatabaseHandler handler;
     private SQLiteDatabase db;
 
     public RatDatabase(Context context) {
         if (context == null) {
             context = RatTrackerApplication.getAppContext();
         }
-        handler = new DatabaseHandler(context);
-        open();
+        open(context);
     }
 
-    public void open() {
-        db = handler.getWritableDatabase();
-    }
-
-    public void close() {
-        handler.close();
+    public void open(Context context) {
+        db = DatabaseHandler.getHandler(context).getWritableDatabase();
     }
 
     public void loadData(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
