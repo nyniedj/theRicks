@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 /**
  * Created by Cameron on 10/5/2017.
+ * Holds all information for a rat entry
  */
-
 public class RatData implements Parcelable{
 
     private int key;
@@ -19,6 +19,18 @@ public class RatData implements Parcelable{
     private double latitude;
     private double longitude;
 
+    /**
+     * Creates rat entry
+     * @param key the key
+     * @param createdDateTime the date and time
+     * @param locationType the location type
+     * @param incidentZip the zip
+     * @param incidentAddress the address
+     * @param city the city
+     * @param borough the borough
+     * @param latitude the latitude
+     * @param longitude the longtitude
+     */
     public RatData(int key, String createdDateTime, String locationType,
                    int incidentZip, String incidentAddress, String city,
                    String borough, double latitude, double longitude) {
