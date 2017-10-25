@@ -22,6 +22,7 @@ import java.util.function.Predicate;
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
+import edu.gatech.cs2340.thericks.database.LoadedFilteredDataHolder;
 import edu.gatech.cs2340.thericks.models.RatData;
 
 /**
@@ -29,6 +30,8 @@ import edu.gatech.cs2340.thericks.models.RatData;
  */
 
 public class RatDataListActivity extends AppCompatActivity {
+
+    static final int EDIT_RAT_DATA_REQUEST = 0;
 
     private static final String TAG = RatDataListActivity.class.getSimpleName();
 
@@ -48,7 +51,7 @@ public class RatDataListActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.rat_data_list_progress_bar);
 
         if (adapter == null) {
-            adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(), new ArrayList<>());
+            adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(), LoadedFilteredDataHolder.getFilteredData());
         } else {
             // Check if data has been loaded and hide progress bar if so
             if (!adapter.listData.isEmpty()) {
@@ -66,24 +69,67 @@ public class RatDataListActivity extends AppCompatActivity {
             Context context = v.getContext();
             Intent intent = new Intent(context, RatEntryActivity.class);
             intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
-            startActivity(intent);
+            intent.putExtra("INDEX", position);
+            startActivityForResult(intent, EDIT_RAT_DATA_REQUEST);
         });
 
         /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
-//        Predicate<RatData> inNewYork = ratData -> ratData.getCity().equalsIgnoreCase("NEW YORK");
-//        Predicate<RatData> commercialLocation = ratData -> ratData.getLocationType().equalsIgnoreCase("Commercial Building");
-//        if (filters.isEmpty()) {
-//            filters.add(inNewYork);
-//            filters.add(commercialLocation);
-//        }
+        Predicate<RatData> inNewYork = ratData -> ratData.getCity().equals("Jamaica");
+        Predicate<RatData> commercialLocation = ratData -> ratData.getLocationType().equalsIgnoreCase("Commercial Building");
+        if (filters.isEmpty()) {
+            filters.add(inNewYork);
+            filters.add(commercialLocation);
+        }
         /* End of predicates */
 
         // Load in rat data
-        Log.d(TAG, "Calling the RatDatabase to load the data");
+//        Log.d(TAG, "Calling the RatDatabase to load the data");
+//        database.loadData(adapter, adapter.listData, progressBar, filters);
+
+        Log.d(TAG, "Calling the DataHolder to load the data");
         database.loadData(adapter, adapter.listData, progressBar, filters);
+        LoadedFilteredDataHolder.loadData(adapter, progressBar, filters);
     }
 
-    // Custom adapter to populate the list view of rat data
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "Recieved result from RatEntryActivity");
+        if (requestCode == EDIT_RAT_DATA_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                progressBar.setVisibility(View.VISIBLE);
+                ratDataList.setVisibility(View.GONE);
+                Bundle b = data.getExtras();
+                RatData passedData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
+                int index = b.getInt("INDEX");
+                RatData currDataAtIndex = adapter.listData.get(index);
+                if (passedData.getKey() == currDataAtIndex.getKey()) {
+                    Log.d(TAG, "Updating existing RatData");
+                    adapter.listData.set(index, passedData);
+                    ((CustomListAdapter) ratDataList.getAdapter()).notifyDataSetChanged();
+                } else {
+                    Log.d(TAG, "Adding new RatData");
+                    adapter.listData.add(passedData);
+                }
+                ((CustomListAdapter) ratDataList.getAdapter()).notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                ratDataList.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
+//                ratDataList.setVisibility(View.GONE);
+//                ratDataArrayList.clear();
+//                Log.d(TAG, "Refreshing data from the database");
+//                ratDataArrayList.addAll(database.getFilteredRatData(filters));
+//                ((CustomListAdapter) ratDataList.getAdapter()).notifyDataSetChanged();
+//                progressBar.setVisibility(View.GONE);
+//                ratDataList.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    /**
+     * A custom array adapter for displaying RatData entries.
+     * Displays the city as the primary data item, with the
+     * date and time and address as secondary items
+     */
     private class CustomListAdapter extends ArrayAdapter {
         private ArrayList<RatData> listData;
         private LayoutInflater layoutInflater;

@@ -15,7 +15,7 @@ import edu.gatech.cs2340.thericks.models.RatData;
  * Created by mkcac on 10/24/2017.
  */
 
-public class TempFilteredDataHolder {
+public class LoadedFilteredDataHolder {
     private static ArrayList<RatData> filteredData = new ArrayList<>();
 
     private static boolean loadedData = false;
@@ -32,7 +32,7 @@ public class TempFilteredDataHolder {
                         adapter.notifyDataSetChanged();
                     }
                     loadedData = true;
-                    TempFilteredDataHolder.addAll(holdArr);
+                    LoadedFilteredDataHolder.addAll(holdArr);
                 }
 
             };

@@ -9,14 +9,15 @@ import android.view.View;
 import android.widget.Button;
 
 import edu.gatech.cs2340.thericks.R;
-import edu.gatech.cs2340.thericks.database.TempFilteredDataHolder;
+import edu.gatech.cs2340.thericks.database.LoadedFilteredDataHolder;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.User;
 
 /**
- * Created by mkcac on 10/6/2017.
+ * Created by Cameron on 10/6/2017.
+ * Dashboard activity provides numerous activity options for a logged in user
+ * to engage in
  */
-
 public class DashboardActivity extends AppCompatActivity{
 
     private static final String TAG = DashboardActivity.class.getSimpleName();
@@ -34,6 +35,8 @@ public class DashboardActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        Log.d(TAG, "Entered dashboard activity");
+
         mapButton = (Button) findViewById(R.id.map_button);
         listRatDataButton = (Button) findViewById(R.id.rat_data_list_button);
         profileButton = (Button) findViewById(R.id.profile_button);
@@ -44,24 +47,24 @@ public class DashboardActivity extends AppCompatActivity{
         Bundle b = getIntent().getExtras();
         User user = b.getParcelable("edu.gatech.cs2340.thericks.User");
         user.login();
-        Log.d("LoggedIn", user.getLogin().getUsername() + " is logged in = " + user.isLoggedIn());
+        Log.d(TAG, user.getLogin().getUsername() + " is logged in = " + user.isLoggedIn());
 
         mapButton.setOnClickListener((View v) -> {
-            Log.d("RatMap", "Rat Map Button pressed");
+            Log.d(TAG, "Rat Map Button pressed");
             Context context = v.getContext();
             Intent intent = new Intent(context, MapActivity.class);
             context.startActivity(intent);
         });
 
         listRatDataButton.setOnClickListener((View v) -> {
-            Log.d("RatDataList", "Rat Data List button pressed");
+            Log.d(TAG, "Rat Data List button pressed");
             Context context = v.getContext();
             Intent intent = new Intent(context, RatDataListActivity.class);
             context.startActivity(intent);
         });
 
         reportRatButton.setOnClickListener((View v) -> {
-            Log.d("RatDataEntry", "Report a Rat button pushed");
+            Log.d(TAG, "Report a Rat button pushed");
             Context context = v.getContext();
             Intent intent = new Intent(context, RatEntryActivity.class);
             startActivityForResult(intent, ADD_RAT_DATA_REQUEST);
@@ -69,8 +72,8 @@ public class DashboardActivity extends AppCompatActivity{
 
         logoutButton.setOnClickListener(v -> {
             user.logout();
-            Log.d("LoggedIn", "Logout button pressed");
-            Log.d("LoggedIn", user.getLogin().getUsername() + " is logged in = " + user.isLoggedIn());
+            Log.d(TAG, "Logout button pressed");
+            Log.d(TAG, user.getLogin().getUsername() + " is logged in = " + user.isLoggedIn());
             Context context = v.getContext();
             Intent intent = new Intent(context, WelcomeActivity.class);
             context.startActivity(intent);
@@ -85,7 +88,7 @@ public class DashboardActivity extends AppCompatActivity{
             if (resultCode == RESULT_OK) {
                 Bundle b = data.getExtras();
                 RatData passedData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
-                TempFilteredDataHolder.add(passedData);
+                LoadedFilteredDataHolder.add(passedData);
             }
         }
     }

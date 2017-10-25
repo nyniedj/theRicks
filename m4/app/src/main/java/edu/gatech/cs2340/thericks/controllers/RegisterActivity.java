@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,9 +22,15 @@ import edu.gatech.cs2340.thericks.utils.Security;
 
 /**
  * Created by Ben Lashley on 9/19/2017.
+ * Provides a window for the user to enter their data into to
+ * create a new User. If username and password entered do not
+ * meet the standards imposed by Security, a new account cannot
+ * be created the user is prompted with what field is insufficient
+ * and what they need to add to fix it
  */
-
 public class RegisterActivity extends AppCompatActivity {
+
+    private static final String TAG = RegisterActivity.class.getSimpleName();
 
     private EditText usernameEntry;
     private EditText passwordEntry;
@@ -59,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordMismatch.setVisibility(View.GONE);
 
         createAccount.setOnClickListener(v -> {
+            Log.d(TAG, "Attempting to create new user account");
             String username = usernameEntry.getText().toString();
             String password = passwordEntry.getText().toString();
             String reenteredPassword = passwordReentry.getText().toString();
@@ -67,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
             boolean validEntries = true;
 
             if (!Security.validateUsername(username) || usernameTaken) {
+                Log.d(TAG, "Username not valid");
                 invalidUsername.setVisibility(View.VISIBLE);
                 validEntries = false;
             } else {

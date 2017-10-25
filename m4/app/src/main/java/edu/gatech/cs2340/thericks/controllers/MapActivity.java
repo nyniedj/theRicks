@@ -24,9 +24,13 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * Created by mkcac on 10/23/2017.
+ * Created by Cameron on 10/23/2017.
+ * A simple Google Map displayer that loads in RatData and displays
+ * markers at each LatLng position defined by the data
  */
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final String TAG = MapActivity.class.getSimpleName();
 
     private GoogleMap mMap;
 
