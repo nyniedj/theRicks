@@ -1,9 +1,9 @@
 package edu.gatech.cs2340.thericks.models;
 
 /**
- * Created by mkcac on 9/29/2017.
+ * Created by Cameron on 9/29/2017.
+ * Enumerated class for different levels of user privilege
  */
-
 public enum Privilege {
     NORMAL("Normal"),
     ADMIN("Admin");

@@ -12,7 +12,6 @@ import edu.gatech.cs2340.thericks.utils.Security;
  * Class represents a single user's login information.  It implements serializable so it can be
  * passed as a parcel from the login screen.
  */
-
 public class Login implements Serializable {
 
     /** Username for login **/

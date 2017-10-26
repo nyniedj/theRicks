@@ -12,9 +12,9 @@ import java.util.function.Predicate;
 import edu.gatech.cs2340.thericks.models.RatData;
 
 /**
- * Created by mkcac on 10/24/2017.
+ * Created by Cameron on 10/24/2017.
+ * Temporary data holder while database is under construction
  */
-
 public class LoadedFilteredDataHolder {
     private static ArrayList<RatData> filteredData = new ArrayList<>();
 
