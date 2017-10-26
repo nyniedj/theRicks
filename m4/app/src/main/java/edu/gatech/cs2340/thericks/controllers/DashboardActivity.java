@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.LoadedFilteredDataHolder;
 import edu.gatech.cs2340.thericks.models.RatData;
@@ -18,10 +22,13 @@ import edu.gatech.cs2340.thericks.models.User;
  * Dashboard activity provides numerous activity options for a logged in user
  * to engage in
  */
-public class DashboardActivity extends AppCompatActivity{
+public class DashboardActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = DashboardActivity.class.getSimpleName();
     static final int ADD_RAT_DATA_REQUEST = 2;
+
+    private MapView mapView;
+    private GoogleMap map;
 
     private Button mapButton;
     private Button listRatDataButton;
@@ -36,6 +43,9 @@ public class DashboardActivity extends AppCompatActivity{
         setContentView(R.layout.activity_dashboard);
 
         Log.d(TAG, "Entered dashboard activity");
+
+        mapView = (MapView) findViewById(R.id.dashboard_map_view);
+        mapView.getMapAsync(this);
 
         mapButton = (Button) findViewById(R.id.map_button);
         listRatDataButton = (Button) findViewById(R.id.rat_data_list_button);
@@ -91,5 +101,10 @@ public class DashboardActivity extends AppCompatActivity{
                 LoadedFilteredDataHolder.add(passedData);
             }
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
     }
 }
