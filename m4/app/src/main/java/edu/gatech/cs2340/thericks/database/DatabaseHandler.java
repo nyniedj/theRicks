@@ -17,9 +17,8 @@ class DatabaseHandler extends SQLiteOpenHelper {
 
     private static DatabaseHandler instance = new DatabaseHandler(RatTrackerApplication.getAppContext());
 
-    public static synchronized DatabaseHandler getHandler(Context context)
-    {
-        return instance;
+    static synchronized SQLiteDatabase provideWritableDatabase() {
+        return instance.getWritableDatabase();
     }
 
     private DatabaseHandler(Context context) {

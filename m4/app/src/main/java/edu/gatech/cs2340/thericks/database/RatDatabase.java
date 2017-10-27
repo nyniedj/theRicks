@@ -24,14 +24,11 @@ public class RatDatabase implements RatDataSource {
     private SQLiteDatabase db;
 
     public RatDatabase(Context context) {
-        if (context == null) {
-            context = RatTrackerApplication.getAppContext();
-        }
-        open(context);
+        open();
     }
 
-    public void open(Context context) {
-        db = DatabaseHandler.getHandler(context).getWritableDatabase();
+    public void open() {
+        db = DatabaseHandler.provideWritableDatabase();
     }
 
     public void loadData(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {

@@ -212,23 +212,10 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
-//            Log.d(TAG, "Valid rat data entered, passing rat meta data to the database");
-//            RatDatabase database = new RatDatabase(v.getContext());
-//
-//            database.createRatData(iKey,
-//                    date.getText().toString(),
-//                    locationType.getText().toString(),
-//                    iZip,
-//                    address.getText().toString(),
-//                    city.getText().toString(),
-//                    borough.getText().toString(),
-//                    dLatitude,
-//                    dLongitude);
-//
-//            RatDataListActivity.updateUI();
-            Log.d(TAG, "Valid rat data entered, passing new RatData to parent activity");
-            Intent intent = new Intent();
-            intent.putExtra("edu.gatech.cs2340.thericks.RatData", new RatData(iKey,
+            Log.d(TAG, "Valid rat data entered, passing rat meta data to the database");
+            RatDatabase database = new RatDatabase(v.getContext());
+
+            database.createRatData(iKey,
                     date.getText().toString(),
                     locationType.getText().toString(),
                     iZip,
@@ -236,10 +223,25 @@ public class RatEntryActivity extends AppCompatActivity {
                     city.getText().toString(),
                     borough.getText().toString(),
                     dLatitude,
-                    dLongitude));
-            intent.putExtra("INDEX", index);
-            setResult(RESULT_OK, intent);
+                    dLongitude);
+
+            RatDataListActivity.updateUI();
             finish();
+
+//            Log.d(TAG, "Valid rat data entered, passing new RatData to parent activity");
+//            Intent intent = new Intent();
+//            intent.putExtra("edu.gatech.cs2340.thericks.RatData", new RatData(iKey,
+//                    date.getText().toString(),
+//                    locationType.getText().toString(),
+//                    iZip,
+//                    address.getText().toString(),
+//                    city.getText().toString(),
+//                    borough.getText().toString(),
+//                    dLatitude,
+//                    dLongitude));
+//            intent.putExtra("INDEX", index);
+//            setResult(RESULT_OK, intent);
+//            finish();
         });
     }
 }

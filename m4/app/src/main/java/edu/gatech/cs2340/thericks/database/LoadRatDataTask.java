@@ -44,8 +44,8 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
     private static final int INCIDENT_ADDRESS_NUMBER = 9;
     private static final int CITY_NUMBER = 16;
     private static final int BOROUGH_NUMBER = 23;
-    private static final int LATITUDE_NUMBER = 25;
-    private static final int LONGITUDE_NUMBER = 24;
+    private static final int LATITUDE_NUMBER = 49;
+    private static final int LONGITUDE_NUMBER = 50;
 
     // Load in rat data from raw/rat_data.csv
     @Override
@@ -62,7 +62,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
             br.readLine(); //get rid of header line
             while ((line = br.readLine()) != null) {
                 lineCount++;
-                String[] tokens = line.split(",");
+                String[] tokens = line.split(",", -1);
 
                 int key, incidentZip;
                 double longitude, latitude;
@@ -118,7 +118,8 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         // Update passed in UI
         if (data != null && adapter != null) {
             data.clear();
-            data.addAll(new RatDatabase(RatTrackerApplication.getAppContext()).getFilteredRatData(filters));
+            RatDatabase db = new RatDatabase(RatTrackerApplication.getAppContext());
+            data.addAll(db.getFilteredRatData(filters));
             adapter.notifyDataSetChanged();
         }
         if (progressBar != null) {
