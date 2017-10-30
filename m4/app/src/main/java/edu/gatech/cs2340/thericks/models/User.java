@@ -34,10 +34,18 @@ public class User implements Parcelable {
         this.privilege = privilege;
     }
 
+    /**
+     *
+     * @return user privilege (admin or user)
+     */
     public Privilege getPrivilege() {
         return privilege;
     }
 
+    /**
+     *
+     * @return inputed username or empty string
+     */
     public String getUsername() {
         if (loginInfo != null) {
             return loginInfo.getUsername();
@@ -45,6 +53,7 @@ public class User implements Parcelable {
             return "";
         }
     }
+
 
     public void login() {
         loggedIn = true;
@@ -54,6 +63,10 @@ public class User implements Parcelable {
         loggedIn = false;
     }
 
+    /**
+     *
+     * @return true/false if user is logged in
+     */
     public boolean isLoggedIn() {
         return loggedIn;
     }
@@ -72,17 +85,30 @@ public class User implements Parcelable {
      * METHODS FOR IMPLEMENTING PARCELABLE
      * *****************************************************/
 
+    /**
+     *
+     * @param in
+     */
     private User(Parcel in) {
         loginInfo = (Login) in.readSerializable();
         loggedIn = in.readByte() != 0;
         privilege = (Privilege) in.readSerializable();
     }
 
+    /**
+     *
+     * @return zero
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     *
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(loginInfo);
