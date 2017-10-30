@@ -30,6 +30,10 @@ public class LoginActivity extends AppCompatActivity {
     private Button login;
     private TextView error;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
