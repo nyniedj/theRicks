@@ -17,19 +17,37 @@ class DatabaseHandler extends SQLiteOpenHelper {
 
     private static DatabaseHandler instance = new DatabaseHandler(RatTrackerApplication.getAppContext());
 
+    /**
+     *
+     * @return writable database
+     */
     static synchronized SQLiteDatabase provideWritableDatabase() {
         return instance.getWritableDatabase();
     }
 
+    /**
+     *
+     * @param context
+     */
     private DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     *
+     * @param sqLiteDatabase
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         RatDataDAO.onCreate(sqLiteDatabase);
     }
 
+    /**
+     *
+     * @param sqLiteDatabase
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         RatDataDAO.onUpgrade(sqLiteDatabase, oldVersion, newVersion);
