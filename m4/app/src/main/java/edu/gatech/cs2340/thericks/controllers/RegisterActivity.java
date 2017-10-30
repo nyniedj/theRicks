@@ -43,6 +43,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button createAccount;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
