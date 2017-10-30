@@ -20,6 +20,12 @@ public class LoadedFilteredDataHolder {
 
     private static boolean loadedData = false;
 
+    /**
+     *
+     * @param adapter
+     * @param progressBar
+     * @param filters
+     */
     public static void loadData(ArrayAdapter<RatData> adapter, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         if (!loadedData) {
             ArrayList<RatData> holdArr = new ArrayList<>();
@@ -50,6 +56,10 @@ public class LoadedFilteredDataHolder {
         }
     }
 
+    /**
+     *
+     * @param data
+     */
     public static void add(RatData data) {
         for (int i = 0; i < filteredData.size(); i++) {
             if (filteredData.get(i).getKey() == data.getKey()) {
@@ -60,16 +70,29 @@ public class LoadedFilteredDataHolder {
         filteredData.add(data);
     }
 
+    /**
+     *
+     * @param c
+     */
     public static void addAll(Collection<RatData> c) {
         for (RatData r: c) {
             add(r);
         }
     }
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     public static RatData get(int index) {
         return filteredData.get(index);
     }
 
+    /**
+     *
+     * @return filtered data
+     */
     public static final ArrayList<RatData> getFilteredData() {
         return filteredData;
     }
