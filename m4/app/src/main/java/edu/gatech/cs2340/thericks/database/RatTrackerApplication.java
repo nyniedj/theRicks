@@ -12,11 +12,16 @@ import android.content.Context;
 public class RatTrackerApplication extends Application {
     private static Context context;
 
+
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
     }
 
+    /**
+     *
+     * @return app context
+     */
     public static Context getAppContext() {
         return context;
     }
