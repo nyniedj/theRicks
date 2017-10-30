@@ -31,6 +31,13 @@ public class RatDatabase implements RatDataSource {
         db = DatabaseHandler.provideWritableDatabase();
     }
 
+    /**
+     *
+     * @param a
+     * @param data
+     * @param progressBar
+     * @param filters
+     */
     public void loadData(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         if (!LoadRatDataTask.isReady()) {
             Log.d(TAG, "LoadRatDataTask was not ready to load data");
@@ -41,6 +48,18 @@ public class RatDatabase implements RatDataSource {
         loadData.execute(db);
     }
 
+    /**
+     *
+     * @param key
+     * @param createdDateTime
+     * @param locationType
+     * @param incidentZip
+     * @param incidentAddress
+     * @param city
+     * @param borough
+     * @param latitude
+     * @param longitude
+     */
     @Override
     public void createRatData(int key, String createdDateTime, String locationType, int incidentZip,
                               String incidentAddress, String city, String borough, double latitude,
@@ -49,20 +68,38 @@ public class RatDatabase implements RatDataSource {
                 city, borough, latitude, longitude);
     }
 
+    /**
+     *
+     * @param data
+     */
     @Override
     public void deleteRatData(RatData data) {
         RatDataDAO.deleteRatData(db, data.getKey());
     }
 
+    /**
+     *
+     * @return all rat data
+     */
     @Override
     public List<RatData> getAllRatData() {
         return RatDataDAO.getAllRatData(db);
     }
 
+    /**
+     *
+     * @param filters
+     * @return filtered rat data
+     */
     public List<RatData> getFilteredRatData(List<Predicate<RatData>> filters) {
         return RatDataDAO.applyFilters(RatDataDAO.getAllRatData(db), filters);
     }
 
+    /**
+     *
+     * @param key
+     * @return rat data by key
+     */
     @Override
     public RatData findRatDataByKey(int key) {
         return RatDataDAO.findRatDataByKey(db, key);
