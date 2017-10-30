@@ -47,7 +47,11 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
     private static final int LATITUDE_NUMBER = 49;
     private static final int LONGITUDE_NUMBER = 50;
 
-    // Load in rat data from raw/rat_data.csv
+    /**
+     * Load in rat data from raw/rat_data.csv
+     * @param dbs
+     * @return
+     */
     @Override
     protected Long doInBackground(SQLiteDatabase ... dbs) {
         isLoadingData = true;
@@ -109,7 +113,10 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         return lineCount;
     }
 
-    // Mark that data is done loading and update any provided views
+    /**
+     * Mark that data is done loading and update any provided views
+     * @param lineCount
+     */
     protected void onPostExecute(Long lineCount) {
         Log.d(TAG, "Loaded " + lineCount + " rat data entries");
         // Done loading data
@@ -127,12 +134,21 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         }
     }
 
-    // Returns true if data is ready to start loading into the database for the first time
+    /**
+     * Returns true if data is ready to start loading into the database for the first time
+     * @return True/false is data is ready
+     */
     public static boolean isReady() {
         return !isLoadingData && !doneLoading;
     }
 
-    // Provides views from an activity calling the task, allowing for the UI to be asynchronously updated in onPostExecute
+    /**
+     * Provides views from an activity calling the task, allowing for the UI to be asynchronously updated in onPostExecute
+     * @param a
+     * @param data
+     * @param progressBar
+     * @param filters
+     */
     public void attachViews(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         adapter = a;
         this.data = data;
