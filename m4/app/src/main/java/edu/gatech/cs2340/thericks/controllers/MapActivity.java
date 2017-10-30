@@ -42,6 +42,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private static ArrayAdapter<RatData> adapter;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +100,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
+    /**
+     *
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -105,6 +114,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         // Setting a click event handler for the map
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
+            /**
+             *
+             * @param latLng
+             */
             @Override
             public void onMapClick(LatLng latLng) {
 
