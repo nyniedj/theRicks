@@ -37,6 +37,10 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     private Button reportRatButton;
     private Button logoutButton;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +95,12 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
 
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "Recieved result from RatEntryActivity");
@@ -103,6 +113,10 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
+    /**
+     *
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
