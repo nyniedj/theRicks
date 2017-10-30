@@ -41,6 +41,10 @@ public class RatEntryActivity extends AppCompatActivity {
     private Button saveButton;
     private Button cancelButton;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,13 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
+            /**
+             *
+             * @param charSequence
+             * @param i
+             * @param i1
+             * @param i2
+             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -96,6 +107,10 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
+            /**
+             *
+             * @param editable
+             */
             @Override
             public void afterTextChanged(Editable editable) {
                 return;
@@ -108,6 +123,13 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
+            /**
+             *
+             * @param charSequence
+             * @param i
+             * @param i1
+             * @param i2
+             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -120,6 +142,10 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
+            /**
+             *
+             * @param editable
+             */
             @Override
             public void afterTextChanged(Editable editable) {
                 return;
@@ -132,6 +158,13 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
+            /**
+             *
+             * @param charSequence
+             * @param i
+             * @param i1
+             * @param i2
+             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -144,6 +177,10 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
+            /**
+             *
+             * @param editable
+             */
             @Override
             public void afterTextChanged(Editable editable) {
                 return;
@@ -156,6 +193,13 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
+            /**
+             *
+             * @param charSequence
+             * @param i
+             * @param i1
+             * @param i2
+             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -168,6 +212,10 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
+            /**
+             *
+             * @param editable
+             */
             @Override
             public void afterTextChanged(Editable editable) {
                 return;
