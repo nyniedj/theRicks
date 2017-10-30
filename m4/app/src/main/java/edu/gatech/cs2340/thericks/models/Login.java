@@ -53,6 +53,12 @@ public class Login implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param oldPass
+     * @param newPass
+     * @return false
+     */
     public boolean resetPassword(String oldPass, String newPass) {
         if (!Security.validatePassword(newPass)) {
             Log.d("Login", "Failed attempt to reset password. Invalid new password.");
