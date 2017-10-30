@@ -37,7 +37,10 @@ class RatDataDAO {
             COLUMN_LOC_TYPE, COLUMN_ZIP, COLUMN_ADDRESS, COLUMN_CITY, COLUMN_BOROUGH,
             COLUMN_LATITUDE, COLUMN_LONGITUDE };
 
-    // Create a rat data table in the database
+    /**
+     * Create a rat data table in the database
+     * @param sqLiteDatabase
+     */
     static void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "CREATE TABLE IF NOT EXISTS " + TABLE_RAT_DATA + "(" +
                 COLUMN_KEY + " INTEGER PRIMARY KEY, " +
@@ -53,7 +56,12 @@ class RatDataDAO {
         sqLiteDatabase.execSQL(query);
     }
 
-    // Currently re-creates table on all upgrades
+    /**
+     * Currently re-creates table on all upgrades
+     * @param sqLiteDatabase
+     * @param oldVersion
+     * @param newVersion
+     */
     static void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         if (oldVersion < newVersion) {
             // Get rid of the old table
@@ -63,7 +71,19 @@ class RatDataDAO {
         }
     }
 
-    // Insert new rat data into database if key does not exist. If key already exists, replace the existing data.
+    /**
+     * Insert new rat data into database if key does not exist. If key already exists, replace the existing data.
+     * @param db
+     * @param key
+     * @param createdDateTime
+     * @param locationType
+     * @param incidentZip
+     * @param incidentAddress
+     * @param city
+     * @param borough
+     * @param latitude
+     * @param longitude
+     */
     static void createRatData(SQLiteDatabase db, int key, String createdDateTime, String locationType,
                               int incidentZip, String incidentAddress, String city,
                               String borough, double latitude, double longitude) {
@@ -84,7 +104,13 @@ class RatDataDAO {
         db.insertWithOnConflict(TABLE_RAT_DATA, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    // Convert cursor's current position into rat data
+
+
+    /**
+     * Convert cursor's current position into rat data
+     * @param cursor
+     * @return rat data
+     */
     private static RatData cursorToRatData(Cursor cursor) {
         return new RatData(cursor.getInt(cursor.getColumnIndex(COLUMN_KEY)), cursor.getString(cursor.getColumnIndex(COLUMN_DATE_TIME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_LOC_TYPE)), cursor.getInt(cursor.getColumnIndex(COLUMN_ZIP)),
@@ -93,12 +119,25 @@ class RatDataDAO {
                 cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE)));
     }
 
-    // Removes all rat data with the provided key
+
+
+    /**
+     * Removes all rat data with the provided key
+     * @param db
+     * @param key
+     */
     static void deleteRatData(SQLiteDatabase db, int key) {
         db.delete(TABLE_RAT_DATA, "key=?", new String[]{"key"});
     }
 
-    // Get single piece of rat data by key; returns null if data is not found
+
+
+    /**
+     * Get single piece of rat data by key; returns null if data is not found
+     * @param db
+     * @param key
+     * @return data
+     */
     static RatData findRatDataByKey(SQLiteDatabase db, int key) {
 
         // Query the table for entries with the given key
@@ -118,7 +157,11 @@ class RatDataDAO {
         return data;
     }
 
-    // Get all rat data as a list
+    /**
+     * Get all rat data as a list
+     * @param db
+     * @return rat data list
+     */
     static List<RatData> getAllRatData(SQLiteDatabase db) {
         List<RatData> ratDataList = new ArrayList<>(100100);
         String selectAllQuery = "SELECT * FROM " + TABLE_RAT_DATA;
