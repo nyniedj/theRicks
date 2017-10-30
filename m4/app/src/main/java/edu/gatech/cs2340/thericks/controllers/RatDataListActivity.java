@@ -28,6 +28,7 @@ import edu.gatech.cs2340.thericks.models.RatData;
  * Created by Cameron on 10/5/2017.
  */
 
+
 public class RatDataListActivity extends AppCompatActivity {
 
     private static final String TAG = RatDataListActivity.class.getSimpleName();
@@ -39,6 +40,10 @@ public class RatDataListActivity extends AppCompatActivity {
     private ListView ratDataList;
     private ProgressBar progressBar;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,27 +93,53 @@ public class RatDataListActivity extends AppCompatActivity {
         private ArrayList<RatData> listData;
         private LayoutInflater layoutInflater;
 
+        /**
+         *
+         * @param aContext
+         * @param listData
+         */
         public CustomListAdapter(Context aContext, ArrayList<RatData> listData) {
             super(aContext, ArrayAdapter.NO_SELECTION);
             this.listData = listData;
             layoutInflater = LayoutInflater.from(aContext);
         }
 
+        /**
+         *
+         * @return size of data list
+         */
         @Override
         public int getCount() {
             return listData.size();
         }
 
+        /**
+         *
+         * @param position
+         * @return position of item in data list
+         */
         @Override
         public Object getItem(int position) {
             return listData.get(position);
         }
 
+        /**
+         *
+         * @param position
+         * @return position of item ID
+         */
         @Override
         public long getItemId(int position) {
             return position;
         }
 
+        /**
+         *
+         * @param position
+         * @param convertView
+         * @param parent
+         * @return convert view
+         */
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
@@ -135,6 +166,7 @@ public class RatDataListActivity extends AppCompatActivity {
             private TextView createdDateView;
         }
     }
+
 
     // Updates list view to display any changes to the database from entering/editing reports
     public static void updateUI() {
