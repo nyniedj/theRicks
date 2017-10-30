@@ -45,38 +45,74 @@ public class RatData implements Parcelable{
         this.longitude = longitude;
     }
 
+    /**
+     *
+     * @return key
+     */
     public int getKey() {
         return key;
     }
 
+    /**
+     *
+     * @return date/time created
+     */
     public String getCreatedDateTime() {
         return createdDateTime;
     }
 
+    /**
+     *
+     * @return location type
+     */
     public String getLocationType() {
         return locationType;
     }
 
+    /**
+     *
+     * @return zip code of report
+     */
     public int getIncidentZip() {
         return incidentZip;
     }
 
+    /**
+     *
+     * @return address of report
+     */
     public String getIncidentAddress() {
         return incidentAddress;
     }
 
+    /**
+     *
+     * @return city of report
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     *
+     * @return borough of report
+     */
     public String getBorough() {
         return borough;
     }
 
+    /**
+     *
+     * @return latitude of report
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     *
+     * @return longitude of report
+     */
     public double getLongitude() {
         return longitude;
     }
@@ -85,6 +121,10 @@ public class RatData implements Parcelable{
      * METHODS FOR IMPLEMENTING PARCELABLE
      * *****************************************************/
 
+    /**
+     *
+     * @param in
+     */
     private RatData(Parcel in) {
         key = in.readInt();
         createdDateTime = in.readString();
@@ -97,11 +137,20 @@ public class RatData implements Parcelable{
         longitude = in.readDouble();
     }
 
+    /**
+     *
+     * @return zero
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     *
+     * @param parcel
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(key);
