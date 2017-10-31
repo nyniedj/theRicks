@@ -8,9 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.LoadedFilteredDataHolder;
@@ -27,8 +32,9 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     private static final String TAG = DashboardActivity.class.getSimpleName();
     static final int ADD_RAT_DATA_REQUEST = 2;
 
-    private MapView mapView;
     private GoogleMap map;
+
+    private boolean onMap;
 
     private Button mapButton;
     private Button listRatDataButton;
@@ -36,6 +42,8 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     private Button settingsButton;
     private Button reportRatButton;
     private Button logoutButton;
+
+    private Button returnToDashButton;
 
     /**
      *
@@ -48,8 +56,9 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
         Log.d(TAG, "Entered dashboard activity");
 
-        mapView = (MapView) findViewById(R.id.dashboard_map_view);
-        mapView.getMapAsync(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         mapButton = (Button) findViewById(R.id.map_button);
         listRatDataButton = (Button) findViewById(R.id.rat_data_list_button);
@@ -58,6 +67,10 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         reportRatButton = (Button) findViewById(R.id.report_rat_button);
         logoutButton = (Button) findViewById(R.id.logout_button);
 
+        returnToDashButton = (Button) findViewById(R.id.return_to_dashboard_button);
+        returnToDashButton.setVisibility(View.GONE);
+        onMap = false;
+
         Bundle b = getIntent().getExtras();
         User user = b.getParcelable("edu.gatech.cs2340.thericks.User");
         user.login();
@@ -65,9 +78,22 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
         mapButton.setOnClickListener((View v) -> {
             Log.d(TAG, "Rat Map Button pressed");
-            Context context = v.getContext();
-            Intent intent = new Intent(context, MapActivity.class);
-            context.startActivity(intent);
+//            Context context = v.getContext();
+//            Intent intent = new Intent(context, MapActivity.class);
+//            context.startActivity(intent);
+            if (map != null) {
+                mapButton.setVisibility(View.GONE);
+                listRatDataButton.setVisibility(View.GONE);
+                profileButton.setVisibility(View.GONE);
+                settingsButton.setVisibility(View.GONE);
+                reportRatButton.setVisibility(View.GONE);
+                logoutButton.setVisibility(View.GONE);
+
+                returnToDashButton.setVisibility(View.VISIBLE);
+
+                onMap = !onMap;
+                map.getUiSettings().setAllGesturesEnabled(onMap);
+            }
         });
 
         listRatDataButton.setOnClickListener((View v) -> {
@@ -92,6 +118,25 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
             Intent intent = new Intent(context, WelcomeActivity.class);
             context.startActivity(intent);
             finish();
+        });
+
+        returnToDashButton.setOnClickListener(v -> {
+            if (map != null) {
+                mapButton.setVisibility(View.VISIBLE);
+                listRatDataButton.setVisibility(View.VISIBLE);
+                profileButton.setVisibility(View.VISIBLE);
+                settingsButton.setVisibility(View.VISIBLE);
+                reportRatButton.setVisibility(View.VISIBLE);
+                logoutButton.setVisibility(View.VISIBLE);
+
+                returnToDashButton.setVisibility(View.GONE);
+
+                onMap = !onMap;
+                map.getUiSettings().setAllGesturesEnabled(onMap);
+
+                CameraPosition position = new CameraPosition(new LatLng(40.776278, -73.99086), 12, 0, 30);
+                map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+            }
         });
     }
 
@@ -120,5 +165,8 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        map.getUiSettings().setAllGesturesEnabled(onMap);
+        CameraPosition position = new CameraPosition(new LatLng(40.776278, -73.99086), 12, 0, 30);
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
     }
 }
