@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,9 +18,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.LoadedFilteredDataHolder;
+import edu.gatech.cs2340.thericks.database.RatDatabase;
+import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.User;
 
@@ -44,6 +52,8 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     private Button logoutButton;
 
     private Button returnToDashButton;
+
+    private ProgressBar progressBar;
 
     /**
      *
@@ -71,6 +81,9 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         returnToDashButton.setVisibility(View.GONE);
         onMap = false;
 
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_dash_map);
+        progressBar.setVisibility(View.GONE);
+
         Bundle b = getIntent().getExtras();
         User user = b.getParcelable("edu.gatech.cs2340.thericks.User");
         user.login();
@@ -89,7 +102,31 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
                 reportRatButton.setVisibility(View.GONE);
                 logoutButton.setVisibility(View.GONE);
 
+                progressBar.setVisibility(View.VISIBLE);
+
+                ArrayList<RatData> ratDataArrayList = new ArrayList<RatData>();
+
+                ArrayAdapter<RatData> tempAdapter = new ArrayAdapter<RatData>(RatTrackerApplication.getAppContext(),
+                        ArrayAdapter.NO_SELECTION) {
+
+                    @Override
+                    public void notifyDataSetChanged() {
+                        super.notifyDataSetChanged();
+                        for (RatData r: ratDataArrayList) {
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(new LatLng(r.getLatitude(), r.getLongitude()));
+                            map.addMarker(markerOptions);
+                        }
+                        returnToDashButton.setEnabled(true);
+                    }
+
+                };
+
+                RatDatabase database = new RatDatabase(RatTrackerApplication.getAppContext());
+                database.loadData(tempAdapter, ratDataArrayList, progressBar, new ArrayList<Predicate<RatData>>());
+
                 returnToDashButton.setVisibility(View.VISIBLE);
+                returnToDashButton.setEnabled(false);
 
                 onMap = !onMap;
                 map.getUiSettings().setAllGesturesEnabled(onMap);
@@ -133,6 +170,8 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
                 onMap = !onMap;
                 map.getUiSettings().setAllGesturesEnabled(onMap);
+
+                map.clear();
 
                 CameraPosition position = new CameraPosition(new LatLng(40.776278, -73.99086), 12, 0, 30);
                 map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
