@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -53,6 +55,11 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
     private Button returnToDashButton;
 
+    private EditText date1Edit;
+    private EditText date2Edit;
+
+    private TextView dateSeparator;
+
     private ProgressBar progressBar;
 
     /**
@@ -79,6 +86,15 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
         returnToDashButton = (Button) findViewById(R.id.return_to_dashboard_button);
         returnToDashButton.setVisibility(View.GONE);
+
+        date1Edit = (EditText) findViewById(R.id.date1_dash_map);
+        date1Edit.setVisibility(View.GONE);
+        date2Edit = (EditText) findViewById(R.id.date2_dash_map);
+        date2Edit.setVisibility(View.GONE);
+
+        dateSeparator = (TextView) findViewById(R.id.date_separator_dash_map_text);
+        dateSeparator.setVisibility(View.GONE);
+
         onMap = false;
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_dash_map);
@@ -118,6 +134,8 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
                             map.addMarker(markerOptions);
                         }
                         returnToDashButton.setEnabled(true);
+                        date1Edit.setEnabled(true);
+                        date2Edit.setEnabled(true);
                     }
 
                 };
@@ -127,6 +145,13 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
                 returnToDashButton.setVisibility(View.VISIBLE);
                 returnToDashButton.setEnabled(false);
+
+                date1Edit.setVisibility(View.VISIBLE);
+                date1Edit.setEnabled(false);
+                date2Edit.setVisibility(View.VISIBLE);
+                date2Edit.setEnabled(false);
+
+                dateSeparator.setVisibility(View.VISIBLE);
 
                 onMap = !onMap;
                 map.getUiSettings().setAllGesturesEnabled(onMap);
@@ -167,6 +192,11 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
                 logoutButton.setVisibility(View.VISIBLE);
 
                 returnToDashButton.setVisibility(View.GONE);
+
+                date1Edit.setVisibility(View.GONE);
+                date2Edit.setVisibility(View.GONE);
+
+                dateSeparator.setVisibility(View.GONE);
 
                 onMap = !onMap;
                 map.getUiSettings().setAllGesturesEnabled(onMap);
