@@ -3,6 +3,7 @@ package edu.gatech.cs2340.thericks.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
@@ -40,9 +41,18 @@ public class RatDatabase implements RatDataSource {
      */
     public void loadData(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         if (!LoadRatDataTask.isReady()) {
-            Log.d(TAG, "LoadRatDataTask was not ready to load data");
+            Log.d(TAG, "LoadRatDataTask was not ready to load data or data was already loaded");
+            if (data != null && a != null) {
+                data.clear();
+                data.addAll(getFilteredRatData(filters));
+                a.notifyDataSetChanged();
+            }
+            if (progressBar != null) {
+                progressBar.setVisibility(View.GONE);
+            }
             return;
         }
+        Log.d(TAG, "Creating new LoadRatDataTask");
         LoadRatDataTask loadData = new LoadRatDataTask();
         loadData.attachViews(a, data, progressBar, filters);
         loadData.execute(db);
