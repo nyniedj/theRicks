@@ -300,6 +300,7 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
             markerOptions.snippet(r.getIncidentAddress() + ";" + r.getCreatedDateTime());
             map.addMarker(markerOptions);
         }
+        progressBar.setVisibility(View.GONE);
         returnToDashButton.setEnabled(true);
         applyFiltersButton.setEnabled(true);
         date1Edit.setEnabled(true);
