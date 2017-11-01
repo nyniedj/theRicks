@@ -54,6 +54,12 @@ class RatDataDAO {
         sqLiteDatabase.execSQL(query);
     }
 
+    /**
+     * Currently re-creates table on all upgrades
+     * @param sqLiteDatabase Database being upgraded
+     * @param oldVersion previous version of database
+     * @param newVersion new version of database
+     */
     static void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         if (oldVersion < newVersion) {
             // Get rid of the old table

@@ -64,7 +64,7 @@ class UserDAO {
     }
 
     /**
-     * Insert new rat data into database if key does not exist. If key already exists, replace the existing data.
+     * Insert new user into database if the user does not exist. If the user already exists, replace the existing data.
     */
     static void createUser(SQLiteDatabase db, String username, String password, Privilege privilege) {
 
