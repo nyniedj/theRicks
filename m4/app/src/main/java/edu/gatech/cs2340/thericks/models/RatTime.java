@@ -10,8 +10,9 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Cameron on 10/31/2017.
+ * Holds a time and can read in a properly formatted time
+ * from a String
  */
-
 public class RatTime implements Comparable<RatTime>, Serializable{
 
     private int seconds;
@@ -36,10 +37,24 @@ public class RatTime implements Comparable<RatTime>, Serializable{
         period = Period.valueOf(periodSplit[1]);
     }
 
+    /**
+     * Creates a new RatTime from the passed data
+     * @param hours the hours
+     * @param minutes the minutes
+     * @param seconds the seconds
+     * @param period the period (AM or PM)
+     * @return the new RatTime
+     */
     public static RatTime forTime(int hours, int minutes, int seconds, Period period) {
         return new RatTime(hours, minutes, seconds, period);
     }
 
+    /**
+     * Creates a new RatTime from the passed String, returns null
+     * if the String doesn't contain a time
+     * @param possibleTimeDef the String to pull a time from
+     * @return the new RatTime
+     */
     public static RatTime forTime(String possibleTimeDef) {
         Pattern p = Pattern.compile("\\d\\d:\\d\\d:\\d\\d\\s[AP]M");
         Matcher m = p.matcher(possibleTimeDef);
@@ -49,6 +64,11 @@ public class RatTime implements Comparable<RatTime>, Serializable{
         return null;
     }
 
+    /**
+     * Checks if the passed String contains a time
+     * @param possibleTimeDef the String to check
+     * @return true if it contains a tiem, false otherwise
+     */
     public static boolean isTime(String possibleTimeDef) {
         Pattern p = Pattern.compile("\\d\\d:\\d\\d:\\d\\d\\s[AP]M");
         Matcher m = p.matcher(possibleTimeDef);
@@ -59,6 +79,11 @@ public class RatTime implements Comparable<RatTime>, Serializable{
         return hours;
     }
 
+    /**
+     * Returns the hours as they would be represented
+     * on a 24 hour clock (i.e. 3:00pm becomes 15:00)
+     * @return the 24 hours
+     */
     public int get24Hours() {
         if (period.equals(Period.PM)) {
             return hours + 12;

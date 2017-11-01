@@ -84,7 +84,8 @@ public class RatDatabase implements RatDataSource {
      * @return a list of filtered RatData Objects
      */
     public List<RatData> getFilteredRatData(List<Predicate<RatData>> filters) {
-        return RatDataDAO.applyFilters(RatDataDAO.getAllRatData(db), filters);
+        // return RatDataDAO.applyFilters(RatDataDAO.getAllRatData(db), filters);
+        return RatDataDAO.getFilteredRatData(db, filters);
     }
 
     @Override

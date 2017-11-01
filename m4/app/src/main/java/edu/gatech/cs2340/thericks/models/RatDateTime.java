@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 /**
  * Created by Cameron on 10/31/2017.
+ * Holds a date and time and can read dates and times in from
+ * properly formatted Strings and raw data
  */
 public class RatDateTime implements Comparable<RatDateTime>, Serializable{
 
@@ -27,6 +29,13 @@ public class RatDateTime implements Comparable<RatDateTime>, Serializable{
         time = RatTime.forTime(hour, minute, second, period);
     }
 
+    /**
+     * Creates a new RatDateTime from the passed String, returns
+     * null if no date and time were found in the String
+     * @param possibleDateTimeDef the String to pull the date and
+     *                            time from
+     * @return the new RatDateTime
+     */
     public static RatDateTime forDateTime(String possibleDateTimeDef) {
         if (RatDate.isDate(possibleDateTimeDef) && RatTime.isTime(possibleDateTimeDef)) {
             return new RatDateTime(possibleDateTimeDef);
@@ -34,10 +43,26 @@ public class RatDateTime implements Comparable<RatDateTime>, Serializable{
         return null;
     }
 
+    /**
+     * Creates a new RatDateTime from the passed data
+     * @param year the year
+     * @param month the month
+     * @param day the day
+     * @param hour the hour
+     * @param minute the minute
+     * @param second the second
+     * @param period the period
+     * @return the new RatDateTime
+     */
     public static RatDateTime forDateTime(int year, int month, int day, int hour, int minute, int second, Period period) {
         return new RatDateTime(year, month, day, hour, minute, second, period);
     }
 
+    /**
+     * Checks if the passed String contains a date and time
+     * @param possibleDateTimeDef the String to check
+     * @return true if it contains a date and time, false otherwise
+     */
     public static boolean isDateTime(String possibleDateTimeDef) {
         return RatDate.isDate(possibleDateTimeDef) && RatTime.isTime(possibleDateTimeDef);
     }

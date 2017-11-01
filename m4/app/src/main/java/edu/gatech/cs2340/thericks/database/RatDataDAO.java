@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatDate;
 import edu.gatech.cs2340.thericks.models.RatDateTime;
 
 /**
@@ -167,6 +168,31 @@ class RatDataDAO {
                 RatData data = cursorToRatData(cursor);
                 // Add rat data to list
                 ratDataList.add(data);
+            } while (cursor.moveToNext());
+        }
+        // Free up cursor
+        cursor.close();
+        return ratDataList;
+    }
+
+    static List<RatData> getFilteredRatData(SQLiteDatabase db, List<Predicate<RatData>> filters) {
+        List<RatData> ratDataList = new ArrayList<>(100100);
+        String selectAllQuery = "SELECT * FROM " + TABLE_RAT_DATA;
+
+        Cursor cursor = db.rawQuery(selectAllQuery, null);
+
+        Predicate<RatData> allPredicates = filters.stream().reduce(f -> true, Predicate::and);
+
+        // Loop through all rows and add as new rat data instance
+        if (cursor.moveToFirst()) {
+            do {
+                // Create rat data from values of the current row
+                RatData data = cursorToRatData(cursor);
+                // Apply filters
+                if (allPredicates.test(data)) {
+                    // Add rat data to list
+                    ratDataList.add(data);
+                }
             } while (cursor.moveToNext());
         }
         // Free up cursor

@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Cameron on 10/31/2017.
+ * Holds a date and can read properly formatted Strings
+ * as dates
  */
 public class RatDate implements Comparable<RatDate>, Serializable{
 
@@ -29,10 +31,23 @@ public class RatDate implements Comparable<RatDate>, Serializable{
         year = Integer.parseInt(splitDef[2]);
     }
 
+    /**
+     * Creates a new RatDate from the passed data
+     * @param year the year
+     * @param month the month
+     * @param day the day
+     * @return the new RatDate
+     */
     public static RatDate forDate(int year, int month, int day) {
         return new RatDate(year, month, day);
     }
 
+    /**
+     * Creates a new RatDate from the passed String, returns
+     * null if the String doesn't contain a date
+     * @param possibleDateDef the String to pull a date from
+     * @return the new RatDate
+     */
     public static RatDate forDate(String possibleDateDef) {
         Pattern p = Pattern.compile("\\d\\d/\\d\\d/\\d\\d\\d\\d");
         Matcher m = p.matcher(possibleDateDef);
@@ -42,6 +57,11 @@ public class RatDate implements Comparable<RatDate>, Serializable{
         return null;
     }
 
+    /**
+     * Checks if the passed String contains a date
+     * @param possibleDateDef the String to check
+     * @return true if it contains a date, false otherwise
+     */
     public static boolean isDate(String possibleDateDef) {
         Pattern p = Pattern.compile("\\d\\d/\\d\\d/\\d\\d\\d\\d");
         Matcher m = p.matcher(possibleDateDef);
