@@ -2,6 +2,9 @@ package edu.gatech.cs2340.thericks.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import edu.gatech.cs2340.thericks.utils.Security;
 
 /**
  * Created by Ben Lashley on 9/18/2017.
@@ -10,6 +13,7 @@ import android.os.Parcelable;
  */
 
 public class User implements Parcelable {
+    private static final String TAG = User.class.getSimpleName();
 
     /** User's secure login data **/
     private Login loginInfo;
@@ -24,27 +28,24 @@ public class User implements Parcelable {
     /**
      * Constructor for new user
      * @param username user's username
-     * @param password user's unencrypted password
+     * @param password user's encrypted password
      * @param privilege user's privilege status
      */
-    public User(String username, String password, Privilege privilege) {
+    public User(String username, String password, String salt, Privilege privilege) {
         // Generate secure login information
-        loginInfo = new Login(username, password);
+        loginInfo = new Login(username, password, salt);
         loggedIn = false;
         this.privilege = privilege;
+        Log.d(TAG, username + password + salt + privilege.toString());
+    }
+
+    public User(String username, String password, Privilege privilege) {
+        this(username, password, Security.generateSalt(), privilege);
     }
 
     /**
      *
-     * @return user privilege (admin or user)
-     */
-    public Privilege getPrivilege() {
-        return privilege;
-    }
-
-    /**
-     *
-     * @return inputed username or empty string
+     * @return input username or empty string
      */
     public String getUsername() {
         if (loginInfo != null) {
@@ -81,13 +82,13 @@ public class User implements Parcelable {
 
 
 
-    /*******************************************************
+    /* *****************************************************
      * METHODS FOR IMPLEMENTING PARCELABLE
      * *****************************************************/
 
     /**
      *
-     * @param in
+     * @param in parcel to create user from
      */
     private User(Parcel in) {
         loginInfo = (Login) in.readSerializable();
@@ -106,8 +107,8 @@ public class User implements Parcelable {
 
     /**
      *
-     * @param dest
-     * @param flags
+     * @param dest Parcel to write user info to
+     * @param flags Flags
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {

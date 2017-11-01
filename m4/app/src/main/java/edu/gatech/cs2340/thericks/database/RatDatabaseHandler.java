@@ -5,17 +5,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Singleton class that handles database connection.  Provides a single connection throughout the
+ * Singleton class that handles the rat database connection.  Provides a single connection throughout the
  * application's life cycle.
  *
  * Created by Ben Lashley on 10/9/2017.
  */
 
-class DatabaseHandler extends SQLiteOpenHelper {
+class RatDatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "rat_data.db";
 
-    private static DatabaseHandler instance = new DatabaseHandler(RatTrackerApplication.getAppContext());
+    private static RatDatabaseHandler instance = new RatDatabaseHandler(RatTrackerApplication.getAppContext());
 
     /**
      *
@@ -29,7 +29,7 @@ class DatabaseHandler extends SQLiteOpenHelper {
      *
      * @param context
      */
-    private DatabaseHandler(Context context) {
+    private RatDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

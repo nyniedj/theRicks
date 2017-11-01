@@ -2,7 +2,6 @@ package edu.gatech.cs2340.thericks.controllers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import edu.gatech.cs2340.thericks.R;
+import edu.gatech.cs2340.thericks.database.UserDatabase;
 import edu.gatech.cs2340.thericks.models.User;
-import edu.gatech.cs2340.thericks.models.UserTable;
+import edu.gatech.cs2340.thericks.models.UserDataSource;
 import edu.gatech.cs2340.thericks.utils.Security;
 
 /**
@@ -52,11 +52,12 @@ public class LoginActivity extends AppCompatActivity {
                 String enteredUsername = username.getText().toString();
                 String enteredPassword = password.getText().toString();
 
-                UserTable users = UserTable.getInstance();
-                User u = users.getUserByUsername(enteredUsername);
+                UserDataSource db = new UserDatabase(this);
+                User u = db.getUserByUsername(enteredUsername);
                 if (u != null && u.getLogin() != null) {
+                    Log.d(TAG, "Checking password for login: " + u.getLogin());
                     if (Security.checkPassword(enteredPassword, u.getLogin())) {
-                        Log.d(TAG, "Successfully logged into user account: " + u.getLogin().getUsername());
+                        Log.d(TAG, "Successfully logged into user account: " + u.getUsername());
                         Context context = v.getContext();
                         Intent intent = new Intent(context, DashboardActivity.class);
                         intent.putExtra("edu.gatech.cs2340.thericks.User", u);

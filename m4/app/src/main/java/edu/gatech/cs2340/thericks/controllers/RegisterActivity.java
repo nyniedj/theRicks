@@ -8,16 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import edu.gatech.cs2340.thericks.R;
+import edu.gatech.cs2340.thericks.database.UserDatabase;
 import edu.gatech.cs2340.thericks.models.Privilege;
 import edu.gatech.cs2340.thericks.models.User;
-import edu.gatech.cs2340.thericks.models.UserTable;
 import edu.gatech.cs2340.thericks.utils.Security;
 
 /**
@@ -43,6 +40,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button createAccount;
 
+    private UserDatabase db;
+
     /**
      *
      * @param savedInstanceState
@@ -52,6 +51,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        db = new UserDatabase(this);
+
+        // Connect widgets
         usernameEntry   = (EditText) findViewById(R.id.registration_create_username_entry);
         passwordEntry   = (EditText) findViewById(R.id.registration_create_password_entry);
         passwordReentry = (EditText) findViewById(R.id.registration_reenter_password_entry);
@@ -75,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
             String password = passwordEntry.getText().toString();
             String reenteredPassword = passwordReentry.getText().toString();
             Privilege user_privilege = null;
-            boolean usernameTaken = (UserTable.getInstance().getUserByUsername(username) != null);
+            boolean usernameTaken = (db.getUserByUsername(username) != null);
             boolean validEntries = true;
 
             if (!Security.validateUsername(username) || usernameTaken) {
@@ -110,8 +112,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             if (validEntries) {
+                db.createUser(username, password, user_privilege);
+
+                // User object to pass to dashboard activity.
                 User u = new User(username, password, user_privilege);
-                UserTable.getInstance().addUser(u);
 
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DashboardActivity.class);

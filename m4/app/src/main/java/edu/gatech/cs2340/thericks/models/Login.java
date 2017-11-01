@@ -13,75 +13,31 @@ import edu.gatech.cs2340.thericks.utils.Security;
  * passed as a parcel from the login screen.
  */
 public class Login implements Serializable {
+    private static final String TAG = Login.class.getSimpleName();
 
     /** Username for login **/
     private String username;
 
     /** The hashed password for the login **/
-    private byte[] securePassword;
+    private String securePassword;
 
     /** Random salt for hashing **/
-    private byte[] salt;
-
-    /** Whether or not the login information is all valid **/
-    private boolean valid = false;
+    private String salt;
 
 
     /**
-     * Constructor for new login information
+     * Constructor for new login information with pre-encrypted password
      *
      * @param username user's username
      * @param password user's un-hashed password
+     * @param salt the salt used for password encryption
      */
-    public Login(String username, String password) {
-        // Check that username and password are valid.
-        if (!Security.validateUsername(username)) {
-            Log.e("Login", "Invalid username: " + username);
-            return;
-        } else {
-            this.username = username;
-        }
-        if (!Security.validatePassword(password)) {
-            Log.e("Login", "Invalid password");
-            return;
-        }
-        // Create secure password
-        salt = Security.generateSalt();
-        securePassword = Security.createEncryptedPassword(password, salt);
-        if (securePassword != null && salt != null) {
-            valid = true;
-        }
+    Login(String username, String password, String salt) {
+        this.username = username;
+        this.salt = salt;
+        securePassword = password;
     }
 
-    /**
-     *
-     * @param oldPass
-     * @param newPass
-     * @return false
-     */
-    public boolean resetPassword(String oldPass, String newPass) {
-        if (!Security.validatePassword(newPass)) {
-            Log.d("Login", "Failed attempt to reset password. Invalid new password.");
-            return false;
-        }
-        if (Security.checkPassword(oldPass, this)) {
-            // Old password was entered correctly, so allow reset.
-            byte[] fallBack = securePassword;
-            securePassword = Security.createEncryptedPassword(newPass, salt);
-            if (securePassword == null) {
-                // Reset failed to create encrypted new password
-                securePassword = fallBack;
-                Log.e("Login", "Error resetting password. Failed to encrypt new password. Password is unchanged.");
-                return false;
-            } else {
-                // Encryption successful
-                return true;
-            }
-        } else {
-            Log.d("Login", "Failed attempt to reset password. Incorrect old password.");
-            return false;
-        }
-    }
 
     /**
      *
@@ -96,24 +52,8 @@ public class Login implements Serializable {
      *
      * @return secure password
      */
-    public byte[] getSecurePassword() {
+    public String getSecurePassword() {
         return securePassword;
-    }
-
-
-    /**
-     *
-     * @return Secure password as a readable hexadecimal string
-     */
-    public String getPasswordString() {
-        if (securePassword == null) {
-            return "INVALID";
-        }
-        final StringBuilder builder = new StringBuilder();
-        for (byte b : securePassword) {
-            builder.append(String.format("%02x", b));
-        }
-        return builder.toString();
     }
 
 
@@ -121,17 +61,8 @@ public class Login implements Serializable {
      *
      * @return salt used to encrypt login password
      */
-    public byte[] getSalt() {
+    public String getSalt() {
         return salt;
-    }
-
-
-    /**
-     *
-     * @return true if login data is valid, false if not
-     */
-    public boolean isValid() {
-        return valid;
     }
 
 
@@ -140,6 +71,6 @@ public class Login implements Serializable {
      * @return Login information as a string
      */
     public String toString() {
-        return String.format("Username: %s\nEncrypted Password: %s\n", username, getPasswordString());
+        return String.format("Username: %s\nEncrypted Password: %s\n", username, getSecurePassword());
     }
 }
