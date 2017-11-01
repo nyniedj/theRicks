@@ -34,11 +34,11 @@ public class RatDatabase implements RatDataSource {
     }
 
     /**
-     *
-     * @param a
-     * @param data
-     * @param progressBar
-     * @param filters
+     * Loads in a list of RatData Objects
+     * @param a the ArrayAdapter that returns the views for each RatData Object
+     * @param data the list of RatData Objects whose views will be added
+     * @param progressBar indicates the progress of loading in data
+     * @param filters the filters used to select certain RatData Objects
      */
     public void loadData(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         if (!LoadRatDataTask.isReady()) {
@@ -59,17 +59,6 @@ public class RatDatabase implements RatDataSource {
         loadData.execute(db);
     }
 
-    /**
-     *  @param key
-     * @param createdDateTime
-     * @param locationType
-     * @param incidentZip
-     * @param incidentAddress
-     * @param city
-     * @param borough
-     * @param latitude
-     * @param longitude
-     */
     @Override
     public void createRatData(int key, RatDateTime createdDateTime, String locationType, int incidentZip,
                               String incidentAddress, String city, String borough, double latitude,
@@ -78,38 +67,26 @@ public class RatDatabase implements RatDataSource {
                 city, borough, latitude, longitude);
     }
 
-    /**
-     *
-     * @param data
-     */
     @Override
     public void deleteRatData(RatData data) {
         RatDataDAO.deleteRatData(db, data.getKey());
     }
 
-    /**
-     *
-     * @return all rat data
-     */
+
     @Override
     public List<RatData> getAllRatData() {
         return RatDataDAO.getAllRatData(db);
     }
 
     /**
-     *
-     * @param filters
-     * @return filtered rat data
+     * Filters initial list of RatData Objects
+     * @param filters the filters used to select certain RatData Objects
+     * @return a list of filtered RatData Objects
      */
     public List<RatData> getFilteredRatData(List<Predicate<RatData>> filters) {
         return RatDataDAO.applyFilters(RatDataDAO.getAllRatData(db), filters);
     }
 
-    /**
-     *
-     * @param key
-     * @return rat data by key
-     */
     @Override
     public RatData findRatDataByKey(int key) {
         return RatDataDAO.findRatDataByKey(db, key);

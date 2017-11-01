@@ -82,9 +82,9 @@ class UserDAO {
 
 
     /**
-     * Convert cursor's current position into rat data
+     * Convert cursor's current position into a User Object
      * @param cursor the cursor for traversing the table
-     * @return rat data
+     * @return a new User Object
      */
     private static User cursorToUser(Cursor cursor) {
         // Convert privilege string in table to an enum

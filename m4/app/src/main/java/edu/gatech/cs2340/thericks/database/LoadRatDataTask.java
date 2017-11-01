@@ -48,11 +48,6 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
     private static final int LATITUDE_NUMBER = 49;
     private static final int LONGITUDE_NUMBER = 50;
 
-    /**
-     * Load in rat data from raw/rat_data.csv
-     * @param dbs
-     * @return
-     */
     @Override
     protected Long doInBackground(SQLiteDatabase ... dbs) {
         isLoadingData = true;
@@ -116,7 +111,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
 
     /**
      * Mark that data is done loading and update any provided views
-     * @param lineCount
+     * @param lineCount the number of loaded lines
      */
     protected void onPostExecute(Long lineCount) {
         Log.d(TAG, "Loaded " + lineCount + " rat data entries");
@@ -137,7 +132,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
 
     /**
      * Returns true if data is ready to start loading into the database for the first time
-     * @return True/false is data is ready
+     * @return true/false is data is ready
      */
     public static boolean isReady() {
         return !isLoadingData && !doneLoading;
@@ -145,10 +140,10 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
 
     /**
      * Provides views from an activity calling the task, allowing for the UI to be asynchronously updated in onPostExecute
-     * @param a
-     * @param data
-     * @param progressBar
-     * @param filters
+     * @param a the ArrayAdapter that returns the views for each RatData Object
+     * @param data the list of RatData Objects whose views will be added
+     * @param progressBar indicates the progress of loading in data
+     * @param filters the filters used to select certain RatData Objects
      */
     public void attachViews(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         adapter = a;

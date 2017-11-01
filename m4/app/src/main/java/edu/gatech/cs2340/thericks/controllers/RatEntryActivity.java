@@ -42,10 +42,6 @@ public class RatEntryActivity extends AppCompatActivity {
     private Button saveButton;
     private Button cancelButton;
 
-    /**
-     *
-     * @param savedInstanceState the data most recently supplied by the Bundle
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,13 +85,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
-            /**
-             *
-             * @param charSequence the charSequence that will be changed
-             * @param i the starting point
-             * @param i1 the stopping point
-             * @param i2 the number of characters that will replace the old text
-             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -108,10 +97,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
-            /**
-             *
-             * @param editable the edited charSequence
-             */
             @Override
             public void afterTextChanged(Editable editable) {
                 return;
@@ -124,13 +109,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
-            /**
-             *
-             * @param charSequence the charSequence that will be changed
-             * @param i the starting point
-             * @param i1 the stopping point
-             * @param i2 the number of characters that will replace the old text
-             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -142,10 +120,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
-            /**
-             *
-             * @param editable the edited charSequence
-             */
             @Override
             public void afterTextChanged(Editable editable) {
                 return;
@@ -158,13 +132,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
-            /**
-             *
-             * @param charSequence the charSequence that will be changed
-             * @param i the starting point
-             * @param i1 the stopping point
-             * @param i2 the number of characters that will replace the old text
-             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -177,10 +144,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
-            /**
-             *
-             * @param editable the edited charSequence
-             */
             @Override
             public void afterTextChanged(Editable editable) {
                 return;
@@ -193,13 +156,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
-            /**
-             *
-             * @param charSequence the charSequence that will be changed
-             * @param i the starting point
-             * @param i1 the stopping point
-             * @param i2 the number of characters that will replace the old text
-             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -212,10 +168,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
-            /**
-             *
-             * @param editable the edited charSequence
-             */
             @Override
             public void afterTextChanged(Editable editable) {
                 return;
@@ -228,13 +180,6 @@ public class RatEntryActivity extends AppCompatActivity {
                 return;
             }
 
-            /**
-             *
-             * @param charSequence the charSequence that will be changed
-             * @param i the starting point
-             * @param i1 the stopping point
-             * @param i2 the number of characters that will replace the old text
-             */
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
@@ -247,10 +192,7 @@ public class RatEntryActivity extends AppCompatActivity {
                 }
             }
 
-            /**
-             *
-             * @param editable the edited charSequence
-             */
+
             @Override
             public void afterTextChanged(Editable editable) {
                 return;

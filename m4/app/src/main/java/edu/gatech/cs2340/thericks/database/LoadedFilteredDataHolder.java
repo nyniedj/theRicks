@@ -21,10 +21,10 @@ public class LoadedFilteredDataHolder {
     private static boolean loadedData = false;
 
     /**
-     *
-     * @param adapter
-     * @param progressBar
-     * @param filters
+     * Loads in and filters RatData Objects
+     * @param adapter the ArrayAdapter that returns a view for each RatData Object
+     * @param progressBar indicates the progress of loading in data
+     * @param filters the filters used to select certain RatData Objects
      */
     public static void loadData(ArrayAdapter<RatData> adapter, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         if (!loadedData) {
@@ -57,8 +57,8 @@ public class LoadedFilteredDataHolder {
     }
 
     /**
-     *
-     * @param data
+     * Adds a RatData Object to a filtered list
+     * @param data the RatData Object being added
      */
     public static void add(RatData data) {
         for (int i = 0; i < filteredData.size(); i++) {
@@ -71,8 +71,8 @@ public class LoadedFilteredDataHolder {
     }
 
     /**
-     *
-     * @param c
+     * Adds a Collection of RatData Objects to the class' ArrayList
+     * @param c the Collection of RatData Objects being added
      */
     public static void addAll(Collection<RatData> c) {
         for (RatData r: c) {
@@ -81,17 +81,17 @@ public class LoadedFilteredDataHolder {
     }
 
     /**
-     *
-     * @param index
-     * @return
+     * Getter for a RatData Object at a specific index
+     * @param index the index of the RatData Object wanted
+     * @return the RatData Object at the specified index
      */
     public static RatData get(int index) {
         return filteredData.get(index);
     }
 
     /**
-     *
-     * @return filtered data
+     * Getter for the filtered list of RatData Objects
+     * @return the filtered list
      */
     public static final ArrayList<RatData> getFilteredData() {
         return filteredData;

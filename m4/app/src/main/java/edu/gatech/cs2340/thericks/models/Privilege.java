@@ -10,18 +10,11 @@ public enum Privilege {
 
     private String label;
 
-    /**
-     *
-     * @param label
-     */
     Privilege(String label) {
         this.label = label;
     }
 
-    /**
-     *
-     * @return label
-     */
+    @Override
     public String toString() {
         return label;
     }

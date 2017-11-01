@@ -18,10 +18,6 @@ public class RatTrackerApplication extends Application {
         context = getApplicationContext();
     }
 
-    /**
-     *
-     * @return app context
-     */
     public static Context getAppContext() {
         return context;
     }

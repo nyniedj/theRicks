@@ -38,10 +38,6 @@ class RatDataDAO {
             COLUMN_LOC_TYPE, COLUMN_ZIP, COLUMN_ADDRESS, COLUMN_CITY, COLUMN_BOROUGH,
             COLUMN_LATITUDE, COLUMN_LONGITUDE };
 
-    /**
-     * Create a rat data table in the database
-     * @param sqLiteDatabase
-     */
     static void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "CREATE TABLE IF NOT EXISTS " + TABLE_RAT_DATA + "(" +
                 COLUMN_KEY + " INTEGER PRIMARY KEY, " +
@@ -57,12 +53,6 @@ class RatDataDAO {
         sqLiteDatabase.execSQL(query);
     }
 
-    /**
-     * Currently re-creates table on all upgrades
-     * @param sqLiteDatabase
-     * @param oldVersion
-     * @param newVersion
-     */
     static void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         if (oldVersion < newVersion) {
             // Get rid of the old table
@@ -74,16 +64,16 @@ class RatDataDAO {
 
     /**
      * Insert new rat data into database if key does not exist. If key already exists, replace the existing data.
-     * @param db
-     * @param key
-     * @param createdDateTime
-     * @param locationType
-     * @param incidentZip
-     * @param incidentAddress
-     * @param city
-     * @param borough
-     * @param latitude
-     * @param longitude
+     * @param db the SQLiteDatabase where the RatData Object will be inserted
+     * @param key unique key
+     * @param createdDateTime date and time of creation
+     * @param locationType location
+     * @param incidentZip zip code
+     * @param incidentAddress address
+     * @param city city
+     * @param borough borough
+     * @param latitude latitude
+     * @param longitude longitude
      */
     static void createRatData(SQLiteDatabase db, int key, RatDateTime createdDateTime, String locationType,
                               int incidentZip, String incidentAddress, String city,
@@ -109,8 +99,8 @@ class RatDataDAO {
 
     /**
      * Convert cursor's current position into rat data
-     * @param cursor
-     * @return rat data
+     * @param cursor the Cursor used for traversing
+     * @return RatData Object
      */
     private static RatData cursorToRatData(Cursor cursor) {
         return new RatData(cursor.getInt(cursor.getColumnIndex(COLUMN_KEY)),
@@ -125,8 +115,8 @@ class RatDataDAO {
 
     /**
      * Removes all rat data with the provided key
-     * @param db
-     * @param key
+     * @param db the SQLiteDatabase where the RatData Object will be deleted
+     * @param key the RatData Object's unique key
      */
     static void deleteRatData(SQLiteDatabase db, int key) {
         db.delete(TABLE_RAT_DATA, "key=?", new String[]{"key"});
@@ -136,9 +126,9 @@ class RatDataDAO {
 
     /**
      * Get single piece of rat data by key; returns null if data is not found
-     * @param db
-     * @param key
-     * @return data
+     * @param db the SQLiteDatabase where the RatData Object will be searched for
+     * @param key the RatData Object's unique key
+     * @return data the RatDat Object with the associated unique key
      */
     static RatData findRatDataByKey(SQLiteDatabase db, int key) {
 
@@ -161,8 +151,8 @@ class RatDataDAO {
 
     /**
      * Get all rat data as a list
-     * @param db
-     * @return rat data list
+     * @param db the SQLiteDatabase that houses all the RatData Objects
+     * @return a list of RatData Objects
      */
     static List<RatData> getAllRatData(SQLiteDatabase db) {
         List<RatData> ratDataList = new ArrayList<>(100100);
@@ -185,10 +175,10 @@ class RatDataDAO {
     }
 
     /**
-     * Returns list of rat data that satisfy all of the provided filters.
+     * Returns list of RatData Objects that satisfy all of the provided filters.
      *
      * @param filters List of filters to apply
-     * @return List of data in full list satisfying all filters
+     * @return List of RatData Objects in full list satisfying all filters
      */
     static List<RatData> applyFilters(List<RatData> fullList, List<Predicate<RatData>> filters) {
         Predicate<RatData> allPredicates = filters.stream().reduce(f -> true, Predicate::and);

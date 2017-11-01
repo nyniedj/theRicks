@@ -40,10 +40,6 @@ public class RatDataListActivity extends AppCompatActivity {
     private ListView ratDataList;
     private ProgressBar progressBar;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,15 +84,18 @@ public class RatDataListActivity extends AppCompatActivity {
         database.loadData(adapter, adapter.listData, progressBar, filters);
     }
 
-    // Custom adapter to populate the list view of rat data
+    /**
+     * Custom adapter to populate the list view of rat data
+     */
     private class CustomListAdapter extends ArrayAdapter {
         private ArrayList<RatData> listData;
         private LayoutInflater layoutInflater;
 
         /**
-         *
-         * @param aContext
-         * @param listData
+         * Creates a list view with RatData Objects
+         * @param aContext the Context that sends a populated list view object
+         *                 to the layoutInflater
+         * @param listData the list of RatData Objects
          */
         public CustomListAdapter(Context aContext, ArrayList<RatData> listData) {
             super(aContext, ArrayAdapter.NO_SELECTION);
@@ -104,42 +103,21 @@ public class RatDataListActivity extends AppCompatActivity {
             layoutInflater = LayoutInflater.from(aContext);
         }
 
-        /**
-         *
-         * @return size of data list
-         */
         @Override
         public int getCount() {
             return listData.size();
         }
 
-        /**
-         *
-         * @param position
-         * @return position of item in data list
-         */
         @Override
         public Object getItem(int position) {
             return listData.get(position);
         }
 
-        /**
-         *
-         * @param position
-         * @return position of item ID
-         */
         @Override
         public long getItemId(int position) {
             return position;
         }
 
-        /**
-         *
-         * @param position
-         * @param convertView
-         * @param parent
-         * @return convert view
-         */
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
@@ -159,7 +137,9 @@ public class RatDataListActivity extends AppCompatActivity {
             holder.createdDateView.setText(listData.get(position).getCreatedDateTime().toString());
             return convertView;
         }
-
+        /**
+         * Holds all of the views for each RatData Object
+         */
         private class ViewHolder {
             private TextView cityView;
             private TextView addressView;
@@ -168,7 +148,9 @@ public class RatDataListActivity extends AppCompatActivity {
     }
 
 
-    // Updates list view to display any changes to the database from entering/editing reports
+    /**
+     * Updates list view to display any changes to the database from entering/editing reports
+     */
     public static void updateUI() {
         if (adapter != null && filters != null) {
             Log.d(TAG, "Updating list view to show changes to database");

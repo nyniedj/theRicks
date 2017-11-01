@@ -25,13 +25,6 @@ public class Login implements Serializable {
     private String salt;
 
 
-    /**
-     * Constructor for new login information with pre-encrypted password
-     *
-     * @param username user's username
-     * @param password user's un-hashed password
-     * @param salt the salt used for password encryption
-     */
     Login(String username, String password, String salt) {
         this.username = username;
         this.salt = salt;
@@ -39,37 +32,19 @@ public class Login implements Serializable {
     }
 
 
-    /**
-     *
-     * @return Username for login
-     */
     public String getUsername() {
         return username;
     }
 
-
-    /**
-     *
-     * @return secure password
-     */
     public String getSecurePassword() {
         return securePassword;
     }
 
-
-    /**
-     *
-     * @return salt used to encrypt login password
-     */
     public String getSalt() {
         return salt;
     }
 
-
-    /**
-     *
-     * @return Login information as a string
-     */
+    @Override
     public String toString() {
         return String.format("Username: %s\nEncrypted Password: %s\n", username, getSecurePassword());
     }

@@ -24,13 +24,7 @@ public class User implements Parcelable {
     /** User's login status **/
     private boolean loggedIn;
 
-
-    /**
-     * Constructor for new user
-     * @param username user's username
-     * @param password user's encrypted password
-     * @param privilege user's privilege status
-     */
+    // Constructor for a new User Object
     public User(String username, String password, String salt, Privilege privilege) {
         // Generate secure login information
         loginInfo = new Login(username, password, salt);
@@ -43,10 +37,6 @@ public class User implements Parcelable {
         this(username, password, Security.generateSalt(), privilege);
     }
 
-    /**
-     *
-     * @return input username or empty string
-     */
     public String getUsername() {
         if (loginInfo != null) {
             return loginInfo.getUsername();
@@ -54,7 +44,6 @@ public class User implements Parcelable {
             return "";
         }
     }
-
 
     public void login() {
         loggedIn = true;
@@ -64,18 +53,10 @@ public class User implements Parcelable {
         loggedIn = false;
     }
 
-    /**
-     *
-     * @return true/false if user is logged in
-     */
     public boolean isLoggedIn() {
         return loggedIn;
     }
 
-    /**
-     *
-     * @return user's login information
-     */
     public Login getLogin() {
         return loginInfo;
     }
@@ -86,30 +67,17 @@ public class User implements Parcelable {
      * METHODS FOR IMPLEMENTING PARCELABLE
      * *****************************************************/
 
-    /**
-     *
-     * @param in parcel to create user from
-     */
     private User(Parcel in) {
         loginInfo = (Login) in.readSerializable();
         loggedIn = in.readByte() != 0;
         privilege = (Privilege) in.readSerializable();
     }
 
-    /**
-     *
-     * @return zero
-     */
     @Override
     public int describeContents() {
         return 0;
     }
-
-    /**
-     *
-     * @param dest Parcel to write user info to
-     * @param flags Flags
-     */
+    
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(loginInfo);

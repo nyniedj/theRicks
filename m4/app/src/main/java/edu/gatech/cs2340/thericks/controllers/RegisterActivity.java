@@ -42,10 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private UserDatabase db;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

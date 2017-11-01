@@ -18,6 +18,7 @@ class UserDatabaseHandler extends SQLiteOpenHelper {
     private static UserDatabaseHandler instance = new UserDatabaseHandler(RatTrackerApplication.getAppContext());
 
     /**
+     * Creates and/or opens a database that will be used for reading and writing
      * @return writable database
      */
     static synchronized SQLiteDatabase provideWritableDatabase() {
