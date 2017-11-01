@@ -1,6 +1,5 @@
 package edu.gatech.cs2340.thericks.controllers;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -8,15 +7,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
-import android.content.Intent;
+
+import java.util.Date;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.models.RatDateTime;
+import edu.gatech.cs2340.thericks.utils.DateFilterer;
 
 /**
  * Created by Cameron on 10/6/2017.
@@ -112,7 +111,7 @@ public class RatEntryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (RatDateTime.isDateTime(text)) {
+                if (DateFilterer.parse(text) != null) {
                     date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
                 } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
@@ -206,7 +205,6 @@ public class RatEntryActivity extends AppCompatActivity {
 
         saveButton.setOnClickListener((View v) -> {
             int iKey = 0;
-            RatDateTime oDateTime = null;
             int iZip = 0;
             double dLatitude = 0;
             double dLongitude = 0;
@@ -218,10 +216,9 @@ public class RatEntryActivity extends AppCompatActivity {
                 Log.d(TAG, "Improperly formatted input detected in the key");
                 return;
             }
-            if (RatDateTime.isDateTime(date.getText().toString())) {
-                oDateTime = RatDateTime.forDateTime(date.getText().toString());
-            } else {
+            if (DateFilterer.parse(date.getText().toString()) == null) {
                 Log.d(TAG, "Improperly formatted input detected in the date time");
+                return;
             }
             try {
                 iZip = Integer.parseInt(zip.getText().toString());
@@ -247,7 +244,7 @@ public class RatEntryActivity extends AppCompatActivity {
             RatDatabase database = new RatDatabase(v.getContext());
 
             database.createRatData(iKey,
-                    RatDateTime.forDateTime(date.getText().toString()),
+                    date.getText().toString(),
                     locationType.getText().toString(),
                     iZip,
                     address.getText().toString(),

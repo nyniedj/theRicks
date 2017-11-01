@@ -18,7 +18,6 @@ import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.models.RatDateTime;
 
 /**
  * Async task that loads in rat data from the csv file and inserts it into a SQLite database.
@@ -72,7 +71,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
                 } catch (NumberFormatException e) {
                     key = 0;
                 }
-                RatDateTime createdDateTime = RatDateTime.forDateTime(tokens[CREATED_TIME_NUMBER]);
+                String createdDateTime = tokens[CREATED_TIME_NUMBER];
                 String locationType = tokens[LOCATION_TYPE_NUMBER];
                 try {
                     incidentZip = Integer.parseInt(tokens[INCIDENT_ZIP_NUMBER]);
@@ -134,7 +133,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
      * Returns true if data is ready to start loading into the database for the first time
      * @return true/false is data is ready
      */
-    public static boolean isReady() {
+    static boolean isReady() {
         return !isLoadingData && !doneLoading;
     }
 
@@ -145,7 +144,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
      * @param progressBar indicates the progress of loading in data
      * @param filters the filters used to select certain RatData Objects
      */
-    public void attachViews(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
+    void attachViews(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
         adapter = a;
         this.data = data;
         this.progressBar = progressBar;
