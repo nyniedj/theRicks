@@ -25,14 +25,16 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.models.RatDateTime;
 import edu.gatech.cs2340.thericks.models.User;
+import edu.gatech.cs2340.thericks.utils.DateFilterer;
 
 /**
  * Created by Cameron on 10/6/2017.
@@ -66,8 +68,7 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     private EditText date2Edit;
 
     private ArrayList<Predicate<RatData>> filters;
-    private Predicate<RatData> dateGreaterThan;
-    private Predicate<RatData> dateLessThan;
+    private Predicate<RatData> dateInRange;
 
     private TextView dateSeparator;
 
@@ -99,11 +100,10 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
         filters = new ArrayList<>();
         //default date to filter out rat data that occurs after the specified date
-        dateGreaterThan = ratData -> ratData.getCreatedDateTime().compareTo(RatDateTime.forDateTime("08/01/2017 12:00:00 AM")) >= 0;
-        //default date to filter out rat data that occurs before the specified date
-        dateLessThan = ratData -> ratData.getCreatedDateTime().compareTo(RatDateTime.forDateTime("08/11/2017 12:00:00 AM")) <= 0;
-        filters.add(dateGreaterThan);
-        filters.add(dateLessThan);
+        Date begin = DateFilterer.parse("08/01/2017 12:00:00 AM");
+        Date end = DateFilterer.parse("08/11/2017 12:00:00 AM");
+        dateInRange = DateFilterer.createDateRangeFilter(begin, end);
+        filters.add(dateInRange);
 
         date1Edit = (EditText) findViewById(R.id.date1_dash_map);
         date1Edit.setVisibility(View.GONE);
@@ -117,12 +117,9 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (RatDateTime.isDateTime(text)) {
+                if (DateFilterer.parse(text) != null) {
                     date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
-                    filters.remove(dateGreaterThan);
-                    dateGreaterThan = ratData -> ratData.getCreatedDateTime().compareTo(RatDateTime.forDateTime(text)) >= 0;
-                    filters.add(dateGreaterThan);
                 } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
                     date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
@@ -147,12 +144,9 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (RatDateTime.isDateTime(text)) {
+                if (DateFilterer.parse(text) != null) {
                     date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
-                    filters.remove(dateLessThan);
-                    dateLessThan = ratData -> ratData.getCreatedDateTime().compareTo(RatDateTime.forDateTime(text)) <= 0;
-                    filters.add(dateLessThan);
                 } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
                     date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
@@ -255,6 +249,11 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         });
 
         applyFiltersButton.setOnClickListener(v -> {
+            Date beginRange = DateFilterer.parse(date1Edit.getText().toString());
+            Date endRange = DateFilterer.parse(date2Edit.getText().toString());
+            filters.remove(dateInRange);
+            dateInRange = DateFilterer.createDateRangeFilter(beginRange, endRange);
+            filters.add(dateInRange);
             loadFilteredMapMarkers();
         });
     }
@@ -292,32 +291,19 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         returnToDashButton.setEnabled(false);
         applyFiltersButton.setEnabled(false);
 
-        ArrayList<RatData> ratDataArrayList = new ArrayList<RatData>();
-
-        ArrayAdapter<RatData> tempAdapter = new ArrayAdapter<RatData>(RatTrackerApplication.getAppContext(),
-                ArrayAdapter.NO_SELECTION) {
-
-            @Override
-            public void notifyDataSetChanged() {
-                super.notifyDataSetChanged();
-                map.clear();
-                for (RatData r: ratDataArrayList) {
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(new LatLng(r.getLatitude(), r.getLongitude()));
-                    markerOptions.title(r.getKey() + "");
-                    markerOptions.snippet(r.getIncidentAddress() + ";" + r.getCreatedDateTime().toString());
-                    map.addMarker(markerOptions);
-                }
-                returnToDashButton.setEnabled(true);
-                applyFiltersButton.setEnabled(true);
-                date1Edit.setEnabled(true);
-                date2Edit.setEnabled(true);
-            }
-
-        };
-
-        RatDatabase database = new RatDatabase(RatTrackerApplication.getAppContext());
-        database.loadData(tempAdapter, ratDataArrayList, progressBar, filters);
+        List<RatData> filteredList = new RatDatabase(this).getFilteredRatData(filters);
+        map.clear();
+        for (RatData r: filteredList) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(r.getLatitude(), r.getLongitude()));
+            markerOptions.title(r.getKey() + "");
+            markerOptions.snippet(r.getIncidentAddress() + ";" + r.getCreatedDateTime());
+            map.addMarker(markerOptions);
+        }
+        returnToDashButton.setEnabled(true);
+        applyFiltersButton.setEnabled(true);
+        date1Edit.setEnabled(true);
+        date2Edit.setEnabled(true);
     }
 
     class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {

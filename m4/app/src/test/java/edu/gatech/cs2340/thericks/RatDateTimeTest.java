@@ -2,11 +2,6 @@ package edu.gatech.cs2340.thericks;
 
 import org.junit.Test;
 
-import edu.gatech.cs2340.thericks.models.Period;
-import edu.gatech.cs2340.thericks.models.RatDate;
-import edu.gatech.cs2340.thericks.models.RatDateTime;
-import edu.gatech.cs2340.thericks.models.RatTime;
-
 import static org.junit.Assert.*;
 
 /**

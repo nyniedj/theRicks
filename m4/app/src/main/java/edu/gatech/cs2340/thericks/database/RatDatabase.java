@@ -12,7 +12,6 @@ import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;
-import edu.gatech.cs2340.thericks.models.RatDateTime;
 
 /**
  * Class representing a database of rat data.  This class is used as an interface between the database and the activities.
@@ -29,7 +28,7 @@ public class RatDatabase implements RatDataSource {
         open();
     }
 
-    public void open() {
+    private void open() {
         db = RatDatabaseHandler.provideWritableDatabase();
     }
 
@@ -60,7 +59,7 @@ public class RatDatabase implements RatDataSource {
     }
 
     @Override
-    public void createRatData(int key, RatDateTime createdDateTime, String locationType, int incidentZip,
+    public void createRatData(int key, String createdDateTime, String locationType, int incidentZip,
                               String incidentAddress, String city, String borough, double latitude,
                               double longitude) {
         RatDataDAO.createRatData(db, key, createdDateTime, locationType, incidentZip, incidentAddress,

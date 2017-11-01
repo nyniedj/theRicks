@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public interface RatDataSource {
-    void createRatData(int key, RatDateTime createdDateTime, String locationType,
+    void createRatData(int key, String createdDateTime, String locationType,
                        int incidentZip, String incidentAddress, String city,
                        String borough, double latitude, double longitude);
     void deleteRatData(RatData data);

@@ -9,8 +9,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.models.RatDate;
-import edu.gatech.cs2340.thericks.models.RatDateTime;
 
 /**
  * Class handling direct access with the SQLite database.  Provides the low-level implementation of
@@ -82,14 +80,14 @@ class RatDataDAO {
      * @param latitude latitude
      * @param longitude longitude
      */
-    static void createRatData(SQLiteDatabase db, int key, RatDateTime createdDateTime, String locationType,
+    static void createRatData(SQLiteDatabase db, int key, String createdDateTime, String locationType,
                               int incidentZip, String incidentAddress, String city,
                               String borough, double latitude, double longitude) {
 
         // Create values to fill the new row of the table
         ContentValues values = new ContentValues();
         values.put(COLUMN_KEY, key);
-        values.put(COLUMN_DATE_TIME, createdDateTime.toString());
+        values.put(COLUMN_DATE_TIME, createdDateTime);
         values.put(COLUMN_LOC_TYPE, locationType);
         values.put(COLUMN_ZIP, incidentZip);
         values.put(COLUMN_ADDRESS, incidentAddress);
@@ -111,7 +109,7 @@ class RatDataDAO {
      */
     private static RatData cursorToRatData(Cursor cursor) {
         return new RatData(cursor.getInt(cursor.getColumnIndex(COLUMN_KEY)),
-                RatDateTime.forDateTime(cursor.getString(cursor.getColumnIndex(COLUMN_DATE_TIME))),
+                cursor.getString(cursor.getColumnIndex(COLUMN_DATE_TIME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_LOC_TYPE)), cursor.getInt(cursor.getColumnIndex(COLUMN_ZIP)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)), cursor.getString(cursor.getColumnIndex(COLUMN_CITY)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_BOROUGH)), cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE)),
