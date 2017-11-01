@@ -2,6 +2,7 @@ package edu.gatech.cs2340.thericks.models;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Cameron on 10/31/2017.
  */
-public class RatDate implements Comparable<RatDate>{
+public class RatDate implements Comparable<RatDate>, Serializable{
 
     private int year;
     private int month;

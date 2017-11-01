@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class RatData implements Parcelable{
 
     private int key;
-    private String createdDateTime;
+    private RatDateTime createdDateTime;
     private String locationType;
     private int incidentZip;
     private String incidentAddress;
@@ -31,7 +31,7 @@ public class RatData implements Parcelable{
      * @param latitude the latitude
      * @param longitude the longtitude
      */
-    public RatData(int key, String createdDateTime, String locationType,
+    public RatData(int key, RatDateTime createdDateTime, String locationType,
                    int incidentZip, String incidentAddress, String city,
                    String borough, double latitude, double longitude) {
         this.key = key;
@@ -57,7 +57,7 @@ public class RatData implements Parcelable{
      *
      * @return date/time created
      */
-    public String getCreatedDateTime() {
+    public RatDateTime getCreatedDateTime() {
         return createdDateTime;
     }
 
@@ -127,7 +127,7 @@ public class RatData implements Parcelable{
      */
     private RatData(Parcel in) {
         key = in.readInt();
-        createdDateTime = in.readString();
+        createdDateTime = (RatDateTime) in.readSerializable();
         locationType = in.readString();
         incidentZip = in.readInt();
         incidentAddress = in.readString();
@@ -154,7 +154,7 @@ public class RatData implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(key);
-        parcel.writeString(createdDateTime);
+        parcel.writeSerializable(createdDateTime);
         parcel.writeString(locationType);
         parcel.writeInt(incidentZip);
         parcel.writeString(incidentAddress);

@@ -2,10 +2,12 @@ package edu.gatech.cs2340.thericks.models;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * Created by Cameron on 10/31/2017.
  */
-public class RatDateTime implements Comparable<RatDateTime>{
+public class RatDateTime implements Comparable<RatDateTime>, Serializable{
 
     private RatDate date;
     private RatTime time;

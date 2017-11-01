@@ -16,6 +16,7 @@ import android.content.Intent;
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatDateTime;
 
 /**
  * Created by Cameron on 10/6/2017.
@@ -69,7 +70,7 @@ public class RatEntryActivity extends AppCompatActivity {
             index = b.getInt("INDEX");
 
             key.setText(ratData.getKey() + "");
-            date.setText(ratData.getCreatedDateTime());
+            date.setText(ratData.getCreatedDateTime().toString());
             locationType.setText(ratData.getLocationType());
             address.setText(ratData.getIncidentAddress());
             zip.setText(ratData.getIncidentZip() + "");
@@ -104,6 +105,40 @@ public class RatEntryActivity extends AppCompatActivity {
                 } catch (NumberFormatException e) {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
                     key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                }
+            }
+
+            /**
+             *
+             * @param editable
+             */
+            @Override
+            public void afterTextChanged(Editable editable) {
+                return;
+            }
+        });
+
+        date.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                return;
+            }
+
+            /**
+             *
+             * @param charSequence
+             * @param i
+             * @param i1
+             * @param i2
+             */
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = charSequence.toString();
+                if (RatDateTime.isDateTime(text)) {
+                    date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                } else {
+                    Log.d(TAG, "Improperly formatted input detected: " + text);
+                    date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
                 }
             }
 
@@ -229,6 +264,7 @@ public class RatEntryActivity extends AppCompatActivity {
 
         saveButton.setOnClickListener((View v) -> {
             int iKey = 0;
+            RatDateTime oDateTime = null;
             int iZip = 0;
             double dLatitude = 0;
             double dLongitude = 0;
@@ -239,6 +275,11 @@ public class RatEntryActivity extends AppCompatActivity {
             } catch (NumberFormatException e) {
                 Log.d(TAG, "Improperly formatted input detected in the key");
                 return;
+            }
+            if (RatDateTime.isDateTime(date.getText().toString())) {
+                oDateTime = RatDateTime.forDateTime(date.getText().toString());
+            } else {
+                Log.d(TAG, "Improperly formatted input detected in the date time");
             }
             try {
                 iZip = Integer.parseInt(zip.getText().toString());
@@ -264,7 +305,7 @@ public class RatEntryActivity extends AppCompatActivity {
             RatDatabase database = new RatDatabase(v.getContext());
 
             database.createRatData(iKey,
-                    date.getText().toString(),
+                    RatDateTime.forDateTime(date.getText().toString()),
                     locationType.getText().toString(),
                     iZip,
                     address.getText().toString(),

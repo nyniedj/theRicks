@@ -18,6 +18,7 @@ import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatDateTime;
 
 /**
  * Async task that loads in rat data from the csv file and inserts it into a SQLite database.
@@ -76,7 +77,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
                 } catch (NumberFormatException e) {
                     key = 0;
                 }
-                String createdDateTime = tokens[CREATED_TIME_NUMBER];
+                RatDateTime createdDateTime = RatDateTime.forDateTime(tokens[CREATED_TIME_NUMBER]);
                 String locationType = tokens[LOCATION_TYPE_NUMBER];
                 try {
                     incidentZip = Integer.parseInt(tokens[INCIDENT_ZIP_NUMBER]);
