@@ -276,7 +276,7 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         map = googleMap;
         map.getUiSettings().setAllGesturesEnabled(onMap);
         map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
-        //map.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+        map.setInfoWindowAdapter(new CustomInfoWindowAdapter());
     }
 
     /**
