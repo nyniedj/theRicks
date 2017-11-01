@@ -15,10 +15,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -30,11 +28,9 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
-import edu.gatech.cs2340.thericks.database.LoadedFilteredDataHolder;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.models.RatDate;
 import edu.gatech.cs2340.thericks.models.RatDateTime;
 import edu.gatech.cs2340.thericks.models.User;
 
@@ -308,6 +304,8 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
                 for (RatData r: ratDataArrayList) {
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(new LatLng(r.getLatitude(), r.getLongitude()));
+                    markerOptions.title(r.getKey() + "");
+                    markerOptions.snippet(r.getIncidentAddress() + ";" + r.getCreatedDateTime().toString());
                     map.addMarker(markerOptions);
                 }
                 returnToDashButton.setEnabled(true);
@@ -322,29 +320,32 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         database.loadData(tempAdapter, ratDataArrayList, progressBar, filters);
     }
 
-//    class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-//
-//        private final View myContentsView;
-//
-//        CustomInfoWindowAdapter(){
-//            myContentsView = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
-//        }
-//
-//        @Override
-//        public View getInfoContents(Marker marker) {
-//
-//            TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.title));
-//            tvTitle.setText(marker.getTitle());
-//            TextView tvSnippet = ((TextView)myContentsView.findViewById(R.id.snippet));
-//            tvSnippet.setText(marker.getSnippet());
-//
-//            return myContentsView;
-//        }
-//
-//        @Override
-//        public View getInfoWindow(Marker marker) {
-//            return null;
-//        }
-//
-//    }
+    class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        private final View myContentsView;
+
+        CustomInfoWindowAdapter(){
+            myContentsView = getLayoutInflater().inflate(R.layout.rat_marker_view, null);
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+            TextView titleText = (TextView) myContentsView.findViewById(R.id.rat_marker_view_title_text);
+            titleText.setText(marker.getTitle());
+            TextView snippetText1 = (TextView) myContentsView.findViewById(R.id.rat_marker_view_snippet1_text);
+            TextView snippetText2 = (TextView) myContentsView.findViewById(R.id.rat_marker_view_snippet2_text);
+            String[] splitSnippet = marker.getSnippet().split(";");
+            snippetText1.setText(splitSnippet[0]);
+            snippetText2.setText(splitSnippet[1]);
+
+            return myContentsView;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+        }
+
+    }
 }
