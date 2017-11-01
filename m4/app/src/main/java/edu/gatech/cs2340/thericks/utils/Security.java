@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import javax.crypto.SecretKeyFactory;
@@ -43,11 +42,11 @@ public class Security {
      * Generates a secure, random salt for encryption.
      * @return salt
      */
-    public static byte[] generateSalt() {
+    public static String generateSalt() {
         SecureRandom sr = new SecureRandom();
         byte[] saltBytes = new byte[SALT_LENGTH];
         sr.nextBytes(saltBytes);
-        return saltBytes;
+        return bytesToString(saltBytes);
     }
 
 
@@ -58,8 +57,8 @@ public class Security {
      * @param salt randomly generated salt
      * @return encrypted key as byte[]
      */
-    public static byte[] createEncryptedPassword(String password, byte[] salt) {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, ITERATIONS, KEY_LENGTH * 8);
+    public static String createEncryptedPassword(String password, String salt) {
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), ITERATIONS, KEY_LENGTH * 8);
         SecretKeyFactory f = null;
         try {
             f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -71,7 +70,8 @@ public class Security {
             return null;
         }
         try {
-            return f.generateSecret(spec).getEncoded();
+            byte[] pw = f.generateSecret(spec).getEncoded();
+            return bytesToString(pw);
         } catch (InvalidKeySpecException e) {
             Log.e("Login", "Invalid specifications for secure key.");
             e.printStackTrace();
@@ -125,25 +125,26 @@ public class Security {
         if (!validatePassword(pw)) {
             return false;
         }
-        byte[] attempt = createEncryptedPassword(pw, login.getSalt());
+        String attempt = createEncryptedPassword(pw, login.getSalt());
 
-        Log.d("Login", "Attempted password encrypted to: " + getPasswordString(attempt));
-        Log.d("Login", "Actual encrypted password: " + getPasswordString(login.getSecurePassword()));
+        Log.d("Login", "Attempted password encrypted to: " + attempt);
+        Log.d("Login", "Actual encrypted password: " + login.getSecurePassword());
 
-        return Arrays.equals(attempt, login.getSecurePassword());
+        return attempt != null && attempt.equals(login.getSecurePassword());
     }
 
     /**
-     * NOTE: Only needed for testing purposes.  Responsibility of printing password is with Login.
+     * Converts array of bytes into a hexadecimal string.
      *
+     * @param arr array of bytes
      * @return Secure password as a readable hexadecimal string
      */
-    public static String getPasswordString(byte[] pw) {
-        if (pw == null) {
+    private static String bytesToString(byte[] arr) {
+        if (arr == null) {
             return "INVALID";
         }
         final StringBuilder builder = new StringBuilder();
-        for (byte b : pw) {
+        for (byte b : arr) {
             builder.append(String.format("%02x", b));
         }
         return builder.toString();

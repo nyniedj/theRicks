@@ -30,7 +30,7 @@ public class RatDatabase implements RatDataSource {
     }
 
     public void open() {
-        db = DatabaseHandler.provideWritableDatabase();
+        db = RatDatabaseHandler.provideWritableDatabase();
     }
 
     /**

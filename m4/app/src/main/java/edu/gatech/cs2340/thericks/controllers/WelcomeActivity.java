@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import edu.gatech.cs2340.thericks.R;
-import edu.gatech.cs2340.thericks.models.UserTable;
 
 /**
  * Created by Ben Lashley on 9/20/2017.
@@ -28,8 +27,6 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-        UserTable.getInstance().loadDummyData();
 
         login =    (Button) findViewById(R.id.login_button);
         register = (Button) findViewById(R.id.register_button);
