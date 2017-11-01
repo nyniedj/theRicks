@@ -75,10 +75,10 @@ public class RatDataListActivity extends AppCompatActivity {
         });
 
         /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
-        Predicate<RatData> inNewYork = ratData -> ratData.getCity().equalsIgnoreCase("NEW YORK");
+        Predicate<RatData> inJamaica = ratData -> ratData.getCity().equalsIgnoreCase("Jamaica");
         Predicate<RatData> commercialLocation = ratData -> ratData.getLocationType().equalsIgnoreCase("Commercial Building");
         if (filters.isEmpty()) {
-            filters.add(inNewYork);
+            filters.add(inJamaica);
             filters.add(commercialLocation);
         }
         /* End of predicates */
