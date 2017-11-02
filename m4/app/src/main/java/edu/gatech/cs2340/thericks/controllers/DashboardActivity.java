@@ -66,6 +66,9 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
     private EditText date1Edit;
     private EditText date2Edit;
+    // Begin and end of default date range for map markers.
+    private static final String DEFAULT_START_DATE = "08/01/2017 12:00:00 AM";
+    private static final String DEFAULT_END_DATE = "08/11/2017 12:00:00 AM";
 
     private ArrayList<Predicate<RatData>> filters;
     private Predicate<RatData> dateInRange;
@@ -100,14 +103,14 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
         filters = new ArrayList<>();
         //default date to filter out rat data that occurs after the specified date
-        Date begin = DateFilterer.parse("08/01/2017 12:00:00 AM");
-        Date end = DateFilterer.parse("08/11/2017 12:00:00 AM");
+        Date begin = DateFilterer.parse(DEFAULT_START_DATE);
+        Date end = DateFilterer.parse(DEFAULT_END_DATE);
         dateInRange = DateFilterer.createDateRangeFilter(begin, end);
         filters.add(dateInRange);
 
         date1Edit = (EditText) findViewById(R.id.date1_dash_map);
         date1Edit.setVisibility(View.GONE);
-        date1Edit.setText("08/01/2017 12:00:00 AM");
+        date1Edit.setText(DEFAULT_START_DATE);
         date1Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -134,7 +137,7 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         });
         date2Edit = (EditText) findViewById(R.id.date2_dash_map);
         date2Edit.setVisibility(View.GONE);
-        date2Edit.setText("08/11/2017 12:00:00 AM");
+        date2Edit.setText(DEFAULT_END_DATE);
         date2Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
