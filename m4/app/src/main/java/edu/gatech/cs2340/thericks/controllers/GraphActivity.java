@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
@@ -75,6 +76,7 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     private void displayGraph() {
+        Log.d(TAG, "Displaying graph");
         XYSeries series = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Test", 100, 200, loadedData.size());
         xyPlot.addSeries(series, barFormatter);
     }
