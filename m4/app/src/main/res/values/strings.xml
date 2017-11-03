@@ -19,6 +19,7 @@
     <string name="invalid_password_message">Must be at least 8 lower/uppercase characters, and numbers</string>
     <string name="map_message">Map</string>
     <string name="rat_list_data_message">Rat Data</string>
+    <string name="graph_message">Graph</string>
     <string name="profile_message">Profile</string>
     <string name="settings_message">Settings</string>
     <string name="report_message">Report a Rat</string>
