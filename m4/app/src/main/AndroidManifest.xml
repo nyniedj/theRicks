@@ -25,6 +25,7 @@
         <activity android:name=".controllers.RatDataListActivity"></activity>
         <activity android:name=".controllers.RatEntryActivity"></activity>
         <activity android:name=".controllers.DashMapActivity"></activity>
+        <activity android:name=".controllers.GraphActivity"></activity>
     </application>
 
 </manifest>
