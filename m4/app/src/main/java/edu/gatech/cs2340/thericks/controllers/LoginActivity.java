@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (Security.checkPassword(enteredPassword, u.getLogin())) {
                         Log.d(TAG, "Successfully logged into user account: " + u.getUsername());
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, DashboardActivity.class);
+                        Intent intent = new Intent(context, DashMapActivity.class);
                         intent.putExtra("edu.gatech.cs2340.thericks.User", u);
                         context.startActivity(intent);
                     } else {

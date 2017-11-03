@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -31,7 +30,6 @@ import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
-import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.User;
 import edu.gatech.cs2340.thericks.utils.DateFilterer;
@@ -42,9 +40,9 @@ import edu.gatech.cs2340.thericks.utils.DateFilterer;
  * to engage in. Defaults to dash mode, upon selecting map, dash-map switches to map mode,
  * where users can view rat data displayed on a Google Map, filtered by date
  */
-public class DashboardActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DashMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private static final String TAG = DashboardActivity.class.getSimpleName();
+    private static final String TAG = DashMapActivity.class.getSimpleName();
     static final int ADD_RAT_DATA_REQUEST = 2;
 
     //default position, zoom, and bearing to set the map camera to
@@ -77,7 +75,7 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_dash_map);
 
         Log.d(TAG, "Entered dashboard activity");
 

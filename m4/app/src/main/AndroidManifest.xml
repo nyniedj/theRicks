@@ -24,8 +24,7 @@
         <activity android:name=".controllers.RegisterActivity"></activity>
         <activity android:name=".controllers.RatDataListActivity"></activity>
         <activity android:name=".controllers.RatEntryActivity"></activity>
-        <activity android:name=".controllers.DashboardActivity"></activity>
-        <activity android:name=".controllers.MapActivity"></activity>
+        <activity android:name=".controllers.DashMapActivity"></activity>
     </application>
 
 </manifest>
