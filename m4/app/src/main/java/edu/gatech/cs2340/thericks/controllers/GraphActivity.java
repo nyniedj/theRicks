@@ -5,14 +5,22 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
+import com.androidplot.util.PixelUtils;
 import com.androidplot.xy.BarFormatter;
+import com.androidplot.xy.BarRenderer;
+import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.function.Predicate;
@@ -32,6 +40,7 @@ public class GraphActivity extends AppCompatActivity {
 
     private static final String TAG = GraphActivity.class.getSimpleName();
 
+    //default dates to filter out rat data that occurs between the dates
     private static final Date begin = DateFilterer.parse("08/01/2017 12:00:00 AM");
     private static final Date end = DateFilterer.parse("08/11/2017 12:00:00 AM");
 
@@ -50,13 +59,20 @@ public class GraphActivity extends AppCompatActivity {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_graphs);
 
+        Log.d(TAG, "Entered Graph Activity");
+
         progressBar = (ProgressBar) findViewById(R.id.graph_progress_bar);
         xyPlot = (XYPlot) findViewById(R.id.graph_xy_plot);
+        xyPlot.setVisibility(View.GONE);
+        xyPlot.setLinesPerRangeLabel(3);
+        xyPlot.setRangeLowerBoundary(0, BoundaryMode.FIXED);
+        xyPlot.setLinesPerDomainLabel(2);
 
         barFormatter = new BarFormatter(Color.RED, Color.RED);
+        barFormatter.setMarginRight(PixelUtils.dpToPix(5));
+        barFormatter.setMarginLeft(PixelUtils.dpToPix(5));
 
         filters = new ArrayList<>();
-        //default date to filter out rat data that occurs after the specified date
 
         dateInRange = DateFilterer.createDateRangeFilter(begin, end);
         filters.add(dateInRange);
@@ -67,6 +83,7 @@ public class GraphActivity extends AppCompatActivity {
             @Override
             public void notifyDataSetChanged() {
                 super.notifyDataSetChanged();
+                Log.d(TAG, "Notified that the data finished loading");
                 displayGraph();
             }
         };
@@ -77,7 +94,30 @@ public class GraphActivity extends AppCompatActivity {
 
     private void displayGraph() {
         Log.d(TAG, "Displaying graph");
-        XYSeries series = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Test", 100, 200, loadedData.size());
+        final Number[] domainLabels = {1, 2, 3, 4, 5, 6, 7};
+        XYSeries series = new SimpleXYSeries(SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Test", 1, 2, 3, 4, 5, 6, 7);
+
         xyPlot.addSeries(series, barFormatter);
+
+        BarRenderer renderer = xyPlot.getRenderer(BarRenderer.class);
+        renderer.setBarGroupWidth(BarRenderer.BarGroupWidthMode.FIXED_GAP, 5);
+        xyPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {
+
+            @Override
+            public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+                int i = Math.round(((Number) obj).floatValue());
+                return toAppendTo.append(domainLabels[i]);
+            }
+
+            @Override
+            public Object parseObject(String source, ParsePosition pos) {
+                return null;
+            }
+
+        });
+
+        xyPlot.redraw();
+
+        xyPlot.setVisibility(View.VISIBLE);
     }
 }

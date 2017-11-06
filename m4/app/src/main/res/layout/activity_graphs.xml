@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ap="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -15,9 +14,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        ap:title="Test Plot"
-        ap:rangeTitle="range"
-        ap:domainTitle="domain"/>
+        app:title="Test Plot"
+        app:rangeTitle="range"
+        app:domainTitle="domain"
+        app:gridInsetLeft="35dp"
+        app:gridInsetRight="10dp"
+        app:gridInsetTop="10dp"
+        app:gridInsetBottom="10dp"
+        app:gridClippingEnabled="false"
+        />
 
     <ProgressBar
         android:id="@+id/graph_progress_bar"
