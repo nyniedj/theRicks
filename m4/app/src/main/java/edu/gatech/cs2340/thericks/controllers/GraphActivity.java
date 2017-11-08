@@ -46,6 +46,7 @@ import java.util.function.Predicate;
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
+import edu.gatech.cs2340.thericks.models.Months;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.utils.DateFilterer;
 
@@ -199,7 +200,7 @@ public class GraphActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         applyFiltersButton.setEnabled(false);
 
-        int monthDif = (end.getMonth() * end.getYear()) - (begin.getMonth() * begin.getYear());
+        int monthDif = ((end.getMonth() + 1) + (end.getYear() * 12)) - ((begin.getMonth() + 1) + (begin.getYear() * 12));
         Date[] domainDates = new Date[monthDif];
         for (int i = 0; i < domainDates.length; i++) {
             int month = begin.getMonth() + i;
@@ -224,6 +225,7 @@ public class GraphActivity extends AppCompatActivity {
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new MyXAxisValueFormatter(domainDates));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         chart.invalidate();
 
@@ -245,7 +247,12 @@ public class GraphActivity extends AppCompatActivity {
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             // "value" represents the position of the label on the axis (x or y)
-            return mValues[(int) value].toString();
+            int intValue = (int) value;
+            if (intValue < mValues.length && intValue >= 0) {
+                return Months.values()[mValues[intValue].getMonth()].toString();
+            } else {
+                return intValue + "";
+            }
         }
     }
 }
