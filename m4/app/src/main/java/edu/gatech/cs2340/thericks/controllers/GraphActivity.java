@@ -26,11 +26,14 @@ import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import org.w3c.dom.Text;
@@ -64,6 +67,7 @@ public class GraphActivity extends AppCompatActivity {
     private Date end = DateFilterer.parse("09/01/2017 12:00:00 AM");
 
     private LineChart chart;
+    //private BarChart barChart;
 
     private ProgressBar progressBar;
 
@@ -88,6 +92,9 @@ public class GraphActivity extends AppCompatActivity {
 
         chart = (LineChart) findViewById(R.id.chart);
         chart.setVisibility(View.GONE);
+
+//        barChart = (BarChart) findViewById(R.id.bar_chart);
+//        barChart.setVisibility(View.INVISIBLE);
 
         applyFiltersButton = (Button) findViewById(R.id.apply_filters_button_graph);
         applyFiltersButton.setVisibility(View.GONE);
