@@ -6,23 +6,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.androidplot.xy.XYPlot
-        android:id="@+id/graph_xy_plot"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintRight_toRightOf="parent"
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:title="Test Plot"
-        app:rangeTitle="range"
-        app:domainTitle="domain"
-        app:gridInsetLeft="35dp"
-        app:gridInsetRight="10dp"
-        app:gridInsetTop="10dp"
-        app:gridInsetBottom="10dp"
-        app:gridClippingEnabled="false"
-        />
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:id="@+id/apply_filters_button_graph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <EditText
+        android:id="@+id/date2_graph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/apply_filters_button_graph"/>
+
+    <EditText
+        android:id="@+id/date1_graph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/date_separator_graph_text"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="to"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintRight_toLeftOf="@+id/date2_graph"
+        app:layout_constraintLeft_toRightOf="@+id/date1_graph"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
     <ProgressBar
         android:id="@+id/graph_progress_bar"

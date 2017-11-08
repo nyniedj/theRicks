@@ -49,5 +49,9 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.+'
 =======
     compile "com.androidplot:androidplot-core:1.5.1"
+<<<<<<< HEAD
 >>>>>>> 51527a947f3f1049d498852f88420dc35104f7c2
+=======
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+>>>>>>> 5fbe24b9c3c17c31c1ed4f527c1c615dce6265ed
 }
