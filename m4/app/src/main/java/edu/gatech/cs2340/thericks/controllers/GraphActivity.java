@@ -28,6 +28,7 @@ import com.androidplot.xy.XYSeries;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -224,7 +225,11 @@ public class GraphActivity extends AppCompatActivity {
             entries.add(new Entry(i, DateFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
         }
 
-        Log.e(TAG, entries.toString());
+        Log.d(TAG, entries.toString());
+
+        Description d = new Description();
+        d.setText("Rat Sightings");
+        chart.setDescription(d);
 
         LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
         LineData lineData = new LineData(dataSet);
@@ -240,6 +245,7 @@ public class GraphActivity extends AppCompatActivity {
         chart.setVisibility(View.VISIBLE);
         date1Edit.setVisibility(View.VISIBLE);
         date2Edit.setVisibility(View.VISIBLE);
+        dateSeperator.setVisibility(View.VISIBLE);
         applyFiltersButton.setVisibility(View.VISIBLE);
     }
 
@@ -256,7 +262,9 @@ public class GraphActivity extends AppCompatActivity {
             // "value" represents the position of the label on the axis (x or y)
             int intValue = (int) value;
             if (intValue < mValues.length && intValue >= 0) {
-                return Months.values()[mValues[intValue].getMonth()].toString();
+                String year = mValues[intValue].getYear() + "";
+                year = year.substring(1);
+                return Months.values()[mValues[intValue].getMonth()].toString() + " '" + year;
             } else {
                 return intValue + "";
             }
