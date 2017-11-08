@@ -44,6 +44,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.google.android.gms:play-services-ads:11.0.4'
+<<<<<<< HEAD
 
     testCompile 'org.mockito:mockito-core:1.+'
+=======
+    compile "com.androidplot:androidplot-core:1.5.1"
+>>>>>>> 51527a947f3f1049d498852f88420dc35104f7c2
 }

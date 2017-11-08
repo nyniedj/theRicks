@@ -46,6 +46,7 @@ public class RatDataTest {
         assertEquals(1, rats.size());
         assertEquals(31464020, rats.get(0).getKey());
     }
+
     @Test
     public void testDeleteAll() {
         List<RatData> rats = db.getAllRatData();
@@ -85,6 +86,26 @@ public class RatDataTest {
         db.deleteRatData(rats.get(1));
         rats = db.getAllRatData();
         assertEquals(1, rats.size());
+    }
+
+    @Test
+    public void testNullDataInLoadData() {
+        ArrayAdapter a = mock(ArrayAdapter.class);
+        ProgressBar p = mock(ProgressBar.class);
+        List<RatData> rats = null;
+
+        ArrayList<Predicate<RatData>> filters = new ArrayList<>();
+        Predicate<RatData> inAtlanta = ratData -> ratData.getCity().equalsIgnoreCase("Atlanta");
+        Predicate<RatData> commercialLocation = ratData -> ratData.getLocationType().equalsIgnoreCase("Commercial Building");
+        if (filters.isEmpty()) {
+            filters.add(inAtlanta);
+            filters.add(commercialLocation);
+
+            // ===== Loads in null data rat List ===== \\
+            db.loadData(a, rats, p, filters);
+            rats = db.getAllRatData();
+            assertEquals(0, rats.size());
+        }
 
     }
 }
