@@ -103,13 +103,8 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         filters = new ArrayList<>();
         //default date to filter out rat data that occurs after the specified date
-<<<<<<< HEAD:m4/app/src/main/java/edu/gatech/cs2340/thericks/controllers/DashboardActivity.java
         Date begin = DateFilterer.parse(DEFAULT_START_DATE);
         Date end = DateFilterer.parse(DEFAULT_END_DATE);
-=======
-        Date begin = DateFilterer.parse("08/01/2017 12:00:00 AM");
-        Date end = DateFilterer.parse("08/11/2017 12:00:00 AM");
->>>>>>> 51527a947f3f1049d498852f88420dc35104f7c2:m4/app/src/main/java/edu/gatech/cs2340/thericks/controllers/DashMapActivity.java
         dateInRange = DateFilterer.createDateRangeFilter(begin, end);
         filters.add(dateInRange);
 

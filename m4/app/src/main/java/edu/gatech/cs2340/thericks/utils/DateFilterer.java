@@ -40,11 +40,7 @@ public class DateFilterer {
     public static Predicate<RatData> createDateRangeFilter(Date begin, Date end) {
         return ratData -> {
             Date d = parse(ratData.getCreatedDateTime());
-<<<<<<< HEAD
-            return d != null && (begin == null || !d.before(begin)) && (end == null || !d.after(end));
-=======
             return d != null && (begin == null || d.after(begin)) && (end == null || d.before(end));
->>>>>>> 51527a947f3f1049d498852f88420dc35104f7c2
         };
     }
 
