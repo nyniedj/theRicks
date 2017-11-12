@@ -53,10 +53,8 @@ public class RatEntryActivity extends AppCompatActivity {
         Button cancelButton = (Button) findViewById(R.id.rat_data_cancel_entry_button);
 
         Bundle b = getIntent().getExtras();
-        int index;
         if (b != null) {
             RatData ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
-            index = b.getInt("INDEX");
 
             key.setText(ratData.getKey() + "");
             date.setText(ratData.getCreatedDateTime());
@@ -67,8 +65,6 @@ public class RatEntryActivity extends AppCompatActivity {
             city.setText(ratData.getCity());
             latitude.setText(ratData.getLatitude() + "");
             longitude.setText(ratData.getLongitude() + "");
-        } else {
-            index = -1;
         }
 
         key.addTextChangedListener(new TextWatcher() {
@@ -187,10 +183,10 @@ public class RatEntryActivity extends AppCompatActivity {
         });
 
         saveButton.setOnClickListener((View v) -> {
-            int iKey = 0;
-            int iZip = 0;
-            double dLatitude = 0;
-            double dLongitude = 0;
+            int iKey;
+            int iZip;
+            double dLatitude;
+            double dLongitude;
 
             Log.d(TAG, "Confirming rat data is valid");
             try {

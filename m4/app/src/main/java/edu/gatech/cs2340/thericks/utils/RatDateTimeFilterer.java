@@ -38,7 +38,7 @@ public class RatDateTimeFilterer {
      * @return a list containing the RatData between the specified dates
      */
     public static Collection<RatData> filterByDate(RatDateTime begin, RatDateTime end, Collection<RatData> data) {
-        List<RatData> filteredList = new ArrayList<>();
+        List<RatData> filteredList;
         Predicate<RatData> predicate = createRatDateTimeRangeFilter(begin, end);
         filteredList = data.stream().filter(predicate).collect(Collectors.toList());
         return filteredList;
