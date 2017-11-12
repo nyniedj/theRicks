@@ -264,7 +264,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Log.d(TAG, "Recieved result from RatEntryActivity");
+//        Log.d(TAG, "Received result from RatEntryActivity");
 //        if (requestCode == ADD_RAT_DATA_REQUEST) {
 //            if (resultCode == RESULT_OK) {
 //                Bundle b = data.getExtras();

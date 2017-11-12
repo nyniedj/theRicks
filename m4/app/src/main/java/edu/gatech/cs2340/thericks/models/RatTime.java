@@ -80,7 +80,7 @@ public final class RatTime implements Comparable<RatTime>, Serializable{
     /**
      * Checks if the passed String contains a time
      * @param possibleTimeDef the String to check
-     * @return true if it contains a tiem, false otherwise
+     * @return true if it contains a time, false otherwise
      */
     public static boolean isTime(@SuppressWarnings("TypeMayBeWeakened") String possibleTimeDef) {
         Pattern p = Pattern.compile("\\d\\d:\\d\\d:\\d\\d\\s[AP]M");
