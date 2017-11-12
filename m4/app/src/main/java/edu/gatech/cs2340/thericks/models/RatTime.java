@@ -3,8 +3,6 @@ package edu.gatech.cs2340.thericks.models;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

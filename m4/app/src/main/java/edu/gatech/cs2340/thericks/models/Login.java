@@ -1,10 +1,6 @@
 package edu.gatech.cs2340.thericks.models;
 
-import android.util.Log;
-
 import java.io.Serializable;
-
-import edu.gatech.cs2340.thericks.utils.Security;
 
 /**
  * Created by Ben Lashley on 9/18/2017.
