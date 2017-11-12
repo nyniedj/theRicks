@@ -183,7 +183,7 @@ public class RatDataDAO {
     }
 
     static List<RatData> getFilteredRatData(SQLiteDatabase db, Collection<Predicate<RatData>> filters) {
-        List<RatData> ratDataList = new ArrayList<>(100100);
+        List<RatData> ratDataList = new ArrayList<>(INITIAL_CAPACITY);
         String selectAllQuery = "SELECT * FROM " + TABLE_RAT_DATA;
 
         Cursor cursor = db.rawQuery(selectAllQuery, null);
