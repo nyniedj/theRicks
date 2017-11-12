@@ -22,7 +22,7 @@
         android:layout_height="60dp"
         android:text="@string/map_message"
         android:textAllCaps="false"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -32,7 +32,7 @@
         android:layout_height="60dp"
         android:text="@string/graph_message"
         android:textAllCaps="false"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@+id/map_button"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -42,7 +42,7 @@
         android:layout_height="60dp"
         android:text="@string/rat_list_data_message"
         android:textAllCaps="false"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@+id/rat_graph_button"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -52,7 +52,7 @@
         android:layout_height="60dp"
         android:text="@string/profile_message"
         android:textAllCaps="false"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@+id/rat_data_list_button"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -62,7 +62,7 @@
         android:layout_height="60dp"
         android:text="@string/settings_message"
         android:textAllCaps="false"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@+id/profile_button"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -72,7 +72,7 @@
         android:layout_height="60dp"
         android:text="@string/report_message"
         android:textAllCaps="false"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@+id/settings_button"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -82,7 +82,7 @@
         android:layout_height="60dp"
         android:text="@string/logout_message"
         android:textAllCaps="false"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@+id/report_rat_button"
         app:layout_constraintLeft_toLeftOf="parent" />
 

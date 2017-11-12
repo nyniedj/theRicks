@@ -2,6 +2,7 @@ package edu.gatech.cs2340.thericks.controllers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -111,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
                 db.createUser(username, password, user_privilege);
 
                 // User object to pass to dashboard activity.
-                User u = new User(username, password, user_privilege);
+                Parcelable u = new User(username, password, user_privilege);
 
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DashMapActivity.class);

@@ -3,6 +3,7 @@ package edu.gatech.cs2340.thericks.controllers;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -63,7 +64,7 @@ public class RatDataListActivity extends AppCompatActivity {
         ratDataList.setAdapter(adapter);
         ratDataList.setOnItemClickListener((AdapterView<?> a, View v, int position, long id) -> {
             Object o = ratDataList.getItemAtPosition(position);
-            RatData ratData = (RatData) o;
+            Parcelable ratData = (RatData) o;
             Context context = v.getContext();
             Intent intent = new Intent(context, RatEntryActivity.class);
             intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
@@ -88,7 +89,7 @@ public class RatDataListActivity extends AppCompatActivity {
      * Custom adapter to populate the list view of rat data
      */
     private class CustomListAdapter extends ArrayAdapter {
-        private ArrayList<RatData> listData;
+        private List<RatData> listData;
         private LayoutInflater layoutInflater;
 
         /**
@@ -97,7 +98,7 @@ public class RatDataListActivity extends AppCompatActivity {
          *                 to the layoutInflater
          * @param listData the list of RatData Objects
          */
-        public CustomListAdapter(Context aContext, ArrayList<RatData> listData) {
+        public CustomListAdapter(Context aContext, List<RatData> listData) {
             super(aContext, ArrayAdapter.NO_SELECTION);
             this.listData = listData;
             layoutInflater = LayoutInflater.from(aContext);

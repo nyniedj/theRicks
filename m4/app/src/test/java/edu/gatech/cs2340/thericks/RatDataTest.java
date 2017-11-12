@@ -94,7 +94,7 @@ public class RatDataTest {
         ProgressBar p = mock(ProgressBar.class);
         List<RatData> rats = null;
 
-        ArrayList<Predicate<RatData>> filters = new ArrayList<>();
+        List<Predicate<RatData>> filters = new ArrayList<>();
         Predicate<RatData> inAtlanta = ratData -> ratData.getCity().equalsIgnoreCase("Atlanta");
         Predicate<RatData> commercialLocation = ratData -> ratData.getLocationType().equalsIgnoreCase("Commercial Building");
         if (filters.isEmpty()) {

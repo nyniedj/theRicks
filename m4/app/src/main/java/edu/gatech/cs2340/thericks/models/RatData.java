@@ -50,6 +50,7 @@ public class RatData implements Parcelable{
         return incidentZip;
     }
 
+    @SuppressWarnings("TypeMayBeWeakened")
     public String getIncidentAddress() {
         return incidentAddress;
     }
@@ -58,6 +59,7 @@ public class RatData implements Parcelable{
         return city;
     }
 
+    @SuppressWarnings("TypeMayBeWeakened")
     public String getBorough() {
         return borough;
     }
