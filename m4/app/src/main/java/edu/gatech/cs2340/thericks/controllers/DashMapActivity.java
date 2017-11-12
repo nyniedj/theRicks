@@ -323,10 +323,10 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         @Override
         public View getInfoContents(Marker marker) {
 
-            TextView titleText = (TextView) myContentsView.findViewById(R.id.rat_marker_view_title_text);
+            TextView titleText = myContentsView.findViewById(R.id.rat_marker_view_title_text);
             titleText.setText(marker.getTitle());
-            TextView snippetText1 = (TextView) myContentsView.findViewById(R.id.rat_marker_view_snippet1_text);
-            TextView snippetText2 = (TextView) myContentsView.findViewById(R.id.rat_marker_view_snippet2_text);
+            TextView snippetText1 = myContentsView.findViewById(R.id.rat_marker_view_snippet1_text);
+            TextView snippetText2 = myContentsView.findViewById(R.id.rat_marker_view_snippet2_text);
             String[] splitSnippet = marker.getSnippet().split(";");
             snippetText1.setText(splitSnippet[0]);
             snippetText2.setText(splitSnippet[1]);
