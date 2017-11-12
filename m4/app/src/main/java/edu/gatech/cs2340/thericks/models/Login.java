@@ -27,15 +27,26 @@ public class Login implements Serializable {
         securePassword = password;
     }
 
-
+    /**
+     * Getter for username
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Getter for password
+     * @return a secure password
+     */
     public String getSecurePassword() {
         return securePassword;
     }
 
+    /**
+     * Getter for salt used for hashing
+     * @return salt
+     */
     public String getSalt() {
         return salt;
     }
