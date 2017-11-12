@@ -15,17 +15,13 @@ import edu.gatech.cs2340.thericks.R;
  */
 
 public class WelcomeActivity extends AppCompatActivity {
-
-    private Button login;
-    private Button register;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        login =    (Button) findViewById(R.id.login_button);
-        register = (Button) findViewById(R.id.register_button);
+        Button login =    (Button) findViewById(R.id.login_button);
+        Button register = (Button) findViewById(R.id.register_button);
 
         login.setOnClickListener(v -> {
             Context context = v.getContext();

@@ -43,6 +43,8 @@ public class GraphActivity extends AppCompatActivity {
 
     private static final String TAG = GraphActivity.class.getSimpleName();
 
+    private static final int MONTHS_IN_YEAR = 12;
+
     //default dates to filter out rat data that occurs between the dates
     private RatDateTime begin = RatDateTime.forDateTime("09/01/2016 12:00:00 AM");
     private RatDateTime end = RatDateTime.forDateTime("09/01/2017 12:00:00 AM");
@@ -51,9 +53,9 @@ public class GraphActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
-    private ArrayList<RatData> loadedData;
+    private List<RatData> loadedData;
 
-    private ArrayList<Predicate<RatData>> filters;
+    private List<Predicate<RatData>> filters;
     private Predicate<RatData> dateInRange;
 
     private EditText date1Edit;
@@ -184,12 +186,12 @@ public class GraphActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         applyFiltersButton.setEnabled(false);
 
-        int monthDif = ((end.getMonth() + 1) + (end.getYear() * 12)) - ((begin.getMonth() + 1) + (begin.getYear() * 12));
+        int monthDif = ((end.getMonth() + 1) + (end.getYear() * MONTHS_IN_YEAR)) - ((begin.getMonth() + 1) + (begin.getYear() * MONTHS_IN_YEAR));
         RatDateTime[] domainDates = new RatDateTime[monthDif];
         for (int i = 0; i < domainDates.length; i++) {
             int month = begin.getMonth() + i;
-            int year = begin.getYear() + ((month + 1) / 12);
-            month = ((month + 1) % 12) - 1;
+            int year = begin.getYear() + ((month + 1) / MONTHS_IN_YEAR);
+            month = ((month + 1) % MONTHS_IN_YEAR) - 1;
             RatDateTime d = RatDateTime.forDateTime(begin);
             d.setMonth(month);
             d.setYear(year);

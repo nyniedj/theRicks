@@ -147,7 +147,7 @@ class UserDAO {
      * @return all users in a list
      */
     static List<User> getAllUsers(SQLiteDatabase db) {
-        List<User> userList = new ArrayList<>(100100);
+        List<User> userList = new ArrayList<>();
         String selectAllQuery = "SELECT * FROM " + TABLE_USERS;
 
         Cursor cursor = db.rawQuery(selectAllQuery, null);
