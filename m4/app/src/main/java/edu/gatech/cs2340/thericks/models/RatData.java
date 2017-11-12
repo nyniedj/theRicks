@@ -87,7 +87,7 @@ public class RatData implements Parcelable{
     }
 
     /**
-     * Getter for ciity
+     * Getter for city
      * @return the city
      */
     public String getCity() {

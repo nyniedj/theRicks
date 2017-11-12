@@ -31,7 +31,7 @@ public class RatDateTimeFilterer {
     }
 
     /**
-     * Filters the given List by the given Dats
+     * Filters the given List by the given date
      * @param begin the start date
      * @param end the end date
      * @param data the list
