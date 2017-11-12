@@ -48,7 +48,7 @@ public class RatDate implements Comparable<RatDate>, Serializable{
      * @param possibleDateDef the String to pull a date from
      * @return the new RatDate
      */
-    public static RatDate forDate(String possibleDateDef) {
+    public static RatDate forDate(@SuppressWarnings("TypeMayBeWeakened") String possibleDateDef) {
         Pattern p = Pattern.compile("\\d\\d/\\d\\d/\\d\\d\\d\\d");
         Matcher m = p.matcher(possibleDateDef);
         if (m.find()) {
@@ -74,7 +74,7 @@ public class RatDate implements Comparable<RatDate>, Serializable{
      * @param possibleDateDef the String to check
      * @return true if it contains a date, false otherwise
      */
-    public static boolean isDate(String possibleDateDef) {
+    public static boolean isDate(@SuppressWarnings("TypeMayBeWeakened") String possibleDateDef) {
         Pattern p = Pattern.compile("\\d\\d/\\d\\d/\\d\\d\\d\\d");
         Matcher m = p.matcher(possibleDateDef);
         return m.find();

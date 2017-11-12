@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +15,8 @@ import java.util.regex.Pattern;
  * from a String
  */
 public class RatTime implements Comparable<RatTime>, Serializable{
+
+    private static final int HOURS_IN_HALF_DAY = 12;
 
     private int seconds;
     private int minutes;
@@ -55,7 +58,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
      * @param possibleTimeDef the String to pull a time from
      * @return the new RatTime
      */
-    public static RatTime forTime(String possibleTimeDef) {
+    public static RatTime forTime(@SuppressWarnings("TypeMayBeWeakened") String possibleTimeDef) {
         Pattern p = Pattern.compile("\\d\\d:\\d\\d:\\d\\d\\s[AP]M");
         Matcher m = p.matcher(possibleTimeDef);
         if (m.find()) {
@@ -69,7 +72,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
      * @param t the RatTime to build a RatTime from
      * @return the new RatTime
      */
-    public static RatTime forTime(RatTime t) {
+    static RatTime forTime(RatTime t) {
         if (t != null) {
             return new RatTime(t.getHours(), t.getMinutes(), t.getSeconds(), t.getPeriod());
         }
@@ -81,7 +84,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
      * @param possibleTimeDef the String to check
      * @return true if it contains a tiem, false otherwise
      */
-    public static boolean isTime(String possibleTimeDef) {
+    public static boolean isTime(@SuppressWarnings("TypeMayBeWeakened") String possibleTimeDef) {
         Pattern p = Pattern.compile("\\d\\d:\\d\\d:\\d\\d\\s[AP]M");
         Matcher m = p.matcher(possibleTimeDef);
         return m.find();
@@ -102,7 +105,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
      */
     public int get24Hours() {
         if (period.equals(Period.PM)) {
-            return hours + 12;
+            return hours + HOURS_IN_HALF_DAY;
         }
         return hours;
     }
@@ -135,7 +138,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
      * Sets the hours to the specified value
      * @param hours the hours to be set to
      */
-    public void setHours(int hours) {
+    void setHours(int hours) {
         this.hours = hours;
     }
 
@@ -143,7 +146,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
      * Sets the minutes to the specified value
      * @param minutes the minutes to be set to
      */
-    public void setMinutes(int minutes) {
+    void setMinutes(int minutes) {
         this.minutes = minutes;
     }
 
@@ -151,7 +154,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
      * Sets the seconds to the specified value
      * @param seconds the seconds to be set to
      */
-    public void setSeconds(int seconds) {
+    void setSeconds(int seconds) {
         this.seconds = seconds;
     }
 
@@ -159,7 +162,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
      * Sets the period to the specified value
      * @param period the period to be set to
      */
-    public void setPeriod(Period period) {
+    void setPeriod(Period period) {
         this.period = period;
     }
 
@@ -188,7 +191,7 @@ public class RatTime implements Comparable<RatTime>, Serializable{
 
     @Override
     public String toString() {
-        return String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":"
-                + String.format("%02d", seconds) + " " + period.toString();
+        return String.format(Locale.ENGLISH,"%02d", hours) + ":" + String.format(Locale.ENGLISH,"%02d", minutes) + ":"
+                + String.format(Locale.ENGLISH,"%02d", seconds) + " " + period.toString();
     }
 }

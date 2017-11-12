@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -33,7 +35,6 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
 
     private ArrayAdapter adapter;
     private List<RatData> data;
-    private ProgressBar progressBar;
     private List<Predicate<RatData>> filters;
 
     // Indexes for relevant columns in raw/rat_data.csv
@@ -124,9 +125,6 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
             data.addAll(db.getFilteredRatData(filters));
             adapter.notifyDataSetChanged();
         }
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-        }
     }
 
     /**
@@ -141,13 +139,11 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
      * Provides views from an activity calling the task, allowing for the UI to be asynchronously updated in onPostExecute
      * @param a the ArrayAdapter that returns the views for each RatData Object
      * @param data the list of RatData Objects whose views will be added
-     * @param progressBar indicates the progress of loading in data
      * @param filters the filters used to select certain RatData Objects
      */
-    void attachViews(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
+    void attachViews(ArrayAdapter a, List<RatData> data, List<Predicate<RatData>> filters) {
         adapter = a;
         this.data = data;
-        this.progressBar = progressBar;
         this.filters = filters;
     }
 }
