@@ -32,10 +32,11 @@ import edu.gatech.cs2340.thericks.models.RatData;
 public class RatDataListActivity extends AppCompatActivity {
 
     private static final String TAG = RatDataListActivity.class.getSimpleName();
+    private static final int EDIT_ENTRY = 0;
 
-    private static CustomListAdapter adapter;
+    private CustomListAdapter adapter;
     /* Filters for displayed rat data */
-    private static final List<Predicate<RatData>> filters = new ArrayList<>();
+    private  List<Predicate<RatData>> filters;
 
     private ListView ratDataList;
     private ProgressBar progressBar;
@@ -67,16 +68,17 @@ public class RatDataListActivity extends AppCompatActivity {
             Context context = v.getContext();
             Intent intent = new Intent(context, RatEntryActivity.class);
             intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
-            startActivity(intent);
+            startActivityForResult(intent, EDIT_ENTRY);
         });
 
         /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
         Predicate<RatData> inJamaica = ratData -> "Jamaica".equalsIgnoreCase(ratData.getCity());
         Predicate<RatData> commercialLocation = ratData -> "Commercial Building".equalsIgnoreCase(ratData.getLocationType());
-        if (filters.isEmpty()) {
-            filters.add(inJamaica);
-            filters.add(commercialLocation);
+        if (filters == null) {
+            filters = new ArrayList<>();
         }
+        filters.add(inJamaica);
+        filters.add(commercialLocation);
         /* End of predicates */
 
         // Load in rat data
@@ -158,10 +160,8 @@ public class RatDataListActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Updates list view to display any changes to the database from entering/editing reports
-     */
-    public static void updateUI() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (adapter != null && filters != null) {
             Log.d(TAG, "Updating list view to show changes to database");
             adapter.listData.clear();

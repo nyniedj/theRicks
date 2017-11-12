@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 
+import edu.gatech.cs2340.thericks.R;
+
 /**
  * Created by Ben Lashley on 9/20/2017.
  *
