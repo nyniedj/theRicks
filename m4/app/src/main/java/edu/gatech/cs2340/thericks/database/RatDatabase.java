@@ -22,6 +22,9 @@ public class RatDatabase implements RatDataSource {
     private static final String TAG = RatDatabase.class.getSimpleName();
     private SQLiteDatabase db;
 
+    /**
+     * initializes the SQLite Database to a RatDatabaseHandler 
+     */
     public RatDatabase() {
         open();
     }

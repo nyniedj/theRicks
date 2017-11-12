@@ -2,6 +2,7 @@ package edu.gatech.cs2340.thericks.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class RatDateTimeFilterer {
      * @return a list containing the RatData between the specified dates
      */
     public static Collection<RatData> filterByDate(RatDateTime begin, RatDateTime end, Collection<RatData> data) {
-        List<RatData> filteredList = new ArrayList<RatData>();
+        List<RatData> filteredList = new ArrayList<>();
         Predicate<RatData> predicate = createRatDateTimeRangeFilter(begin, end);
         filteredList = data.stream().filter(predicate).collect(Collectors.toList());
         return filteredList;

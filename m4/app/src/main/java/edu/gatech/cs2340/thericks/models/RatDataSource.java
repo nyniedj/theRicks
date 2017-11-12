@@ -9,10 +9,38 @@ import java.util.List;
  */
 
 public interface RatDataSource {
+    /**
+     * Creates a rat entry
+     * @param key unique rat data key
+     * @param createdDateTime date and time of creation
+     * @param locationType location
+     * @param incidentZip zip code
+     * @param incidentAddress address
+     * @param city city
+     * @param borough borough
+     * @param latitude latitude
+     * @param longitude longitude
+     */
     void createRatData(int key, String createdDateTime, String locationType,
                        int incidentZip, String incidentAddress, String city,
                        String borough, double latitude, double longitude);
+
+    /**
+     * Deletes a ratData object
+     * @param data the rat to delete
+     */
     void deleteRatData(RatData data);
+
+    /**
+     * Getter for ratData List
+     * @return list of all ratData objects
+     */
     List<RatData> getAllRatData();
+
+    /**
+     * Gets a ratData Object by its unique key
+     * @param key the ratData Object's key
+     * @return the ratData Object
+     */
     RatData findRatDataByKey(int key);
 }

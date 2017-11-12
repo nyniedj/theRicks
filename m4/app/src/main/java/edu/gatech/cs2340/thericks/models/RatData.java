@@ -19,7 +19,18 @@ public class RatData implements Parcelable{
     private final double latitude;
     private final double longitude;
 
-    // Creates a rat entry
+    /**
+     * Creates a rat entry
+     * @param key unique rat data key
+     * @param createdDateTime date and time of creation
+     * @param locationType location
+     * @param incidentZip zip code
+     * @param incidentAddress address
+     * @param city city
+     * @param borough borough
+     * @param latitude latitude
+     * @param longitude longitude
+     */
     public RatData(int key, String createdDateTime, String locationType,
                    int incidentZip, String incidentAddress, String city,
                    String borough, double latitude, double longitude) {
@@ -34,40 +45,76 @@ public class RatData implements Parcelable{
         this.longitude = longitude;
     }
 
+    /**
+     * Getter for key
+     * @return unique key
+     */
     public int getKey() {
         return key;
     }
 
+    /**
+     * Getter for createdDateTime
+     * @return the date and time of creation
+     */
     public String getCreatedDateTime() {
         return createdDateTime;
     }
 
+    /**
+     * Getter for locationType
+     * @return the location of the incident
+     */
     public String getLocationType() {
         return locationType;
     }
 
+    /**
+     * Getter for incidentZip
+     * @return the zip of the incident
+     */
     public int getIncidentZip() {
         return incidentZip;
     }
 
+    /**
+     * Getter for incidentAddress
+     * @return the address
+     */
     @SuppressWarnings("TypeMayBeWeakened")
     public String getIncidentAddress() {
         return incidentAddress;
     }
 
+    /**
+     * Getter for ciity
+     * @return the city
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * Getter for borough
+     * @return the borough
+     */
     @SuppressWarnings("TypeMayBeWeakened")
     public String getBorough() {
         return borough;
     }
 
+    /**
+     * Getter for latitude
+     * @return the latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Getter for longitude
+     * @return the longitude
+     */
     public double getLongitude() {
         return longitude;
     }
