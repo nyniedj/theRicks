@@ -9,8 +9,30 @@ import java.util.List;
  */
 
 public interface UserDataSource {
+    /**
+     * Creates a user
+     * @param username user's username
+     * @param password user's password
+     * @param privilege privilege for user
+     */
     void createUser(String username, String password, Privilege privilege);
+
+    /**
+     * Deletes a user
+     * @param username user's username
+     */
     void deleteUser(String username);
+
+    /**
+     * Getter for a user
+     * @param username user's username
+     * @return the user with that username
+     */
     User getUserByUsername(String username);
+
+    /**
+     * Getter for all users
+     * @return a list of all users
+     */
     List<User> getAllUsers();
 }

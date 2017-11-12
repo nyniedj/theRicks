@@ -79,78 +79,154 @@ public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
         return RatDate.isDate(possibleDateTimeDef) && RatTime.isTime(possibleDateTimeDef);
     }
 
+    /**
+     * Getter for date
+     * @return the date
+     */
     public RatDate getDate() {
         return date;
     }
 
+    /**
+     * Getter for time
+     * @return the time
+     */
     public RatTime getTime() {
         return time;
     }
 
+    /**
+     * Getter for year
+     * @return the year
+     */
     public int getYear() {
         return date.getYear();
     }
 
+    /**
+     * Getter for month
+     * @return the month
+     */
     public int getMonth() {
         return date.getMonth();
     }
 
+    /**
+     * Getter for day
+     * @return the day
+     */
     public int getDay() {
         return date.getDay();
     }
 
+    /**
+     * Getter for hours
+     * @return the hours
+     */
     public int getHours() {
         return time.getHours();
     }
 
+    /**
+     * Getter for military time
+     * @return the 24-hour
+     */
     public int get24Hours() {
         return time.get24Hours();
     }
 
+    /**
+     * Getter for minutes
+     * @return the minutes
+     */
     public int getMinutes() {
         return time.getMinutes();
     }
 
+    /**
+     * Getter for seconds
+     * @return the seconds
+     */
     public int getSeconds() {
         return time.getSeconds();
     }
 
+    /**
+     * Getter for period
+     * @return the period
+     */
     public Period getPeriod() {
         return time.getPeriod();
     }
 
+    /**
+     * Setter for date
+     * @param date new date
+     */
     public void setDate(RatDate date) {
         this.date = date;
     }
 
+    /**
+     * Setter for time
+     * @param time new time
+     */
     public void setTime(RatTime time) {
         this.time = time;
     }
 
+    /**
+     * Setter for year
+     * @param year new year
+     */
     public void setYear(int year) {
         date.setYear(year);
     }
 
+    /**
+     * Setter for month
+     * @param month new month
+     */
     public void setMonth(int month) {
         date.setMonth(month);
     }
 
+    /**
+     * Setter for day
+     * @param day new day
+     */
     public void setDay(int day) {
         date.setDay(day);
     }
 
+    /**
+     * Setter for hours
+     * @param hours new hours
+     */
     public void setHours(int hours) {
         time.setHours(hours);
     }
 
+    /**
+     * Setter for minutes
+     * @param minutes new minutes
+     */
     public void setMinutes(int minutes) {
         time.setMinutes(minutes);
     }
 
+    /**
+     * Setter for seconds
+     * @param seconds new seconds
+     */
     public void setSeconds(int seconds) {
         time.setSeconds(seconds);
     }
 
+    /**
+     * Setter for period
+     * @param period new period
+     */
     public void setPeriod(Period period) {
         time.setPeriod(period);
     }

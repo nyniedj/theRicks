@@ -118,6 +118,7 @@ public class Security {
      * Check if provided password gives correct encryption (i.e. password entered is correct)
      *
      * @param pw the password to check
+     * @param login the login object
      * @return true if the password is correct, false if not
      */
     public static boolean checkPassword(String pw, Login login) {
