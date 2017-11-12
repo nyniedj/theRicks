@@ -113,7 +113,6 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         date1Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -131,7 +130,6 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
         date2Edit = (EditText) findViewById(R.id.date2_dash_map);
@@ -140,7 +138,6 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         date2Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -158,7 +155,6 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
 

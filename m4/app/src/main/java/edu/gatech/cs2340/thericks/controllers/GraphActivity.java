@@ -131,7 +131,6 @@ public class GraphActivity extends AppCompatActivity {
         date2Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -149,7 +148,6 @@ public class GraphActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
 
