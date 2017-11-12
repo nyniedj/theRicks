@@ -86,18 +86,18 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mapButton = (Button) findViewById(R.id.map_button);
-        Button graphButton = (Button) findViewById(R.id.rat_graph_button);
-        listRatDataButton = (Button) findViewById(R.id.rat_data_list_button);
-        profileButton = (Button) findViewById(R.id.profile_button);
-        settingsButton = (Button) findViewById(R.id.settings_button);
-        reportRatButton = (Button) findViewById(R.id.report_rat_button);
-        logoutButton = (Button) findViewById(R.id.logout_button);
+        mapButton = findViewById(R.id.map_button);
+        Button graphButton = findViewById(R.id.rat_graph_button);
+        listRatDataButton = findViewById(R.id.rat_data_list_button);
+        profileButton = findViewById(R.id.profile_button);
+        settingsButton = findViewById(R.id.settings_button);
+        reportRatButton = findViewById(R.id.report_rat_button);
+        logoutButton = findViewById(R.id.logout_button);
 
-        returnToDashButton = (Button) findViewById(R.id.return_to_dashboard_button);
+        returnToDashButton = findViewById(R.id.return_to_dashboard_button);
         returnToDashButton.setVisibility(View.GONE);
 
-        applyFiltersButton = (Button) findViewById(R.id.apply_filters_button);
+        applyFiltersButton = findViewById(R.id.apply_filters_button);
         applyFiltersButton.setVisibility(View.GONE);
 
         filters = new ArrayList<>();
@@ -107,7 +107,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         dateInRange = RatDateTimeFilterer.createRatDateTimeRangeFilter(begin, end);
         filters.add(dateInRange);
 
-        date1Edit = (EditText) findViewById(R.id.date1_dash_map);
+        date1Edit = findViewById(R.id.date1_dash_map);
         date1Edit.setVisibility(View.GONE);
         date1Edit.setText(DEFAULT_START_DATE);
         date1Edit.addTextChangedListener(new TextWatcher() {
@@ -132,7 +132,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
             public void afterTextChanged(Editable editable) {
             }
         });
-        date2Edit = (EditText) findViewById(R.id.date2_dash_map);
+        date2Edit = findViewById(R.id.date2_dash_map);
         date2Edit.setVisibility(View.GONE);
         date2Edit.setText(DEFAULT_END_DATE);
         date2Edit.addTextChangedListener(new TextWatcher() {
@@ -158,12 +158,12 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
-        dateSeparator = (TextView) findViewById(R.id.date_separator_dash_map_text);
+        dateSeparator = findViewById(R.id.date_separator_dash_map_text);
         dateSeparator.setVisibility(View.GONE);
 
         onMap = false;
 
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar_dash_map);
+        progressBar = findViewById(R.id.progress_bar_dash_map);
         progressBar.setVisibility(View.GONE);
 
         Bundle b = getIntent().getExtras();

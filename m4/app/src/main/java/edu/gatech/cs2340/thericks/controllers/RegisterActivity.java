@@ -49,17 +49,17 @@ public class RegisterActivity extends AppCompatActivity {
         db = new UserDatabase();
 
         // Connect widgets
-        usernameEntry   = (EditText) findViewById(R.id.registration_create_username_entry);
-        passwordEntry   = (EditText) findViewById(R.id.registration_create_password_entry);
-        passwordReentry = (EditText) findViewById(R.id.registration_reenter_password_entry);
+        usernameEntry   = findViewById(R.id.registration_create_username_entry);
+        passwordEntry   = findViewById(R.id.registration_create_password_entry);
+        passwordReentry = findViewById(R.id.registration_reenter_password_entry);
 
-        privilege = (RadioGroup) findViewById(R.id.register_radio_group);
+        privilege = findViewById(R.id.register_radio_group);
 
-        Button createAccount = (Button) findViewById(R.id.register_button);
+        Button createAccount = findViewById(R.id.register_button);
 
-        invalidUsername  = (TextView) findViewById(R.id.registration_invalid_username);
-        invalidPassword  = (TextView) findViewById(R.id.registration_invalid_password);
-        passwordMismatch = (TextView) findViewById(R.id.registration_password_mismatch);
+        invalidUsername  = findViewById(R.id.registration_invalid_username);
+        invalidPassword  = findViewById(R.id.registration_invalid_password);
+        passwordMismatch = findViewById(R.id.registration_password_mismatch);
 
         // Hide warning messages
         invalidUsername.setVisibility(View.GONE);

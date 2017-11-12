@@ -39,18 +39,18 @@ public class RatEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rat_entry);
 
-        key = (EditText) findViewById(R.id.rat_data_key_entry);
-        date = (EditText) findViewById(R.id.rat_data_date_entry);
-        locationType = (EditText) findViewById(R.id.rat_data_location_type_entry);
-        address = (EditText) findViewById(R.id.rat_data_incident_address_entry);
-        zip = (EditText) findViewById(R.id.rat_data_incident_zip_entry);
-        borough = (EditText) findViewById(R.id.rat_data_borough_entry);
-        city = (EditText) findViewById(R.id.rat_data_city_entry);
-        latitude = (EditText) findViewById(R.id.rat_data_latitude_entry);
-        longitude = (EditText) findViewById(R.id.rat_data_longitude_entry);
+        key = findViewById(R.id.rat_data_key_entry);
+        date = findViewById(R.id.rat_data_date_entry);
+        locationType = findViewById(R.id.rat_data_location_type_entry);
+        address = findViewById(R.id.rat_data_incident_address_entry);
+        zip = findViewById(R.id.rat_data_incident_zip_entry);
+        borough = findViewById(R.id.rat_data_borough_entry);
+        city = findViewById(R.id.rat_data_city_entry);
+        latitude = findViewById(R.id.rat_data_latitude_entry);
+        longitude = findViewById(R.id.rat_data_longitude_entry);
 
-        Button saveButton = (Button) findViewById(R.id.rat_data_save_entry_button);
-        Button cancelButton = (Button) findViewById(R.id.rat_data_cancel_entry_button);
+        Button saveButton = findViewById(R.id.rat_data_save_entry_button);
+        Button cancelButton = findViewById(R.id.rat_data_cancel_entry_button);
 
         Bundle b = getIntent().getExtras();
         if (b != null) {
