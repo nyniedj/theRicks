@@ -107,10 +107,12 @@ public class RatData implements Parcelable{
 
     public static final Parcelable.Creator<RatData> CREATOR
             = new Parcelable.Creator<RatData>() {
+        @Override
         public RatData createFromParcel(Parcel in) {
             return new RatData(in);
         }
 
+        @Override
         public RatData[] newArray(int size) {
             return new RatData[size];
         }

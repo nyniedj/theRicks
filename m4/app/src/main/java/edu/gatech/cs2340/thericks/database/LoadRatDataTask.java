@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatData;
 
 /**
@@ -109,6 +110,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
      * Mark that data is done loading and update any provided views
      * @param lineCount the number of loaded lines
      */
+    @Override
     protected void onPostExecute(Long lineCount) {
         Log.d(TAG, "Loaded " + lineCount + " rat data entries");
         // Done loading data

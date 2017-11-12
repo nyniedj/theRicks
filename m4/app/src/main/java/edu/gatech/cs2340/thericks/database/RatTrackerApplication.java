@@ -13,6 +13,7 @@ public class RatTrackerApplication extends Application {
     private static Context context;
 
 
+    @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
