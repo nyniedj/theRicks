@@ -67,12 +67,12 @@ public class GraphActivity extends AppCompatActivity {
 
         Log.d(TAG, "Entered Graph Activity");
 
-        progressBar = (ProgressBar) findViewById(R.id.graph_progress_bar);
+        progressBar = findViewById(R.id.graph_progress_bar);
 
-        chart = (LineChart) findViewById(R.id.chart);
+        chart = findViewById(R.id.chart);
         chart.setVisibility(View.GONE);
 
-        applyFiltersButton = (Button) findViewById(R.id.apply_filters_button_graph);
+        applyFiltersButton = findViewById(R.id.apply_filters_button_graph);
         applyFiltersButton.setVisibility(View.GONE);
         applyFiltersButton.setOnClickListener(v -> {
             begin = RatDateTime.forDateTime(date1Edit.getText().toString());
@@ -95,10 +95,10 @@ public class GraphActivity extends AppCompatActivity {
             db.loadData(tempAdapter, loadedData, filters);
         });
 
-        TextView dateSeparator = (TextView) findViewById(R.id.date_separator_graph_text);
-        dateSeperator.setVisibility(View.GONE);
+        TextView dateSeparator = findViewById(R.id.date_separator_graph_text);
+        dateSeparator.setVisibility(View.GONE);
 
-        date1Edit = (EditText) findViewById(R.id.date1_graph);
+        date1Edit = findViewById(R.id.date1_graph);
         date1Edit.setVisibility(View.GONE);
         date1Edit.setText("01/01/2017 12:00:00 AM");
         date1Edit.addTextChangedListener(new TextWatcher() {
@@ -123,7 +123,7 @@ public class GraphActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
             }
         });
-        date2Edit = (EditText) findViewById(R.id.date2_graph);
+        date2Edit = findViewById(R.id.date2_graph);
         date2Edit.setVisibility(View.GONE);
         date2Edit.setText("09/01/2017 12:00:00 AM");
         date2Edit.addTextChangedListener(new TextWatcher() {

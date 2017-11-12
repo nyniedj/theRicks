@@ -20,8 +20,8 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        Button login =    (Button) findViewById(R.id.login_button);
-        Button register = (Button) findViewById(R.id.register_button);
+        Button login = findViewById(R.id.login_button);
+        Button register = findViewById(R.id.register_button);
 
         login.setOnClickListener(v -> {
             Context context = v.getContext();

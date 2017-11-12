@@ -47,7 +47,7 @@ public class RatDataListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rat_data_list);
 
         RatDatabase database = new RatDatabase();
-        progressBar = (ProgressBar) findViewById(R.id.rat_data_list_progress_bar);
+        progressBar = findViewById(R.id.rat_data_list_progress_bar);
 
         if (adapter == null) {
             adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(), new ArrayList<>());
@@ -59,7 +59,7 @@ public class RatDataListActivity extends AppCompatActivity {
         }
 
         // Display empty list view until data finishes loading
-        ratDataList = (ListView) findViewById(R.id.rat_data_list_view);
+        ratDataList = findViewById(R.id.rat_data_list_view);
 
         ratDataList.setAdapter(adapter);
         ratDataList.setOnItemClickListener((AdapterView<?> a, View v, int position, long id) -> {

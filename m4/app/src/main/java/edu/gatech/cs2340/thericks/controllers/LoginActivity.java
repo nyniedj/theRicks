@@ -34,10 +34,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        username = (EditText) findViewById(R.id.login_username_entry);
-        password = (EditText) findViewById(R.id.login_password_entry);
-        Button login = (Button) findViewById(R.id.login_button);
-        error    = (TextView) findViewById(R.id.incorrect_login_label);
+        username = findViewById(R.id.login_username_entry);
+        password = findViewById(R.id.login_password_entry);
+        Button login = findViewById(R.id.login_button);
+        error    = findViewById(R.id.incorrect_login_label);
 
         error.setVisibility(View.GONE);
 
