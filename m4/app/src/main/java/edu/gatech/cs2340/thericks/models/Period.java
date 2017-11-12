@@ -1,4 +1,4 @@
-﻿package edu.gatech.cs2340.thericks.models;
+package edu.gatech.cs2340.thericks.models;
 
 /**
  * Created by Cameron on 10/31/2017.

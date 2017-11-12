@@ -44,7 +44,7 @@ public class GraphActivity extends AppCompatActivity {
     private static final String TAG = GraphActivity.class.getSimpleName();
 
     //default dates to filter out rat data that occurs between the dates
-    private RatDateTime begin = RatDateTime.forDateTime("01/01/2017 12:00:00 AM");
+    private RatDateTime begin = RatDateTime.forDateTime("09/01/2016 12:00:00 AM");
     private RatDateTime end = RatDateTime.forDateTime("09/01/2017 12:00:00 AM");
 
     private LineChart chart;
@@ -201,8 +201,6 @@ public class GraphActivity extends AppCompatActivity {
             entries.add(new Entry(i, RatDateTimeFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
         }
 
-        Log.e(TAG, entries.toString());
-
         LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);
@@ -232,9 +230,11 @@ public class GraphActivity extends AppCompatActivity {
         public String getFormattedValue(float value, AxisBase axis) {
             // "value" represents the position of the label on the axis (x or y)
             int intValue = (int) value;
-            if (intValue < mValues.length && intValue >= 0) {
+            try {
                 return Months.values()[mValues[intValue].getMonth() - 1].toString() + " " + mValues[intValue].getYear();
-            } else {
+            } catch (ArrayIndexOutOfBoundsException e) {
+                Log.e(TAG, e.getMessage());
+            } finally {
                 return intValue + "";
             }
         }

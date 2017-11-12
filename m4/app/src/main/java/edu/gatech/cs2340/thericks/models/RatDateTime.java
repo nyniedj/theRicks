@@ -1,4 +1,4 @@
-﻿package edu.gatech.cs2340.thericks.models;
+package edu.gatech.cs2340.thericks.models;
 
 import android.support.annotation.NonNull;
 
