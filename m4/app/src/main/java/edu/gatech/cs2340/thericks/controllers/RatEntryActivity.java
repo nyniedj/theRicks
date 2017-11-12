@@ -74,7 +74,6 @@ public class RatEntryActivity extends AppCompatActivity {
             latitude.setText(ratData.getLatitude() + "");
             longitude.setText(ratData.getLongitude() + "");
         } else {
-            ratData = null;
             index = -1;
         }
 
