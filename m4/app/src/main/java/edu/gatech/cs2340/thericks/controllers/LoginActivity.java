@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.UserDatabase;
 import edu.gatech.cs2340.thericks.models.User;
 import edu.gatech.cs2340.thericks.models.UserDataSource;

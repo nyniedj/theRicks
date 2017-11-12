@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.view.View;
 
+import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;
@@ -234,8 +235,6 @@ public class RatEntryActivity extends AppCompatActivity {
                     borough.getText().toString(),
                     dLatitude,
                     dLongitude);
-
-            RatDataListActivity.updateUI();
             finish();
 
 //            Log.d(TAG, "Valid rat data entered, passing new RatData to parent activity");
