@@ -43,7 +43,7 @@ import edu.gatech.cs2340.thericks.utils.RatDateTimeFilterer;
 public class DashMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = DashMapActivity.class.getSimpleName();
-    static final int ADD_RAT_DATA_REQUEST = 2;
+    private static final int ADD_RAT_DATA_REQUEST = 2;
 
     //default position, zoom, and bearing to set the map camera to
     private static final CameraPosition position = new CameraPosition(new LatLng(40.776278, -73.99086), 12, 0, 30);
@@ -296,7 +296,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         returnToDashButton.setEnabled(false);
         applyFiltersButton.setEnabled(false);
 
-        List<RatData> filteredList = new RatDatabase(this).getFilteredRatData(filters);
+        List<RatData> filteredList = new RatDatabase().getFilteredRatData(filters);
         map.clear();
         for (RatData r: filteredList) {
             MarkerOptions markerOptions = new MarkerOptions();

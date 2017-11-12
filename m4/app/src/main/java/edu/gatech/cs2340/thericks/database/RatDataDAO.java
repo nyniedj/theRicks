@@ -18,7 +18,7 @@ import edu.gatech.cs2340.thericks.models.RatData;
  * Created by Ben Lashley on 10/18/2017.
  */
 
-public class RatDataDAO {
+class RatDataDAO {
 
     private static final String TAG = RatDataDAO.class.getSimpleName();
 

@@ -4,9 +4,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +12,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -121,7 +118,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         // Update passed in UI
         if (data != null && adapter != null) {
             data.clear();
-            RatDatabase db = new RatDatabase(RatTrackerApplication.getAppContext());
+            RatDatabase db = new RatDatabase();
             data.addAll(db.getFilteredRatData(filters));
             adapter.notifyDataSetChanged();
         }

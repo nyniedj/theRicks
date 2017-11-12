@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        db = new UserDatabase(this);
+        db = new UserDatabase();
 
         // Connect widgets
         usernameEntry   = (EditText) findViewById(R.id.registration_create_username_entry);

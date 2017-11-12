@@ -1,6 +1,5 @@
 package edu.gatech.cs2340.thericks.database;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class UserDatabase implements UserDataSource {
     private static final String TAG = UserDatabase.class.getSimpleName();
     private SQLiteDatabase db;
 
-    public UserDatabase(Context context) {
+    public UserDatabase() {
         open();
     }
 

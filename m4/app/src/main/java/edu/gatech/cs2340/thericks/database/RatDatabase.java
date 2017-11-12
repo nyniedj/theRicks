@@ -1,11 +1,8 @@
 package edu.gatech.cs2340.thericks.database;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +22,7 @@ public class RatDatabase implements RatDataSource {
     private static final String TAG = RatDatabase.class.getSimpleName();
     private SQLiteDatabase db;
 
-    public RatDatabase(Context context) {
+    public RatDatabase() {
         open();
     }
 

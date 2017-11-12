@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 String enteredUsername = username.getText().toString();
                 String enteredPassword = password.getText().toString();
 
-                UserDataSource db = new UserDatabase(this);
+                UserDataSource db = new UserDatabase();
                 User u = db.getUserByUsername(enteredUsername);
                 if (u != null && u.getLogin() != null) {
                     Log.d(TAG, "Checking password for login: " + u.getLogin());

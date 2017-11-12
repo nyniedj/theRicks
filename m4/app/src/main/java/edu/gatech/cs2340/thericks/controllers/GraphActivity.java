@@ -27,10 +27,8 @@ import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
-import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.Months;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.models.RatDate;
 import edu.gatech.cs2340.thericks.models.RatDateTime;
 import edu.gatech.cs2340.thericks.utils.RatDateTimeFilterer;
 
@@ -93,7 +91,7 @@ public class GraphActivity extends AppCompatActivity {
                 }
             };
             progressBar.setVisibility(View.VISIBLE);
-            RatDatabase db = new RatDatabase(RatTrackerApplication.getAppContext());
+            RatDatabase db = new RatDatabase();
             db.loadData(tempAdapter, loadedData, filters);
         });
 
@@ -167,7 +165,7 @@ public class GraphActivity extends AppCompatActivity {
             }
         };
 
-        RatDatabase db = new RatDatabase(RatTrackerApplication.getAppContext());
+        RatDatabase db = new RatDatabase();
         db.loadData(tempAdapter, loadedData, filters);
     }
 

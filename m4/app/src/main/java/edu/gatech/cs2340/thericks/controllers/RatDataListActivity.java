@@ -46,7 +46,7 @@ public class RatDataListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rat_data_list);
 
-        RatDatabase database = new RatDatabase(this);
+        RatDatabase database = new RatDatabase();
         progressBar = (ProgressBar) findViewById(R.id.rat_data_list_progress_bar);
 
         if (adapter == null) {
@@ -165,7 +165,7 @@ public class RatDataListActivity extends AppCompatActivity {
         if (adapter != null && filters != null) {
             Log.d(TAG, "Updating list view to show changes to database");
             adapter.listData.clear();
-            adapter.listData.addAll(new RatDatabase(RatTrackerApplication.getAppContext()).getFilteredRatData(filters));
+            adapter.listData.addAll(new RatDatabase().getFilteredRatData(filters));
             adapter.notifyDataSetChanged();
         }
     }
