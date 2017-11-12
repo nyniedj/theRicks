@@ -15,7 +15,7 @@ final class UserDatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "users.db";
 
-    private static UserDatabaseHandler instance = new UserDatabaseHandler(RatTrackerApplication.getAppContext());
+    private static final UserDatabaseHandler instance = new UserDatabaseHandler(RatTrackerApplication.getAppContext());
 
     /**
      * Creates and/or opens a database that will be used for reading and writing

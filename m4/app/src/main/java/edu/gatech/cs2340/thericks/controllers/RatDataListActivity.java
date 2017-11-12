@@ -36,7 +36,7 @@ public class RatDataListActivity extends AppCompatActivity {
 
     private static CustomListAdapter adapter;
     /* Filters for displayed rat data */
-    private static List<Predicate<RatData>> filters = new ArrayList<>();
+    private static final List<Predicate<RatData>> filters = new ArrayList<>();
 
     private ListView ratDataList;
     private ProgressBar progressBar;
@@ -90,8 +90,8 @@ public class RatDataListActivity extends AppCompatActivity {
      * Custom adapter to populate the list view of rat data
      */
     private class CustomListAdapter extends ArrayAdapter {
-        private List<RatData> listData;
-        private LayoutInflater layoutInflater;
+        private final List<RatData> listData;
+        private final LayoutInflater layoutInflater;
 
         /**
          * Creates a list view with RatData Objects

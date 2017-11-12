@@ -8,7 +8,7 @@ public enum Privilege {
     NORMAL("Normal"),
     ADMIN("Admin");
 
-    private String label;
+    private final String label;
 
     Privilege(String label) {
         this.label = label;

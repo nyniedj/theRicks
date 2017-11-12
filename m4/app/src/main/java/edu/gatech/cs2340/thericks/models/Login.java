@@ -16,13 +16,13 @@ public class Login implements Serializable {
     private static final String TAG = Login.class.getSimpleName();
 
     /** Username for login **/
-    private String username;
+    private final String username;
 
     /** The hashed password for the login **/
-    private String securePassword;
+    private final String securePassword;
 
     /** Random salt for hashing **/
-    private String salt;
+    private final String salt;
 
 
     Login(String username, String password, String salt) {

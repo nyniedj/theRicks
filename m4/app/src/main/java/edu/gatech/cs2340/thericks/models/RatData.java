@@ -9,15 +9,15 @@ import android.os.Parcelable;
  */
 public class RatData implements Parcelable{
 
-    private int key;
-    private String createdDateTime;
-    private String locationType;
-    private int incidentZip;
-    private String incidentAddress;
-    private String city;
-    private String borough;
-    private double latitude;
-    private double longitude;
+    private final int key;
+    private final String createdDateTime;
+    private final String locationType;
+    private final int incidentZip;
+    private final String incidentAddress;
+    private final String city;
+    private final String borough;
+    private final double latitude;
+    private final double longitude;
 
     // Creates a rat entry
     public RatData(int key, String createdDateTime, String locationType,

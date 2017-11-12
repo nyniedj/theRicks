@@ -128,7 +128,7 @@ class UserDAO {
 
         User user = null;
         // Check if the query returned any entries
-        if (cursor != null && cursor.moveToFirst()) {    // Entry found
+        if ((cursor != null) && cursor.moveToFirst()) {    // Entry found
             // Create and return new rat data using values in the entry
             user = cursorToUser(cursor);
             // Free up cursor

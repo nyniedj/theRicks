@@ -15,7 +15,7 @@ final class RatDatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "rat_data.db";
 
-    private static RatDatabaseHandler instance = new RatDatabaseHandler(RatTrackerApplication.getAppContext());
+    private static final RatDatabaseHandler instance = new RatDatabaseHandler(RatTrackerApplication.getAppContext());
 
     /**
      * Creates and/or opens a database that will be used for reading and writing
