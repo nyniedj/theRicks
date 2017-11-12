@@ -36,4 +36,8 @@
     <string name="rat_data_list_title">Rat Data</string>
     <string name="unique_key_label">Unique Key</string>
     <string name="location_type_label">Location Type</string>
+    <string name="user_x">User: X</string>
+    <string name="usernameText">text that shows the profile username</string>
+    <string name="settings_title_header">settings title header</string>
+    <string name="settings">SETTINGS</string>
 </resources>

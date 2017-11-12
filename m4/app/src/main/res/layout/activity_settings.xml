@@ -11,8 +11,9 @@
         android:id="@+id/settingsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="settings title header"
-        android:text="SETTINGS"
+        android:contentDescription="@string/settings_title_header"
+        android:text="@string/settings"
         app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_toLeftOf="parent"
         tools:layout_editor_absoluteX="16dp" />
 </android.support.constraint.ConstraintLayout>
