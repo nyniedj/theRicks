@@ -82,7 +82,8 @@ public class RatDataListActivity extends AppCompatActivity {
 
         // Load in rat data
         Log.d(TAG, "Calling the RatDatabase to load the data");
-        database.loadData(adapter, adapter.listData, progressBar, filters);
+        progressBar.setVisibility(View.VISIBLE);
+        database.loadData(adapter, adapter.listData, filters);
     }
 
     /**
@@ -102,6 +103,12 @@ public class RatDataListActivity extends AppCompatActivity {
             super(aContext, ArrayAdapter.NO_SELECTION);
             this.listData = listData;
             layoutInflater = LayoutInflater.from(aContext);
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
         }
 
         @Override

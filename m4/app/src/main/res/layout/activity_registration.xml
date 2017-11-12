@@ -7,6 +7,7 @@
 
     <TextView
         android:id="@+id/registration_create_username_label"
+        android:labelFor="@+id/registration_create_username_entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_username_label"
@@ -29,6 +30,7 @@
 
     <TextView
         android:id="@+id/registration_create_password_label"
+        android:labelFor="@+id/registration_create_password_entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_password_label"
@@ -51,6 +53,7 @@
 
     <TextView
         android:id="@+id/registration_reenter_password_label"
+        android:labelFor="@+id/registration_reenter_password_entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/reenter_password_label"

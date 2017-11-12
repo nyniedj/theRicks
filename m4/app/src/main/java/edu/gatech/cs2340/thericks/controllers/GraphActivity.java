@@ -95,7 +95,7 @@ public class GraphActivity extends AppCompatActivity {
             };
             progressBar.setVisibility(View.VISIBLE);
             RatDatabase db = new RatDatabase(RatTrackerApplication.getAppContext());
-            db.loadData(tempAdapter, loadedData, progressBar, filters);
+            db.loadData(tempAdapter, loadedData, filters);
         });
 
         dateSeperator = (TextView) findViewById(R.id.date_separator_graph_text);
@@ -173,7 +173,7 @@ public class GraphActivity extends AppCompatActivity {
         };
 
         RatDatabase db = new RatDatabase(RatTrackerApplication.getAppContext());
-        db.loadData(tempAdapter, loadedData, progressBar, filters);
+        db.loadData(tempAdapter, loadedData, filters);
     }
 
     /**

@@ -36,10 +36,9 @@ public class RatDatabase implements RatDataSource {
      * Loads in a list of RatData Objects
      * @param a the ArrayAdapter that returns the views for each RatData Object
      * @param data the list of RatData Objects whose views will be added
-     * @param progressBar indicates the progress of loading in data
      * @param filters the filters used to select certain RatData Objects
      */
-    public void loadData(ArrayAdapter a, List<RatData> data, ProgressBar progressBar, List<Predicate<RatData>> filters) {
+    public void loadData(ArrayAdapter a, List<RatData> data, List<Predicate<RatData>> filters) {
         if (!LoadRatDataTask.isReady()) {
             Log.d(TAG, "LoadRatDataTask was not ready to load data or data was already loaded");
             if (data != null && a != null) {
@@ -47,14 +46,11 @@ public class RatDatabase implements RatDataSource {
                 data.addAll(getFilteredRatData(filters));
                 a.notifyDataSetChanged();
             }
-            if (progressBar != null) {
-                progressBar.setVisibility(View.GONE);
-            }
             return;
         }
         Log.d(TAG, "Creating new LoadRatDataTask");
         LoadRatDataTask loadData = new LoadRatDataTask();
-        loadData.attachViews(a, data, progressBar, filters);
+        loadData.attachViews(a, data, filters);
         loadData.execute(db);
     }
 
