@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +42,7 @@ public class RatDateTimeFilterer {
      * @param data the list
      * @return a list containing the RatData between the specified dates
      */
-    public static List<RatData> filterByDate(RatDateTime begin, RatDateTime end, List<RatData> data) {
+    public static Collection<RatData> filterByDate(RatDateTime begin, RatDateTime end, Collection<RatData> data) {
         List<RatData> filteredList = new ArrayList<RatData>();
         Predicate<RatData> predicate = createRatDateTimeRangeFilter(begin, end);
         filteredList = data.stream().filter(predicate).collect(Collectors.toList());

@@ -87,7 +87,7 @@ public class Security {
      * @param username the desired username
      * @return true if valid, false if not
      */
-    public static boolean validateUsername(String username) {
+    public static boolean validateUsername(@SuppressWarnings("TypeMayBeWeakened") String username) {
         // Check if username is valid
         if (username == null || username.length() == 0) {
             return false;
@@ -109,7 +109,7 @@ public class Security {
      * @param pw the password to validate
      * @return true if password is valid, false if not
      */
-    public static boolean validatePassword(String pw) {
+    public static boolean validatePassword(@SuppressWarnings("TypeMayBeWeakened") String pw) {
         final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"+ MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
         return pw != null && pat.matcher(pw).matches();
     }

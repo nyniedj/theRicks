@@ -69,7 +69,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
     private static final String DEFAULT_START_DATE = "08/01/2017 12:00:00 AM";
     private static final String DEFAULT_END_DATE = "08/11/2017 12:00:00 AM";
 
-    private ArrayList<Predicate<RatData>> filters;
+    private List<Predicate<RatData>> filters;
     private Predicate<RatData> dateInRange;
 
     private TextView dateSeparator;

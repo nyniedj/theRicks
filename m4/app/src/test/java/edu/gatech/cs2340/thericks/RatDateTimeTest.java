@@ -64,7 +64,6 @@ public class RatDateTimeTest {
         assertTrue(RatDate.isDate("01/02/2007"));
 
         assertTrue(date2.compareTo(date1) < 0);
-        assertTrue(date1.compareTo(date1) == 0);
     }
 
     @Test

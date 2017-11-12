@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -17,9 +18,11 @@ import edu.gatech.cs2340.thericks.models.RatData;
  * Created by Ben Lashley on 10/18/2017.
  */
 
-class RatDataDAO {
+public class RatDataDAO {
 
     private static final String TAG = RatDataDAO.class.getSimpleName();
+
+    private static final int INITIAL_CAPACITY = 100100;
 
     private static final String TABLE_RAT_DATA = "rat_data";
 
@@ -160,7 +163,7 @@ class RatDataDAO {
      * @return a list of RatData Objects
      */
     static List<RatData> getAllRatData(SQLiteDatabase db) {
-        List<RatData> ratDataList = new ArrayList<>(100100);
+        List<RatData> ratDataList = new ArrayList<>(INITIAL_CAPACITY);
         String selectAllQuery = "SELECT * FROM " + TABLE_RAT_DATA;
 
         Cursor cursor = db.rawQuery(selectAllQuery, null);
@@ -179,7 +182,7 @@ class RatDataDAO {
         return ratDataList;
     }
 
-    static List<RatData> getFilteredRatData(SQLiteDatabase db, List<Predicate<RatData>> filters) {
+    static List<RatData> getFilteredRatData(SQLiteDatabase db, Collection<Predicate<RatData>> filters) {
         List<RatData> ratDataList = new ArrayList<>(100100);
         String selectAllQuery = "SELECT * FROM " + TABLE_RAT_DATA;
 
@@ -210,7 +213,7 @@ class RatDataDAO {
      * @param filters List of filters to apply
      * @return List of RatData Objects in full list satisfying all filters
      */
-    static List<RatData> applyFilters(List<RatData> fullList, List<Predicate<RatData>> filters) {
+    static List<RatData> applyFilters(Collection<RatData> fullList, Collection<Predicate<RatData>> filters) {
         Predicate<RatData> allPredicates = filters.stream().reduce(f -> true, Predicate::and);
         return fullList.stream().filter(allPredicates).collect(Collectors.toList());
     }
