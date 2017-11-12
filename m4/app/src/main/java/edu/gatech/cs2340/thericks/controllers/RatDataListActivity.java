@@ -27,9 +27,8 @@ import edu.gatech.cs2340.thericks.models.RatData;
 
 /**
  * Created by Cameron on 10/5/2017.
+ * Displays the rat data from the database in a list format
  */
-
-
 public class RatDataListActivity extends AppCompatActivity {
 
     private static final String TAG = RatDataListActivity.class.getSimpleName();
