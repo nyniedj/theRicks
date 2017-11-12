@@ -74,7 +74,6 @@ public class RatEntryActivity extends AppCompatActivity {
         key.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -91,14 +90,12 @@ public class RatEntryActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
 
         date.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -114,14 +111,12 @@ public class RatEntryActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
 
         zip.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -138,14 +133,12 @@ public class RatEntryActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
 
         latitude.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -162,14 +155,12 @@ public class RatEntryActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
 
         longitude.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -187,7 +178,6 @@ public class RatEntryActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
 

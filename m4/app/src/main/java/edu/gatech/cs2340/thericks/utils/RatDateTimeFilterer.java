@@ -26,7 +26,7 @@ public class RatDateTimeFilterer {
     public static Predicate<RatData> createRatDateTimeRangeFilter(RatDateTime begin, RatDateTime end) {
         return ratData -> {
             RatDateTime d = RatDateTime.forDateTime(ratData.getCreatedDateTime());
-            return d != null && (begin == null || d.compareTo(begin) >= 0) && (end == null || d.compareTo(end) <= 0);
+            return (d != null) && ((begin == null) || (d.compareTo(begin) >= 0)) && ((end == null) || (d.compareTo(end) <= 0));
         };
     }
 

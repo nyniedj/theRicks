@@ -16,10 +16,10 @@ public class User implements Parcelable {
     private static final String TAG = User.class.getSimpleName();
 
     /** User's secure login data **/
-    private Login loginInfo;
+    private final Login loginInfo;
 
     /** User's privilege status - either normal or admin**/
-    private Privilege privilege;
+    private final Privilege privilege;
 
     /** User's login status **/
     private boolean loggedIn;

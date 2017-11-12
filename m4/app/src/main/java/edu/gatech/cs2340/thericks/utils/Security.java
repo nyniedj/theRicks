@@ -89,9 +89,9 @@ public class Security {
      */
     public static boolean validateUsername(@SuppressWarnings("TypeMayBeWeakened") String username) {
         // Check if username is valid
-        if (username == null || username.length() == 0) {
+        if ((username == null) || username.isEmpty()) {
             return false;
-        } else if (username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
+        } else if ((username.length() < MIN_USERNAME_LENGTH) || (username.length() > MAX_USERNAME_LENGTH)) {
             return false;
         }
         return true;
@@ -111,7 +111,7 @@ public class Security {
      */
     public static boolean validatePassword(@SuppressWarnings("TypeMayBeWeakened") String pw) {
         final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"+ MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
-        return pw != null && pat.matcher(pw).matches();
+        return (pw != null) && pat.matcher(pw).matches();
     }
 
     /**
@@ -130,7 +130,7 @@ public class Security {
         Log.d("Login", "Attempted password encrypted to: " + attempt);
         Log.d("Login", "Actual encrypted password: " + login.getSecurePassword());
 
-        return attempt != null && attempt.equals(login.getSecurePassword());
+        return (attempt != null) && attempt.equals(login.getSecurePassword());
     }
 
     /**

@@ -130,7 +130,6 @@ public class GraphActivity extends AppCompatActivity {
         date2Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -148,7 +147,6 @@ public class GraphActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
 
@@ -218,7 +216,7 @@ public class GraphActivity extends AppCompatActivity {
 
     public class MyXAxisValueFormatter implements IAxisValueFormatter {
 
-        private RatDateTime[] mValues;
+        private final RatDateTime[] mValues;
 
         MyXAxisValueFormatter(RatDateTime[] values) {
             this.mValues = new RatDateTime[values.length];
