@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Holds a date and time and can read dates and times in from
  * properly formatted Strings and raw data
  */
-public class RatDateTime implements Comparable<RatDateTime>, Serializable{
+public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
 
     private RatDate date;
     private RatTime time;

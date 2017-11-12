@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * Holds a time and can read in a properly formatted time
  * from a String
  */
-public class RatTime implements Comparable<RatTime>, Serializable{
+public final class RatTime implements Comparable<RatTime>, Serializable{
 
     private int seconds;
     private int minutes;

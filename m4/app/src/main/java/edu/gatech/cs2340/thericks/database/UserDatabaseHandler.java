@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Ben Lashley on 10/31/2017.
  */
 
-class UserDatabaseHandler extends SQLiteOpenHelper {
+final class UserDatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "users.db";
 
