@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatDateTime;
 
 /**
  * Utility class for filtering by date and time.
@@ -18,18 +19,7 @@ import edu.gatech.cs2340.thericks.models.RatData;
  * Created by Ben Lashley on 11/1/2017.
  */
 
-public class DateFilterer {
-    private static DateFormat FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
-
-    public static Date parse(String input) {
-        Date result = null;
-        try {
-            result = FORMAT.parse(input);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+public class RatDateTimeFilterer {
 
     /**
      * Returns a Predicate that filters Dates in the specified range
@@ -37,10 +27,10 @@ public class DateFilterer {
      * @param end the end date
      * @return the predicate
      */
-    public static Predicate<RatData> createDateRangeFilter(Date begin, Date end) {
+    public static Predicate<RatData> createRatDateTimeRangeFilter(RatDateTime begin, RatDateTime end) {
         return ratData -> {
-            Date d = parse(ratData.getCreatedDateTime());
-            return d != null && (begin == null || d.after(begin)) && (end == null || d.before(end));
+            RatDateTime d = RatDateTime.forDateTime(ratData.getCreatedDateTime());
+            return d != null && (begin == null || d.compareTo(begin) >= 0) && (end == null || d.compareTo(end) <= 0);
         };
     }
 
@@ -51,9 +41,9 @@ public class DateFilterer {
      * @param data the list
      * @return a list containing the RatData between the specified dates
      */
-    public static List<RatData> filterByDate(Date begin, Date end, List<RatData> data) {
+    public static List<RatData> filterByDate(RatDateTime begin, RatDateTime end, List<RatData> data) {
         List<RatData> filteredList = new ArrayList<RatData>();
-        Predicate<RatData> predicate = createDateRangeFilter(begin, end);
+        Predicate<RatData> predicate = createRatDateTimeRangeFilter(begin, end);
         filteredList = data.stream().filter(predicate).collect(Collectors.toList());
         return filteredList;
     }

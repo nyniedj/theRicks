@@ -1,7 +1,5 @@
 package edu.gatech.cs2340.thericks.controllers;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,16 +13,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.androidplot.util.PixelUtils;
-import com.androidplot.xy.BarFormatter;
-import com.androidplot.xy.BarRenderer;
-import com.androidplot.xy.BoundaryMode;
-import com.androidplot.xy.CatmullRomInterpolator;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYGraphWidget;
-import com.androidplot.xy.XYPlot;
-import com.androidplot.xy.XYSeries;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -33,13 +21,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
-import org.w3c.dom.Text;
-
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -48,7 +30,9 @@ import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.Months;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.utils.DateFilterer;
+import edu.gatech.cs2340.thericks.models.RatDate;
+import edu.gatech.cs2340.thericks.models.RatDateTime;
+import edu.gatech.cs2340.thericks.utils.RatDateTimeFilterer;
 
 /**
  * Created by Cameron on 11/3/2017.
@@ -60,8 +44,8 @@ public class GraphActivity extends AppCompatActivity {
     private static final String TAG = GraphActivity.class.getSimpleName();
 
     //default dates to filter out rat data that occurs between the dates
-    private Date begin = DateFilterer.parse("01/01/2017 12:00:00 AM");
-    private Date end = DateFilterer.parse("09/01/2017 12:00:00 AM");
+    private RatDateTime begin = RatDateTime.forDateTime("01/01/2017 12:00:00 AM");
+    private RatDateTime end = RatDateTime.forDateTime("09/01/2017 12:00:00 AM");
 
     private LineChart chart;
 
@@ -92,10 +76,10 @@ public class GraphActivity extends AppCompatActivity {
         applyFiltersButton = (Button) findViewById(R.id.apply_filters_button_graph);
         applyFiltersButton.setVisibility(View.GONE);
         applyFiltersButton.setOnClickListener(v -> {
-            begin = DateFilterer.parse(date1Edit.getText().toString());
-            end = DateFilterer.parse(date2Edit.getText().toString());
+            begin = RatDateTime.forDateTime(date1Edit.getText().toString());
+            end = RatDateTime.forDateTime(date2Edit.getText().toString());
             filters.remove(dateInRange);
-            dateInRange = DateFilterer.createDateRangeFilter(begin, end);
+            dateInRange = RatDateTimeFilterer.createRatDateTimeRangeFilter(begin, end);
             filters.add(dateInRange);
             applyFiltersButton.setEnabled(false);
             ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
@@ -127,7 +111,7 @@ public class GraphActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (DateFilterer.parse(text) != null) {
+                if (RatDateTime.isDateTime(text)) {
                     date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
                 } else {
@@ -154,7 +138,7 @@ public class GraphActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (DateFilterer.parse(text) != null) {
+                if (RatDateTime.isDateTime(text)) {
                     date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
                 } else {
@@ -172,7 +156,7 @@ public class GraphActivity extends AppCompatActivity {
 
         filters = new ArrayList<>();
 
-        dateInRange = DateFilterer.createDateRangeFilter(begin, end);
+        dateInRange = RatDateTimeFilterer.createRatDateTimeRangeFilter(begin, end);
         filters.add(dateInRange);
 
         loadedData = new ArrayList<>();
@@ -201,12 +185,12 @@ public class GraphActivity extends AppCompatActivity {
         applyFiltersButton.setEnabled(false);
 
         int monthDif = ((end.getMonth() + 1) + (end.getYear() * 12)) - ((begin.getMonth() + 1) + (begin.getYear() * 12));
-        Date[] domainDates = new Date[monthDif];
+        RatDateTime[] domainDates = new RatDateTime[monthDif];
         for (int i = 0; i < domainDates.length; i++) {
             int month = begin.getMonth() + i;
             int year = begin.getYear() + ((month + 1) / 12);
             month = ((month + 1) % 12) - 1;
-            Date d = (Date) begin.clone();
+            RatDateTime d = RatDateTime.forDateTime(begin);
             d.setMonth(month);
             d.setYear(year);
             domainDates[i] = d;
@@ -214,7 +198,7 @@ public class GraphActivity extends AppCompatActivity {
 
         List<Entry> entries = new ArrayList<Entry>();
         for (int i = 1; i < domainDates.length; i++) {
-            entries.add(new Entry(i, DateFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
+            entries.add(new Entry(i, RatDateTimeFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
         }
 
         Log.e(TAG, entries.toString());
@@ -238,9 +222,9 @@ public class GraphActivity extends AppCompatActivity {
 
     public class MyXAxisValueFormatter implements IAxisValueFormatter {
 
-        private Date[] mValues;
+        private RatDateTime[] mValues;
 
-        public MyXAxisValueFormatter(Date[] values) {
+        public MyXAxisValueFormatter(RatDateTime[] values) {
             this.mValues = values;
         }
 
@@ -249,7 +233,7 @@ public class GraphActivity extends AppCompatActivity {
             // "value" represents the position of the label on the axis (x or y)
             int intValue = (int) value;
             if (intValue < mValues.length && intValue >= 0) {
-                return Months.values()[mValues[intValue].getMonth()].toString();
+                return Months.values()[mValues[intValue].getMonth() - 1].toString() + " " + mValues[intValue].getYear();
             } else {
                 return intValue + "";
             }

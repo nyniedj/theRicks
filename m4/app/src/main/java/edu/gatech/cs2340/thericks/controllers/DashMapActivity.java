@@ -24,15 +24,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatDateTime;
 import edu.gatech.cs2340.thericks.models.User;
-import edu.gatech.cs2340.thericks.utils.DateFilterer;
+import edu.gatech.cs2340.thericks.utils.RatDateTimeFilterer;
 
 /**
  * Created by Cameron on 10/6/2017.
@@ -103,9 +103,9 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         filters = new ArrayList<>();
         //default date to filter out rat data that occurs after the specified date
-        Date begin = DateFilterer.parse(DEFAULT_START_DATE);
-        Date end = DateFilterer.parse(DEFAULT_END_DATE);
-        dateInRange = DateFilterer.createDateRangeFilter(begin, end);
+        RatDateTime begin = RatDateTime.forDateTime(DEFAULT_START_DATE);
+        RatDateTime end = RatDateTime.forDateTime(DEFAULT_END_DATE);
+        dateInRange = RatDateTimeFilterer.createRatDateTimeRangeFilter(begin, end);
         filters.add(dateInRange);
 
         date1Edit = (EditText) findViewById(R.id.date1_dash_map);
@@ -120,7 +120,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (DateFilterer.parse(text) != null) {
+                if (RatDateTime.isDateTime(text)) {
                     date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
                 } else {
@@ -147,7 +147,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (DateFilterer.parse(text) != null) {
+                if (RatDateTime.isDateTime(text)) {
                     date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
                 } else {
@@ -259,10 +259,10 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         });
 
         applyFiltersButton.setOnClickListener(v -> {
-            Date beginRange = DateFilterer.parse(date1Edit.getText().toString());
-            Date endRange = DateFilterer.parse(date2Edit.getText().toString());
+            RatDateTime beginRange = RatDateTime.forDateTime(date1Edit.getText().toString());
+            RatDateTime endRange = RatDateTime.forDateTime(date2Edit.getText().toString());
             filters.remove(dateInRange);
-            dateInRange = DateFilterer.createDateRangeFilter(beginRange, endRange);
+            dateInRange = RatDateTimeFilterer.createRatDateTimeRangeFilter(beginRange, endRange);
             filters.add(dateInRange);
             loadFilteredMapMarkers();
         });
