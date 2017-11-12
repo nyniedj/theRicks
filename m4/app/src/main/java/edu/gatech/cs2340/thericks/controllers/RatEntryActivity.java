@@ -59,7 +59,7 @@ public class RatEntryActivity extends AppCompatActivity {
             index = b.getInt("INDEX");
 
             key.setText(ratData.getKey() + "");
-            date.setText(ratData.getCreatedDateTime().toString());
+            date.setText(ratData.getCreatedDateTime());
             locationType.setText(ratData.getLocationType());
             address.setText(ratData.getIncidentAddress());
             zip.setText(ratData.getIncidentZip() + "");
