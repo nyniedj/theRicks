@@ -87,6 +87,10 @@ public class RatTime implements Comparable<RatTime>, Serializable{
         return m.find();
     }
 
+    /**
+     * Returns the hours
+     * @return the hours
+     */
     public int getHours() {
         return hours;
     }
@@ -103,30 +107,58 @@ public class RatTime implements Comparable<RatTime>, Serializable{
         return hours;
     }
 
+    /**
+     * Returns the minutes
+     * @return the minutes
+     */
     public int getMinutes() {
         return minutes;
     }
 
+    /**
+     * Returns the seconds
+     * @return the seconds
+     */
     public int getSeconds() {
         return seconds;
     }
 
+    /**
+     * Returns the period
+     * @return the period
+     */
     public Period getPeriod() {
         return period;
     }
 
+    /**
+     * Sets the hours to the specified value
+     * @param hours the hours to be set to
+     */
     public void setHours(int hours) {
         this.hours = hours;
     }
 
+    /**
+     * Sets the minutes to the specified value
+     * @param minutes the minutes to be set to
+     */
     public void setMinutes(int minutes) {
         this.minutes = minutes;
     }
 
+    /**
+     * Sets the seconds to the specified value
+     * @param seconds the seconds to be set to
+     */
     public void setSeconds(int seconds) {
         this.seconds = seconds;
     }
 
+    /**
+     * Sets the period to the specified value
+     * @param period the period to be set to
+     */
     public void setPeriod(Period period) {
         this.period = period;
     }

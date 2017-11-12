@@ -80,26 +80,50 @@ public class RatDate implements Comparable<RatDate>, Serializable{
         return m.find();
     }
 
+    /**
+     * Returns the year
+     * @return the year
+     */
     public int getYear() {
         return year;
     }
 
+    /**
+     * Returns the month
+     * @return the month
+     */
     public int getMonth() {
         return month;
     }
 
+    /**
+     * Returns the day
+     * @return the day
+     */
     public int getDay() {
         return day;
     }
 
+    /**
+     * Sets the year to the specified value
+     * @param year the year to be set to
+     */
     public void setYear(int year) {
         this.year = year;
     }
 
+    /**
+     * Sets the month to the specified value
+     * @param month the month to be set to
+     */
     public void setMonth(int month) {
         this.month = month;
     }
 
+    /**
+     * Sets the day to the specified value
+     * @param day the day to be set to
+     */
     public void setDay(int day) {
         this.day = day;
     }
