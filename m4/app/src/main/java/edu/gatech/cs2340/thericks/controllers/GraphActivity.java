@@ -191,7 +191,7 @@ public class GraphActivity extends AppCompatActivity {
             domainDates[i] = d;
         }
 
-        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> entries = new ArrayList<>();
         for (int i = 1; i < domainDates.length; i++) {
             entries.add(new Entry(i, RatDateTimeFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
         }
