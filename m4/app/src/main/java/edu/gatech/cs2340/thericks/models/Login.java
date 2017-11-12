@@ -1,7 +1,5 @@
 package edu.gatech.cs2340.thericks.models;
 
-import java.io.Serializable;
-
 /**
  * Created by Ben Lashley on 9/18/2017.
  *
