@@ -72,8 +72,8 @@ public class RatDataListActivity extends AppCompatActivity {
         });
 
         /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
-        Predicate<RatData> inJamaica = ratData -> ratData.getCity().equalsIgnoreCase("Jamaica");
-        Predicate<RatData> commercialLocation = ratData -> ratData.getLocationType().equalsIgnoreCase("Commercial Building");
+        Predicate<RatData> inJamaica = ratData -> "Jamaica".equalsIgnoreCase(ratData.getCity());
+        Predicate<RatData> commercialLocation = ratData -> "Commercial Building".equalsIgnoreCase(ratData.getLocationType());
         if (filters.isEmpty()) {
             filters.add(inJamaica);
             filters.add(commercialLocation);
@@ -101,7 +101,7 @@ public class RatDataListActivity extends AppCompatActivity {
          */
         public CustomListAdapter(Context aContext, List<RatData> listData) {
             super(aContext, ArrayAdapter.NO_SELECTION);
-            this.listData = listData;
+            this.listData = new ArrayList<>(listData);
             layoutInflater = LayoutInflater.from(aContext);
         }
 

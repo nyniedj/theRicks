@@ -143,7 +143,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
      */
     void attachViews(ArrayAdapter a, List<RatData> data, List<Predicate<RatData>> filters) {
         adapter = a;
-        this.data = data;
-        this.filters = filters;
+        this.data = new ArrayList<>(data);
+        this.filters = new ArrayList<>(filters);
     }
 }

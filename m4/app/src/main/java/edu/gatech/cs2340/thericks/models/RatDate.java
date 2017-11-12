@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * Holds a date and can read properly formatted Strings
  * as dates
  */
-public class RatDate implements Comparable<RatDate>, Serializable{
+public final class RatDate implements Comparable<RatDate>, Serializable{
 
     private int year;
     private int month;
