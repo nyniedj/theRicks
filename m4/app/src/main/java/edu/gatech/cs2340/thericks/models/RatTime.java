@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
  */
 public final class RatTime implements Comparable<RatTime>, Serializable{
 
+    private static final int HOURS_IN_HALF_DAY = 12;
+
     private int seconds;
     private int minutes;
     private int hours;
@@ -56,7 +58,7 @@ public final class RatTime implements Comparable<RatTime>, Serializable{
      * @param possibleTimeDef the String to pull a time from
      * @return the new RatTime
      */
-    public static RatTime forTime(String possibleTimeDef) {
+    public static RatTime forTime(@SuppressWarnings("TypeMayBeWeakened") String possibleTimeDef) {
         Pattern p = Pattern.compile("\\d\\d:\\d\\d:\\d\\d\\s[AP]M");
         Matcher m = p.matcher(possibleTimeDef);
         if (m.find()) {
@@ -82,7 +84,7 @@ public final class RatTime implements Comparable<RatTime>, Serializable{
      * @param possibleTimeDef the String to check
      * @return true if it contains a tiem, false otherwise
      */
-    public static boolean isTime(String possibleTimeDef) {
+    public static boolean isTime(@SuppressWarnings("TypeMayBeWeakened") String possibleTimeDef) {
         Pattern p = Pattern.compile("\\d\\d:\\d\\d:\\d\\d\\s[AP]M");
         Matcher m = p.matcher(possibleTimeDef);
         return m.find();
@@ -103,7 +105,7 @@ public final class RatTime implements Comparable<RatTime>, Serializable{
      */
     public int get24Hours() {
         if (period.equals(Period.PM)) {
-            return hours + 12;
+            return hours + HOURS_IN_HALF_DAY;
         }
         return hours;
     }

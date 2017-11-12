@@ -60,7 +60,6 @@ public class GraphActivity extends AppCompatActivity {
 
     private EditText date1Edit;
     private EditText date2Edit;
-    private TextView dateSeperator;
     private Button applyFiltersButton;
 
     @Override
@@ -98,7 +97,7 @@ public class GraphActivity extends AppCompatActivity {
             db.loadData(tempAdapter, loadedData, filters);
         });
 
-        dateSeperator = (TextView) findViewById(R.id.date_separator_graph_text);
+        TextView dateSeperator = (TextView) findViewById(R.id.date_separator_graph_text);
         dateSeperator.setVisibility(View.GONE);
 
         date1Edit = (EditText) findViewById(R.id.date1_graph);
@@ -107,7 +106,6 @@ public class GraphActivity extends AppCompatActivity {
         date1Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                return;
             }
 
             @Override
@@ -125,7 +123,6 @@ public class GraphActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                return;
             }
         });
         date2Edit = (EditText) findViewById(R.id.date2_graph);
@@ -224,8 +221,9 @@ public class GraphActivity extends AppCompatActivity {
 
         private RatDateTime[] mValues;
 
-        public MyXAxisValueFormatter(RatDateTime[] values) {
-            this.mValues = values;
+        MyXAxisValueFormatter(RatDateTime[] values) {
+            this.mValues = new RatDateTime[values.length];
+            System.arraycopy(values, 0, mValues, 0, values.length);
         }
 
         @Override
@@ -236,9 +234,8 @@ public class GraphActivity extends AppCompatActivity {
                 return Months.values()[mValues[intValue].getMonth() - 1].toString() + " " + mValues[intValue].getYear();
             } catch (ArrayIndexOutOfBoundsException e) {
                 Log.e(TAG, e.getMessage());
-            } finally {
-                return intValue + "";
             }
+            return intValue + "";
         }
     }
 }

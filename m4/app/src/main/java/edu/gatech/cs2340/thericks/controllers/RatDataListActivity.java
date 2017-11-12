@@ -72,8 +72,8 @@ public class RatDataListActivity extends AppCompatActivity {
         });
 
         /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
-        Predicate<RatData> inJamaica = ratData -> ratData.getCity().equalsIgnoreCase("Jamaica");
-        Predicate<RatData> commercialLocation = ratData -> ratData.getLocationType().equalsIgnoreCase("Commercial Building");
+        Predicate<RatData> inJamaica = ratData -> "Jamaica".equalsIgnoreCase(ratData.getCity());
+        Predicate<RatData> commercialLocation = ratData -> "Commercial Building".equalsIgnoreCase(ratData.getLocationType());
         if (filters.isEmpty()) {
             filters.add(inJamaica);
             filters.add(commercialLocation);
@@ -101,7 +101,7 @@ public class RatDataListActivity extends AppCompatActivity {
          */
         public CustomListAdapter(Context aContext, List<RatData> listData) {
             super(aContext, ArrayAdapter.NO_SELECTION);
-            this.listData = listData;
+            this.listData = new ArrayList<>(listData);
             layoutInflater = LayoutInflater.from(aContext);
         }
 
@@ -129,21 +129,23 @@ public class RatDataListActivity extends AppCompatActivity {
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
+            View rtnView;
             if (convertView == null) {
-                convertView = layoutInflater.inflate(R.layout.rat_list_row_view, null);
+                rtnView = layoutInflater.inflate(R.layout.rat_list_row_view, null);
                 holder = new ViewHolder();
-                holder.cityView = (TextView) convertView.findViewById(R.id.rat_data_city_text);
-                holder.addressView = (TextView) convertView.findViewById(R.id.rat_data_incident_address_text);
-                holder.createdDateView = (TextView) convertView.findViewById(R.id.rat_data_date_text);
-                convertView.setTag(holder);
+                holder.cityView = convertView.findViewById(R.id.rat_data_city_text);
+                holder.addressView = convertView.findViewById(R.id.rat_data_incident_address_text);
+                holder.createdDateView = convertView.findViewById(R.id.rat_data_date_text);
+                rtnView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
+                rtnView = convertView;
             }
 
             holder.cityView.setText(listData.get(position).getCity());
             holder.addressView.setText(listData.get(position).getIncidentAddress());
             holder.createdDateView.setText(listData.get(position).getCreatedDateTime().toString());
-            return convertView;
+            return rtnView;
         }
         /**
          * Holds all of the views for each RatData Object

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -78,7 +79,7 @@ public class RatDatabase implements RatDataSource {
      * @param filters the filters used to select certain RatData Objects
      * @return a list of filtered RatData Objects
      */
-    public List<RatData> getFilteredRatData(List<Predicate<RatData>> filters) {
+    public List<RatData> getFilteredRatData(Collection<Predicate<RatData>> filters) {
         // return RatDataDAO.applyFilters(RatDataDAO.getAllRatData(db), filters);
         return RatDataDAO.getFilteredRatData(db, filters);
     }

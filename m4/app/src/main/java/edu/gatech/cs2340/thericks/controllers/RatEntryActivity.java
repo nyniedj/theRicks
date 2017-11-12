@@ -25,9 +25,6 @@ public class RatEntryActivity extends AppCompatActivity {
 
     private static final String TAG = RatEntryActivity.class.getSimpleName();
 
-    private RatData ratData;
-    private int index;
-
     private EditText key;
     private EditText date;
     private EditText locationType;
@@ -37,9 +34,6 @@ public class RatEntryActivity extends AppCompatActivity {
     private EditText city;
     private EditText latitude;
     private EditText longitude;
-
-    private Button saveButton;
-    private Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +50,13 @@ public class RatEntryActivity extends AppCompatActivity {
         latitude = (EditText) findViewById(R.id.rat_data_latitude_entry);
         longitude = (EditText) findViewById(R.id.rat_data_longitude_entry);
 
-        saveButton = (Button) findViewById(R.id.rat_data_save_entry_button);
-        cancelButton = (Button) findViewById(R.id.rat_data_cancel_entry_button);
+        Button saveButton = (Button) findViewById(R.id.rat_data_save_entry_button);
+        Button cancelButton = (Button) findViewById(R.id.rat_data_cancel_entry_button);
 
         Bundle b = getIntent().getExtras();
+        int index;
         if (b != null) {
-            ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
+            RatData ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
             index = b.getInt("INDEX");
 
             key.setText(ratData.getKey() + "");
@@ -74,7 +69,6 @@ public class RatEntryActivity extends AppCompatActivity {
             latitude.setText(ratData.getLatitude() + "");
             longitude.setText(ratData.getLongitude() + "");
         } else {
-            ratData = null;
             index = -1;
         }
 
