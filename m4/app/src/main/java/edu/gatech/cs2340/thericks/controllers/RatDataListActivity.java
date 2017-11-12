@@ -146,7 +146,7 @@ public class RatDataListActivity extends AppCompatActivity {
 
             holder.cityView.setText(listData.get(position).getCity());
             holder.addressView.setText(listData.get(position).getIncidentAddress());
-            holder.createdDateView.setText(listData.get(position).getCreatedDateTime().toString());
+            holder.createdDateView.setText(listData.get(position).getCreatedDateTime());
             return rtnView;
         }
         /**
