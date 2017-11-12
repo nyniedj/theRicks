@@ -30,7 +30,6 @@ import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.Months;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.models.RatDate;
 import edu.gatech.cs2340.thericks.models.RatDateTime;
 import edu.gatech.cs2340.thericks.utils.RatDateTimeFilterer;
 

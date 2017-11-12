@@ -15,7 +15,6 @@ import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;
 import edu.gatech.cs2340.thericks.models.RatDateTime;
-import edu.gatech.cs2340.thericks.utils.RatDateTimeFilterer;
 
 /**
  * Created by Cameron on 10/6/2017.

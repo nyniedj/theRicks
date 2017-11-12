@@ -3,9 +3,7 @@ package edu.gatech.cs2340.thericks.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 
 import java.util.Collection;
 import java.util.List;
