@@ -127,7 +127,7 @@ class RatDataDAO {
      * @param key the RatData Object's unique key
      */
     static void deleteRatData(SQLiteDatabase db, int key) {
-        db.delete(TABLE_RAT_DATA, "key=?", new String[]{"key"});
+        db.delete(TABLE_RAT_DATA, "key=?", new String[]{key +""});
     }
 
 
