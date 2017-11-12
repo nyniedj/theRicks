@@ -217,7 +217,7 @@ public class GraphActivity extends AppCompatActivity {
 
     public class MyXAxisValueFormatter implements IAxisValueFormatter {
 
-        private RatDateTime[] mValues;
+        private final RatDateTime[] mValues;
 
         MyXAxisValueFormatter(RatDateTime[] values) {
             this.mValues = new RatDateTime[values.length];
