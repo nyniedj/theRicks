@@ -53,7 +53,6 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
     private boolean onMap;
 
     private Button mapButton;
-    private Button graphButton;
     private Button listRatDataButton;
     private Button profileButton;
     private Button settingsButton;
@@ -88,7 +87,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         mapFragment.getMapAsync(this);
 
         mapButton = (Button) findViewById(R.id.map_button);
-        graphButton = (Button) findViewById(R.id.rat_graph_button);
+        Button graphButton = (Button) findViewById(R.id.rat_graph_button);
         listRatDataButton = (Button) findViewById(R.id.rat_data_list_button);
         profileButton = (Button) findViewById(R.id.profile_button);
         settingsButton = (Button) findViewById(R.id.settings_button);

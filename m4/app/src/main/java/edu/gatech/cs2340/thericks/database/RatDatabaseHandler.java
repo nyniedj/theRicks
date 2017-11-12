@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Ben Lashley on 10/9/2017.
  */
 
-class RatDatabaseHandler extends SQLiteOpenHelper {
+final class RatDatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "rat_data.db";
 

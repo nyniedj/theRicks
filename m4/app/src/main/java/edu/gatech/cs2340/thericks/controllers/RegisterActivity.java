@@ -39,8 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView invalidPassword;
     private TextView passwordMismatch;
 
-    private Button createAccount;
-
     private UserDatabase db;
 
     @Override
@@ -57,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         privilege = (RadioGroup) findViewById(R.id.register_radio_group);
 
-        createAccount = (Button)   findViewById(R.id.register_button);
+        Button createAccount = (Button) findViewById(R.id.register_button);
 
         invalidUsername  = (TextView) findViewById(R.id.registration_invalid_username);
         invalidPassword  = (TextView) findViewById(R.id.registration_invalid_password);

@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
-    private Button login;
     private TextView error;
 
     @Override
@@ -37,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.login_username_entry);
         password = (EditText) findViewById(R.id.login_password_entry);
-        login    = (Button)   findViewById(R.id.login_button);
+        Button login = (Button) findViewById(R.id.login_button);
         error    = (TextView) findViewById(R.id.incorrect_login_label);
 
         error.setVisibility(View.GONE);

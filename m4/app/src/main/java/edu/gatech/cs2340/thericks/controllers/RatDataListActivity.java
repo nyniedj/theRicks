@@ -101,7 +101,7 @@ public class RatDataListActivity extends AppCompatActivity {
          */
         public CustomListAdapter(Context aContext, List<RatData> listData) {
             super(aContext, ArrayAdapter.NO_SELECTION);
-            this.listData = listData;
+            this.listData = new ArrayList<>(listData);
             layoutInflater = LayoutInflater.from(aContext);
         }
 
