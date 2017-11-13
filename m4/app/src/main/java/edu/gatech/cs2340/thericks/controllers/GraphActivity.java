@@ -244,7 +244,8 @@ public class GraphActivity extends AppCompatActivity {
                 Calendar c = Calendar.getInstance();
                 c.clear();
                 c.setTime(mValues[intValue]);
-                return Months.values()[c.get(Calendar.MONTH)].toString();
+                return Months.values()[c.get(Calendar.MONTH)].toString()
+                        + " " + c.get(Calendar.YEAR);
             } else {
                 return intValue + "";
             }
