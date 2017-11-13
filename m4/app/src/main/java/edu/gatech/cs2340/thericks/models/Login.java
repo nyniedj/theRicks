@@ -9,7 +9,7 @@ import java.io.Serializable;
  * passed as a parcel from the login screen.
  */
 public class Login implements Serializable {
-    private static final String TAG = Login.class.getSimpleName();
+    // --Commented out by Inspection (11/13/2017 1:30 AM):private static final String TAG = Login.class.getSimpleName();
 
     /** Username for login **/
     private final String username;

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import edu.gatech.cs2340.thericks.models.RatData;
 
@@ -20,7 +19,7 @@ import edu.gatech.cs2340.thericks.models.RatData;
 
 class RatDataDAO {
 
-    private static final String TAG = RatDataDAO.class.getSimpleName();
+    // --Commented out by Inspection (11/13/2017 1:30 AM):private static final String TAG = RatDataDAO.class.getSimpleName();
 
     private static final int INITIAL_CAPACITY = 100100;
 
@@ -36,9 +35,11 @@ class RatDataDAO {
     private static final String COLUMN_BOROUGH = "borough";
     private static final String COLUMN_LATITUDE = "latitude";
     private static final String COLUMN_LONGITUDE = "longitude";
-    private static final String[] COLUMNS = new String[] { COLUMN_KEY, COLUMN_DATE_TIME,
-            COLUMN_LOC_TYPE, COLUMN_ZIP, COLUMN_ADDRESS, COLUMN_CITY, COLUMN_BOROUGH,
-            COLUMN_LATITUDE, COLUMN_LONGITUDE };
+// --Commented out by Inspection START (11/13/2017 1:35 AM):
+//    private static final String[] COLUMNS = new String[] { COLUMN_KEY, COLUMN_DATE_TIME,
+//            COLUMN_LOC_TYPE, COLUMN_ZIP, COLUMN_ADDRESS, COLUMN_CITY, COLUMN_BOROUGH,
+//            COLUMN_LATITUDE, COLUMN_LONGITUDE };
+// --Commented out by Inspection STOP (11/13/2017 1:35 AM)
 
     static void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "CREATE TABLE IF NOT EXISTS " + TABLE_RAT_DATA + "(" +
@@ -137,32 +138,34 @@ class RatDataDAO {
 
 
 
-    /**
-     * Get single piece of rat data by key; returns null if data is not found
-     * @param db the SQLiteDatabase where the RatData Object will be searched for
-     * @param key the RatData Object's unique key
-     * @return data the RatDat Object with the associated unique key
-     */
-    static RatData findRatDataByKey(SQLiteDatabase db, int key) {
-
-        // Query the table for entries with the given key
-        // NOTE: there should be at most one such entry, since each key is unique.
-        //       In the event of multiple such entries, this method uses the first.
-        Cursor cursor = db.query(TABLE_RAT_DATA, COLUMNS , COLUMN_KEY + "=?",
-                new String[] { String.valueOf(key) }, null, null,
-                null, null);
-
-        RatData data = null;
-        // Check if the query returned any entries
-        if (cursor != null) {    // Entry found
-            cursor.moveToFirst();
-            // Create and return new rat data using values in the entry
-            data = cursorToRatData(cursor);
-            // Free up cursor
-            cursor.close();
-        }
-        return data;
-    }
+// --Commented out by Inspection START (11/13/2017 1:35 AM):
+//    /**
+//     * Get single piece of rat data by key; returns null if data is not found
+//     * @param db the SQLiteDatabase where the RatData Object will be searched for
+//     * @param key the RatData Object's unique key
+//     * @return data the RatDat Object with the associated unique key
+//     */
+//    static RatData findRatDataByKey(SQLiteDatabase db, int key) {
+//
+//        // Query the table for entries with the given key
+//        // NOTE: there should be at most one such entry, since each key is unique.
+//        //       In the event of multiple such entries, this method uses the first.
+//        Cursor cursor = db.query(TABLE_RAT_DATA, COLUMNS , COLUMN_KEY + "=?",
+//                new String[] { String.valueOf(key) }, null, null,
+//                null, null);
+//
+//        RatData data = null;
+//        // Check if the query returned any entries
+//        if (cursor != null) {    // Entry found
+//            cursor.moveToFirst();
+//            // Create and return new rat data using values in the entry
+//            data = cursorToRatData(cursor);
+//            // Free up cursor
+//            cursor.close();
+//        }
+//        return data;
+//    }
+// --Commented out by Inspection STOP (11/13/2017 1:35 AM)
 
     /**
      * Get all rat data as a list
@@ -215,15 +218,17 @@ class RatDataDAO {
         return ratDataList;
     }
 
-    /**
-     * Returns list of RatData Objects that satisfy all of the provided filters.
-     *
-     * @param filters List of filters to apply
-     * @return List of RatData Objects in full list satisfying all filters
-     */
-    static List<RatData> applyFilters(Collection<RatData> fullList,
-                                      Collection<Predicate<RatData>> filters) {
-        Predicate<RatData> allPredicates = filters.stream().reduce(f -> true, Predicate::and);
-        return fullList.stream().filter(allPredicates).collect(Collectors.toList());
-    }
+// --Commented out by Inspection START (11/13/2017 1:30 AM):
+//    /**
+//     * Returns list of RatData Objects that satisfy all of the provided filters.
+//     *
+//     * @param filters List of filters to apply
+//     * @return List of RatData Objects in full list satisfying all filters
+//     */
+//    static List<RatData> applyFilters(Collection<RatData> fullList,
+//                                      Collection<Predicate<RatData>> filters) {
+//        Predicate<RatData> allPredicates = filters.stream().reduce(f -> true, Predicate::and);
+//        return fullList.stream().filter(allPredicates).collect(Collectors.toList());
+//    }
+// --Commented out by Inspection STOP (11/13/2017 1:30 AM)
 }

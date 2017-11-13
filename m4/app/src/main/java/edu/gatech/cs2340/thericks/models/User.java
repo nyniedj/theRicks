@@ -116,6 +116,7 @@ public class User implements Parcelable {
 
     }
 
+    @SuppressWarnings("unused")
     public static final Parcelable.Creator<User> CREATOR
             = new Parcelable.Creator<User>() {
         @Override

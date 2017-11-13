@@ -152,6 +152,7 @@ public class RatData implements Parcelable{
         parcel.writeDouble(longitude);
     }
 
+    @SuppressWarnings("unused")
     public static final Parcelable.Creator<RatData> CREATOR
             = new Parcelable.Creator<RatData>() {
         @Override

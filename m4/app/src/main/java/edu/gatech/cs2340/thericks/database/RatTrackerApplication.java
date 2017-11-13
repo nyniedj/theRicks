@@ -1,5 +1,6 @@
 package edu.gatech.cs2340.thericks.database;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
@@ -10,6 +11,7 @@ import android.content.Context;
  */
 
 public class RatTrackerApplication extends Application {
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
 
