@@ -9,7 +9,8 @@ import edu.gatech.cs2340.thericks.models.User;
 import edu.gatech.cs2340.thericks.models.UserDataSource;
 
 /**
- * Class representing a database of users.  This class is used as an interface between the user database and the activities.
+ * Class representing a database of users.  This class is used as an interface between the user
+ * database and the activities.
  *
  * Created by Ben Lashley on 10/31/2017.
  */

@@ -30,7 +30,8 @@ class UserDAO {
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_SALT = "salt";
     private static final String COLUMN_PRIVILEGE= "privilege";
-    private static final String[] COLUMNS = new String[] { COLUMN_ID, COLUMN_USERNAME, COLUMN_PASSWORD, COLUMN_SALT, COLUMN_PRIVILEGE };
+    private static final String[] COLUMNS = new String[] { COLUMN_ID, COLUMN_USERNAME,
+            COLUMN_PASSWORD, COLUMN_SALT, COLUMN_PRIVILEGE };
 
 
     /**
@@ -64,9 +65,11 @@ class UserDAO {
     }
 
     /**
-     * Insert new user into database if the user does not exist. If the user already exists, replace the existing data.
+     * Insert new user into database if the user does not exist. If the user already exists,
+     * replace the existing data.
     */
-    static void createUser(SQLiteDatabase db, String username, String password, Privilege privilege) {
+    static void createUser(SQLiteDatabase db, String username, String password,
+                           Privilege privilege) {
 
         // Create values to fill the new row of the table
         ContentValues values = new ContentValues();
@@ -77,7 +80,8 @@ class UserDAO {
         values.put(COLUMN_PRIVILEGE, privilege.toString());
 
         // Insert new row into table
-        db.insertWithOnConflict(TABLE_USERS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        db.insertWithOnConflict(TABLE_USERS, null, values,
+                SQLiteDatabase.CONFLICT_REPLACE);
     }
 
 
@@ -97,7 +101,8 @@ class UserDAO {
         String username = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
         String password = cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD));
         String salt = cursor.getString(cursor.getColumnIndex(COLUMN_SALT));
-        Log.d(TAG, String.format("Cursor at user with username: %s, password: %s, salt: %s, privilege: %s\n", username, password, salt, privilegeStr));
+        Log.d(TAG, String.format("Cursor at user with username: %s, password: %s, salt: %s,"
+                + " privilege: %s\n", username, password, salt, privilegeStr));
         return new User(username, password, salt, privilege);
     }
 
@@ -124,7 +129,8 @@ class UserDAO {
         // Query the table for entries with the given key
         // NOTE: there should be at most one such entry, since each key is unique.
         //       In the event of multiple such entries, this method uses the first.
-        Cursor cursor = db.query(TABLE_USERS, COLUMNS , COLUMN_USERNAME + "=?", new String[] { username }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_USERS, COLUMNS , COLUMN_USERNAME + "=?",
+                new String[] { username }, null, null, null, null);
 
         User user = null;
         // Check if the query returned any entries

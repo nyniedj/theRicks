@@ -52,8 +52,10 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         db.beginTransaction();
         long lineCount = 0;
         try {
-            InputStream input = RatTrackerApplication.getAppContext().getResources().openRawResource(R.raw.rat_data);
-            BufferedReader br = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
+            InputStream input = RatTrackerApplication.getAppContext().getResources()
+                    .openRawResource(R.raw.rat_data);
+            BufferedReader br = new BufferedReader(new InputStreamReader(input,
+                    StandardCharsets.UTF_8));
 
             String line;
             br.readLine(); //get rid of header line
@@ -90,7 +92,8 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
                     longitude = 0;
                 }
                 // Add new rat data to database
-                RatDataDAO.createRatData(db, key, createdDateTime, locationType, incidentZip, incidentAddress, city, borough, latitude, longitude);
+                RatDataDAO.createRatData(db, key, createdDateTime, locationType, incidentZip,
+                        incidentAddress, city, borough, latitude, longitude);
             }
             br.close();
 
@@ -134,7 +137,8 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
     }
 
     /**
-     * Provides views from an activity calling the task, allowing for the UI to be asynchronously updated in onPostExecute
+     * Provides views from an activity calling the task, allowing for the UI to be asynchronously
+     * updated in onPostExecute
      * @param a the ArrayAdapter that returns the views for each RatData Object
      * @param data the list of RatData Objects whose views will be added
      * @param filters the filters used to select certain RatData Objects

@@ -77,10 +77,12 @@ public class RatEntryActivity extends AppCompatActivity {
                 String text = charSequence.toString();
                 try {
                     Integer.parseInt(text);
-                    key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack,
+                            null));
                 } catch (NumberFormatException e) {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary,
+                            null));
                 }
             }
 
@@ -98,10 +100,12 @@ public class RatEntryActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
                 if (RatDateTime.isDateTime(text)) {
-                    date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack,
+                            null));
                 } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary,
+                            null));
                 }
             }
 
@@ -120,10 +124,12 @@ public class RatEntryActivity extends AppCompatActivity {
                 String text = charSequence.toString();
                 try {
                     Integer.parseInt(text);
-                    zip.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    zip.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack,
+                            null));
                 } catch (NumberFormatException e) {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    zip.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    zip.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary,
+                            null));
                 }
             }
 
@@ -142,10 +148,12 @@ public class RatEntryActivity extends AppCompatActivity {
                 String text = charSequence.toString();
                 try {
                     Double.parseDouble(text);
-                    latitude.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    latitude.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.colorBlack, null));
                 } catch (NumberFormatException e) {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    latitude.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    latitude.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.errorPrimary, null));
                 }
             }
 
@@ -164,10 +172,12 @@ public class RatEntryActivity extends AppCompatActivity {
                 String text = charSequence.toString();
                 try {
                     Double.parseDouble(text);
-                    longitude.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    longitude.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.colorBlack, null));
                 } catch (NumberFormatException e) {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    longitude.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    longitude.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.errorPrimary, null));
                 }
             }
 

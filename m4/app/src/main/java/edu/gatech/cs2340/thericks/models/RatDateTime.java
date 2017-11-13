@@ -24,7 +24,8 @@ public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
         time = RatTime.forTime(dateTimeDef);
     }
 
-    private RatDateTime(int year, int month, int day, int hour, int minute, int second, Period period) {
+    private RatDateTime(int year, int month, int day, int hour, int minute, int second,
+                        Period period) {
         date = RatDate.forDate(year, month, day);
         time = RatTime.forTime(hour, minute, second, period);
     }
@@ -54,7 +55,8 @@ public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
      * @param period the period
      * @return the new RatDateTime
      */
-    public static RatDateTime forDateTime(int year, int month, int day, int hour, int minute, int second, Period period) {
+    public static RatDateTime forDateTime(int year, int month, int day, int hour, int minute,
+                                          int second, Period period) {
         return new RatDateTime(year, month, day, hour, minute, second, period);
     }
 

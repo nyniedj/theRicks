@@ -53,6 +53,7 @@ public class Login implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Username: %s\nEncrypted Password: %s\n", username, getSecurePassword());
+        return String.format("Username: %s\nEncrypted Password: %s\n", username,
+                getSecurePassword());
     }
 }

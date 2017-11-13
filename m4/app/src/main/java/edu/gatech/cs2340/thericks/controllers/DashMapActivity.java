@@ -46,7 +46,8 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
     private static final int ADD_RAT_DATA_REQUEST = 2;
 
     //default position, zoom, and bearing to set the map camera to
-    private static final CameraPosition position = new CameraPosition(new LatLng(40.776278, -73.99086), 12, 0, 30);
+    private static final CameraPosition position = new CameraPosition(new LatLng(40.776278,
+            -73.99086), 12, 0, 30);
 
     private GoogleMap map;
 
@@ -119,11 +120,13 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
                 if (RatDateTime.isDateTime(text)) {
-                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
                 } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.errorPrimary, null));
                     applyFiltersButton.setEnabled(false);
                 }
             }
@@ -144,11 +147,13 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
                 if (RatDateTime.isDateTime(text)) {
-                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
                 } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.errorPrimary, null));
                     applyFiltersButton.setEnabled(false);
                 }
             }
@@ -220,7 +225,8 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         logoutButton.setOnClickListener(v -> {
             user.logout();
             Log.d(TAG, "Logout button pressed");
-            Log.d(TAG, user.getLogin().getUsername() + " is logged in = " + user.isLoggedIn());
+            Log.d(TAG, user.getLogin().getUsername() + " is logged in = "
+                    + user.isLoggedIn());
             Context context = v.getContext();
             Intent intent = new Intent(context, WelcomeActivity.class);
             context.startActivity(intent);

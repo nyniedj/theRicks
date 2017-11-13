@@ -58,7 +58,8 @@ public class Security {
      * @return encrypted key as byte[]
      */
     public static String createEncryptedPassword(String password, String salt) {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), ITERATIONS, KEY_LENGTH * 8);
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), ITERATIONS,
+                KEY_LENGTH * 8);
         SecretKeyFactory f = null;
         try {
             f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -91,7 +92,8 @@ public class Security {
         // Check if username is valid
         if ((username == null) || username.isEmpty()) {
             return false;
-        } else if ((username.length() < MIN_USERNAME_LENGTH) || (username.length() > MAX_USERNAME_LENGTH)) {
+        } else if ((username.length() < MIN_USERNAME_LENGTH) || (username.length()
+                > MAX_USERNAME_LENGTH)) {
             return false;
         }
         return true;
@@ -110,7 +112,8 @@ public class Security {
      * @return true if password is valid, false if not
      */
     public static boolean validatePassword(@SuppressWarnings("TypeMayBeWeakened") String pw) {
-        final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"+ MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
+        final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"
+                + MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
         return (pw != null) && pat.matcher(pw).matches();
     }
 

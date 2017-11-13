@@ -5,7 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Singleton class that handles the rat database connection.  Provides a single connection throughout the
+ * Singleton class that handles the rat database connection.
+ * Provides a single connection throughout the
  * application's life cycle.
  *
  * Created by Ben Lashley on 10/9/2017.
@@ -15,7 +16,8 @@ final class RatDatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "rat_data.db";
 
-    private static final RatDatabaseHandler instance = new RatDatabaseHandler(RatTrackerApplication.getAppContext());
+    private static final RatDatabaseHandler instance =
+            new RatDatabaseHandler(RatTrackerApplication.getAppContext());
 
     /**
      * Creates and/or opens a database that will be used for reading and writing

@@ -189,7 +189,8 @@ public final class RatTime implements Comparable<RatTime>, Serializable{
 
     @Override
     public String toString() {
-        return String.format(Locale.ENGLISH,"%02d", hours) + ":" + String.format(Locale.ENGLISH,"%02d", minutes) + ":"
+        return String.format(Locale.ENGLISH,"%02d", hours) + ":"
+                + String.format(Locale.ENGLISH,"%02d", minutes) + ":"
                 + String.format(Locale.ENGLISH,"%02d", seconds) + " " + period.toString();
     }
 }

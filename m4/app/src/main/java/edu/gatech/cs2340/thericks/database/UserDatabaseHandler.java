@@ -5,7 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Singleton class that handles the user database connection.  Provides a single connection throughout the
+ * Singleton class that handles the user database connection.
+ * Provides a single connection throughout the
  * application's life cycle.
  *
  * Created by Ben Lashley on 10/31/2017.
@@ -15,7 +16,8 @@ final class UserDatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "users.db";
 
-    private static final UserDatabaseHandler instance = new UserDatabaseHandler(RatTrackerApplication.getAppContext());
+    private static final UserDatabaseHandler instance =
+            new UserDatabaseHandler(RatTrackerApplication.getAppContext());
 
     /**
      * Creates and/or opens a database that will be used for reading and writing

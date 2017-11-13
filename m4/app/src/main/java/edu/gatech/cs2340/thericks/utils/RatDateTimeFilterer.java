@@ -22,10 +22,12 @@ public class RatDateTimeFilterer {
      * @param end the end date
      * @return the predicate
      */
-    public static Predicate<RatData> createRatDateTimeRangeFilter(RatDateTime begin, RatDateTime end) {
+    public static Predicate<RatData> createRatDateTimeRangeFilter(RatDateTime begin,
+                                                                  RatDateTime end) {
         return ratData -> {
             RatDateTime d = RatDateTime.forDateTime(ratData.getCreatedDateTime());
-            return (d != null) && ((begin == null) || (d.compareTo(begin) >= 0)) && ((end == null) || (d.compareTo(end) <= 0));
+            return (d != null) && ((begin == null) || (d.compareTo(begin) >= 0)) && ((end == null)
+                    || (d.compareTo(end) <= 0));
         };
     }
 
@@ -36,7 +38,8 @@ public class RatDateTimeFilterer {
      * @param data the list
      * @return a list containing the RatData between the specified dates
      */
-    public static Collection<RatData> filterByDate(RatDateTime begin, RatDateTime end, Collection<RatData> data) {
+    public static Collection<RatData> filterByDate(RatDateTime begin, RatDateTime end,
+                                                   Collection<RatData> data) {
         List<RatData> filteredList;
         Predicate<RatData> predicate = createRatDateTimeRangeFilter(begin, end);
         filteredList = data.stream().filter(predicate).collect(Collectors.toList());

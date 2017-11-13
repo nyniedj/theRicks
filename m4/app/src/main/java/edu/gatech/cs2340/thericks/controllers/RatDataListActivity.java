@@ -50,7 +50,8 @@ public class RatDataListActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.rat_data_list_progress_bar);
 
         if (adapter == null) {
-            adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(), new ArrayList<>());
+            adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(),
+                    new ArrayList<>());
         } else {
             // Check if data has been loaded and hide progress bar if so
             if (!adapter.listData.isEmpty()) {
@@ -71,9 +72,11 @@ public class RatDataListActivity extends AppCompatActivity {
             startActivityForResult(intent, EDIT_ENTRY);
         });
 
-        /* NOTE: Hard coded predicates for testing display filters. Remove once user can add filters. */
+        /* NOTE: Hard coded predicates for testing display filters.
+        Remove once user can add filters. */
         Predicate<RatData> inJamaica = ratData -> "Jamaica".equalsIgnoreCase(ratData.getCity());
-        Predicate<RatData> commercialLocation = ratData -> "Commercial Building".equalsIgnoreCase(ratData.getLocationType());
+        Predicate<RatData> commercialLocation = ratData ->
+                "Commercial Building".equalsIgnoreCase(ratData.getLocationType());
         if (filters == null) {
             filters = new ArrayList<>();
         }

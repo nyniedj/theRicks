@@ -81,7 +81,8 @@ public class GraphActivity extends AppCompatActivity {
             dateInRange = RatDateTimeFilterer.createRatDateTimeRangeFilter(begin, end);
             filters.add(dateInRange);
             applyFiltersButton.setEnabled(false);
-            ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
+            ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(),
+                    ArrayAdapter.NO_SELECTION) {
 
                 @Override
                 public void notifyDataSetChanged() {
@@ -110,11 +111,13 @@ public class GraphActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
                 if (RatDateTime.isDateTime(text)) {
-                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
                 } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.errorPrimary, null));
                     applyFiltersButton.setEnabled(false);
                 }
             }
@@ -135,11 +138,13 @@ public class GraphActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
                 if (RatDateTime.isDateTime(text)) {
-                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
+                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.colorBlack, null));
                     applyFiltersButton.setEnabled(true);
                 } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
-                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
+                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(),
+                            R.color.errorPrimary, null));
                     applyFiltersButton.setEnabled(false);
                 }
             }
@@ -155,7 +160,8 @@ public class GraphActivity extends AppCompatActivity {
         filters.add(dateInRange);
 
         loadedData = new ArrayList<>();
-        ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
+        ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(),
+                ArrayAdapter.NO_SELECTION) {
 
             @Override
             public void notifyDataSetChanged() {
@@ -179,7 +185,8 @@ public class GraphActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         applyFiltersButton.setEnabled(false);
 
-        int monthDif = ((end.getMonth() + 1) + (end.getYear() * MONTHS_IN_YEAR)) - ((begin.getMonth() + 1) + (begin.getYear() * MONTHS_IN_YEAR));
+        int monthDif = ((end.getMonth() + 1) + (end.getYear() * MONTHS_IN_YEAR)) -
+                ((begin.getMonth() + 1) + (begin.getYear() * MONTHS_IN_YEAR));
         RatDateTime[] domainDates = new RatDateTime[monthDif];
         for (int i = 0; i < domainDates.length; i++) {
             int month = begin.getMonth() + i;
@@ -193,7 +200,8 @@ public class GraphActivity extends AppCompatActivity {
 
         List<Entry> entries = new ArrayList<>();
         for (int i = 1; i < domainDates.length; i++) {
-            entries.add(new Entry(i, RatDateTimeFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
+            entries.add(new Entry(i, RatDateTimeFilterer.filterByDate(domainDates[i - 1],
+                    domainDates[i], loadedData).size()));
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
@@ -227,7 +235,8 @@ public class GraphActivity extends AppCompatActivity {
             // "value" represents the position of the label on the axis (x or y)
             int intValue = (int) value;
             try {
-                return Months.values()[mValues[intValue].getMonth() - 1].toString() + " " + mValues[intValue].getYear();
+                return Months.values()[mValues[intValue].getMonth() - 1].toString() + " "
+                        + mValues[intValue].getYear();
             } catch (ArrayIndexOutOfBoundsException e) {
                 Log.e(TAG, e.getMessage());
             }

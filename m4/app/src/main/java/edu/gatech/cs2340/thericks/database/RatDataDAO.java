@@ -71,7 +71,8 @@ class RatDataDAO {
     }
 
     /**
-     * Insert new rat data into database if key does not exist. If key already exists, replace the existing data.
+     * Insert new rat data into database if key does not exist. If key already exists,
+     * replace the existing data.
      * @param db the SQLiteDatabase where the RatData Object will be inserted
      * @param key unique key
      * @param createdDateTime date and time of creation
@@ -83,9 +84,9 @@ class RatDataDAO {
      * @param latitude latitude
      * @param longitude longitude
      */
-    static void createRatData(SQLiteDatabase db, int key, String createdDateTime, String locationType,
-                              int incidentZip, String incidentAddress, String city,
-                              String borough, double latitude, double longitude) {
+    static void createRatData(SQLiteDatabase db, int key, String createdDateTime,
+                              String locationType, int incidentZip, String incidentAddress,
+                              String city, String borough, double latitude, double longitude) {
 
         // Create values to fill the new row of the table
         ContentValues values = new ContentValues();
@@ -100,7 +101,8 @@ class RatDataDAO {
         values.put(COLUMN_LONGITUDE, longitude);
 
         // Insert new row into table
-        db.insertWithOnConflict(TABLE_RAT_DATA, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        db.insertWithOnConflict(TABLE_RAT_DATA, null, values,
+                SQLiteDatabase.CONFLICT_REPLACE);
     }
 
 
@@ -113,9 +115,12 @@ class RatDataDAO {
     private static RatData cursorToRatData(Cursor cursor) {
         return new RatData(cursor.getInt(cursor.getColumnIndex(COLUMN_KEY)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_DATE_TIME)),
-                cursor.getString(cursor.getColumnIndex(COLUMN_LOC_TYPE)), cursor.getInt(cursor.getColumnIndex(COLUMN_ZIP)),
-                cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)), cursor.getString(cursor.getColumnIndex(COLUMN_CITY)),
-                cursor.getString(cursor.getColumnIndex(COLUMN_BOROUGH)), cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_LOC_TYPE)),
+                cursor.getInt(cursor.getColumnIndex(COLUMN_ZIP)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_CITY)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_BOROUGH)),
+                cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE)),
                 cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE)));
     }
 
@@ -143,7 +148,9 @@ class RatDataDAO {
         // Query the table for entries with the given key
         // NOTE: there should be at most one such entry, since each key is unique.
         //       In the event of multiple such entries, this method uses the first.
-        Cursor cursor = db.query(TABLE_RAT_DATA, COLUMNS , COLUMN_KEY + "=?", new String[] { String.valueOf(key) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_RAT_DATA, COLUMNS , COLUMN_KEY + "=?",
+                new String[] { String.valueOf(key) }, null, null,
+                null, null);
 
         RatData data = null;
         // Check if the query returned any entries
@@ -182,7 +189,8 @@ class RatDataDAO {
         return ratDataList;
     }
 
-    static List<RatData> getFilteredRatData(SQLiteDatabase db, Collection<Predicate<RatData>> filters) {
+    static List<RatData> getFilteredRatData(SQLiteDatabase db,
+                                            Collection<Predicate<RatData>> filters) {
         List<RatData> ratDataList = new ArrayList<>(INITIAL_CAPACITY);
         String selectAllQuery = "SELECT * FROM " + TABLE_RAT_DATA;
 
@@ -213,7 +221,8 @@ class RatDataDAO {
      * @param filters List of filters to apply
      * @return List of RatData Objects in full list satisfying all filters
      */
-    static List<RatData> applyFilters(Collection<RatData> fullList, Collection<Predicate<RatData>> filters) {
+    static List<RatData> applyFilters(Collection<RatData> fullList,
+                                      Collection<Predicate<RatData>> filters) {
         Predicate<RatData> allPredicates = filters.stream().reduce(f -> true, Predicate::and);
         return fullList.stream().filter(allPredicates).collect(Collectors.toList());
     }
