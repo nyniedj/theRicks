@@ -20,7 +20,7 @@ public class UserDatabase implements UserDataSource {
     private SQLiteDatabase db;
 
     /**
-     * Constructore that initializes SQLite Database to a UserDatabaseHandler
+     * Constructor that initializes SQLite Database to a UserDatabaseHandler
      */
     public UserDatabase() {
         open();
