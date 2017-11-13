@@ -101,7 +101,7 @@ public class GraphActivity extends AppCompatActivity {
 
         date1Edit = findViewById(R.id.date1_graph);
         date1Edit.setVisibility(View.GONE);
-        date1Edit.setText("01/01/2017 12:00:00 AM");
+        date1Edit.setText(begin.toString());
         date1Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -128,7 +128,7 @@ public class GraphActivity extends AppCompatActivity {
         });
         date2Edit = findViewById(R.id.date2_graph);
         date2Edit.setVisibility(View.GONE);
-        date2Edit.setText("09/01/2017 12:00:00 AM");
+        date2Edit.setText(end.toString());
         date2Edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

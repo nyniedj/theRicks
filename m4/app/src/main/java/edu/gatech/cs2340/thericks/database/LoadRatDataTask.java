@@ -59,12 +59,15 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
 
             String line;
             br.readLine(); //get rid of header line
-            while ((line = br.readLine()) != null) {
+            line = br.readLine();
+            while (line != null) {
                 lineCount++;
                 String[] tokens = line.split(",", -1);
 
-                int key, incidentZip;
-                double longitude, latitude;
+                int key;
+                int incidentZip;
+                double longitude;
+                double latitude;
                 // Record relevant data from tokens.
                 try {
                     key = Integer.parseInt(tokens[UNIQUE_KEY_NUMBER]);
@@ -94,6 +97,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
                 // Add new rat data to database
                 RatDataDAO.createRatData(db, key, createdDateTime, locationType, incidentZip,
                         incidentAddress, city, borough, latitude, longitude);
+                line = br.readLine();
             }
             br.close();
 
@@ -120,7 +124,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         doneLoading = true;
         isLoadingData = false;
         // Update passed in UI
-        if (data != null && adapter != null) {
+        if ((data != null) && (adapter != null)) {
             data.clear();
             RatDatabase db = new RatDatabase();
             data.addAll(db.getFilteredRatData(filters));

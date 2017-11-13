@@ -27,6 +27,12 @@
     <string name="normal_label">Normal</string>
     <string name="admin_label">Admin</string>
 
+    <string name="apply_label">Apply</string>
+    <string name="date_separator_label">to</string>
+    <string name="dashboard_message">Dashboard</string>
+    <string name="save_entry_message">Save Entry</string>
+    <string name="cancel_entry_message">Cancel Entry</string>
+
     <string name="date_created_label">Date Created</string>
     <string name="city_label">City</string>
     <string name="borough_label">Borough</string>

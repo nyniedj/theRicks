@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 UserDataSource db = new UserDatabase();
                 User u = db.getUserByUsername(enteredUsername);
-                if (u != null && u.getLogin() != null) {
+                if ((u != null) && (u.getLogin() != null)) {
                     Log.d(TAG, "Checking password for login: " + u.getLogin());
                     if (Security.checkPassword(enteredPassword, u.getLogin())) {
                         Log.d(TAG, "Successfully logged into user account: " + u.getUsername());

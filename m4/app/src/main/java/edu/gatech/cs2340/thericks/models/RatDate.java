@@ -3,6 +3,7 @@ package edu.gatech.cs2340.thericks.models;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -152,7 +153,8 @@ public final class RatDate implements Comparable<RatDate>, Serializable{
 
     @Override
     public String toString() {
-        return String.format("%02d", month) + "/" + String.format("%02d", day) + "/"
-                + String.format("%04d", year);
+        return String.format(Locale.ENGLISH, "%02d", month)
+                + "/" + String.format(Locale.ENGLISH,"%02d", day) + "/"
+                + String.format(Locale.ENGLISH,"%04d", year);
     }
 }

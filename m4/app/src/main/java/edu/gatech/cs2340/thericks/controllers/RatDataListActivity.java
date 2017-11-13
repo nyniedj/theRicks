@@ -165,7 +165,7 @@ public class RatDataListActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (adapter != null && filters != null) {
+        if ((adapter != null) && (filters != null)) {
             Log.d(TAG, "Updating list view to show changes to database");
             adapter.listData.clear();
             adapter.listData.addAll(new RatDatabase().getFilteredRatData(filters));

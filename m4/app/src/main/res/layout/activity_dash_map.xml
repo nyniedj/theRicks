@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -89,7 +90,7 @@
         android:id="@+id/apply_filters_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Apply"
+        android:text="@string/apply_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
@@ -99,13 +100,15 @@
         android:layout_height="wrap_content"
         android:ems="5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/apply_filters_button"/>
+        app:layout_constraintRight_toLeftOf="@id/apply_filters_button"
+        tools:ignore="LabelFor"
+        android:inputType="datetime" />
 
     <TextView
         android:id="@+id/date_separator_dash_map_text"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="to"
+        android:text="@string/date_separator_label"
         android:layout_marginBottom="8dp"
         app:layout_constraintRight_toLeftOf="@id/date2_dash_map"
         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -116,13 +119,15 @@
         android:layout_height="wrap_content"
         android:ems="5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/date_separator_dash_map_text"/>
+        app:layout_constraintRight_toLeftOf="@+id/date_separator_dash_map_text"
+        tools:ignore="LabelFor"
+        android:inputType="datetime" />
 
     <Button
         android:id="@+id/return_to_dashboard_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dashboard"
+        android:text="@string/dashboard_message"
         android:textAllCaps="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

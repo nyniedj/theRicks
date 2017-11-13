@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.view.View;
 
+import java.util.Locale;
+import java.util.Scanner;
+
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
@@ -56,15 +59,15 @@ public class RatEntryActivity extends AppCompatActivity {
         if (b != null) {
             RatData ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
 
-            key.setText(ratData.getKey() + "");
+            key.setText(ratData.getKey());
             date.setText(ratData.getCreatedDateTime());
             locationType.setText(ratData.getLocationType());
             address.setText(ratData.getIncidentAddress());
-            zip.setText(ratData.getIncidentZip() + "");
+            zip.setText(ratData.getIncidentZip());
             borough.setText(ratData.getBorough());
             city.setText(ratData.getCity());
-            latitude.setText(ratData.getLatitude() + "");
-            longitude.setText(ratData.getLongitude() + "");
+            latitude.setText(String.format(Locale.ENGLISH, "%8f", ratData.getLatitude()));
+            longitude.setText(String.format(Locale.ENGLISH, "%8f", ratData.getLongitude()));
         }
 
         key.addTextChangedListener(new TextWatcher() {
@@ -75,11 +78,11 @@ public class RatEntryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                try {
-                    Integer.parseInt(text);
+                Scanner intTest = new Scanner(text);
+                if (intTest.hasNextInt()) {
                     key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack,
                             null));
-                } catch (NumberFormatException e) {
+                } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
                     key.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary,
                             null));
@@ -122,11 +125,11 @@ public class RatEntryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                try {
-                    Integer.parseInt(text);
+                Scanner intTest = new Scanner(text);
+                if (intTest.hasNextInt()) {
                     zip.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack,
                             null));
-                } catch (NumberFormatException e) {
+                } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
                     zip.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary,
                             null));
@@ -146,11 +149,11 @@ public class RatEntryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                try {
-                    Double.parseDouble(text);
+                Scanner doubleTest = new Scanner(text);
+                if (doubleTest.hasNextDouble()) {
                     latitude.setTextColor(ResourcesCompat.getColor(getResources(),
                             R.color.colorBlack, null));
-                } catch (NumberFormatException e) {
+                } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
                     latitude.setTextColor(ResourcesCompat.getColor(getResources(),
                             R.color.errorPrimary, null));
@@ -170,11 +173,11 @@ public class RatEntryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                try {
-                    Double.parseDouble(text);
+                Scanner doubleTest = new Scanner(text);
+                if (doubleTest.hasNextDouble()){
                     longitude.setTextColor(ResourcesCompat.getColor(getResources(),
                             R.color.colorBlack, null));
-                } catch (NumberFormatException e) {
+                } else {
                     Log.d(TAG, "Improperly formatted input detected: " + text);
                     longitude.setTextColor(ResourcesCompat.getColor(getResources(),
                             R.color.errorPrimary, null));
