@@ -85,8 +85,10 @@ public class RatDatabase implements RatDataSource {
         return RatDataDAO.getFilteredRatData(db, filters);
     }
 
-    @Override
-    public RatData findRatDataByKey(int key) {
-        return RatDataDAO.findRatDataByKey(db, key);
-    }
+// --Commented out by Inspection START (11/13/2017 1:34 AM):
+//    @Override
+//    public RatData findRatDataByKey(int key) {
+//        return RatDataDAO.findRatDataByKey(db, key);
+//    }
+// --Commented out by Inspection STOP (11/13/2017 1:34 AM)
 }

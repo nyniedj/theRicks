@@ -103,7 +103,7 @@ public class RatDataListActivity extends AppCompatActivity {
          *                 to the layoutInflater
          * @param listData the list of RatData Objects
          */
-        public CustomListAdapter(Context aContext, List<RatData> listData) {
+        CustomListAdapter(Context aContext, List<RatData> listData) {
             super(aContext, ArrayAdapter.NO_SELECTION);
             this.listData = new ArrayList<>(listData);
             layoutInflater = LayoutInflater.from(aContext);
@@ -130,27 +130,24 @@ public class RatDataListActivity extends AppCompatActivity {
             return position;
         }
 
-        @Override
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
-            View rtnView;
             if (convertView == null) {
-                rtnView = layoutInflater.inflate(R.layout.rat_list_row_view, null);
+                convertView = layoutInflater.inflate(R.layout.rat_list_row_view, null);
                 holder = new ViewHolder();
                 holder.cityView = convertView.findViewById(R.id.rat_data_city_text);
                 holder.addressView = convertView.findViewById(R.id.rat_data_incident_address_text);
                 holder.createdDateView = convertView.findViewById(R.id.rat_data_date_text);
-                rtnView.setTag(holder);
+                convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
-                rtnView = convertView;
             }
 
             holder.cityView.setText(listData.get(position).getCity());
             holder.addressView.setText(listData.get(position).getIncidentAddress());
             holder.createdDateView.setText(listData.get(position).getCreatedDateTime());
-            return rtnView;
+            return convertView;
         }
         /**
          * Holds all of the views for each RatData Object

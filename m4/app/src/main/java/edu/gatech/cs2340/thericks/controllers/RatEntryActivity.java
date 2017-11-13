@@ -17,7 +17,7 @@ import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;
-import edu.gatech.cs2340.thericks.models.RatDateTime;
+import edu.gatech.cs2340.thericks.utils.DateFilterer;
 
 /**
  * Created by Cameron on 10/6/2017.
@@ -58,16 +58,19 @@ public class RatEntryActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         if (b != null) {
             RatData ratData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
-
-            key.setText(ratData.getKey());
-            date.setText(ratData.getCreatedDateTime());
-            locationType.setText(ratData.getLocationType());
-            address.setText(ratData.getIncidentAddress());
-            zip.setText(ratData.getIncidentZip());
-            borough.setText(ratData.getBorough());
-            city.setText(ratData.getCity());
-            latitude.setText(String.format(Locale.ENGLISH, "%8f", ratData.getLatitude()));
-            longitude.setText(String.format(Locale.ENGLISH, "%8f", ratData.getLongitude()));
+            if (ratData != null) {
+                key.setText(String.valueOf(ratData.getKey()));
+                date.setText(ratData.getCreatedDateTime());
+                locationType.setText(ratData.getLocationType());
+                address.setText(ratData.getIncidentAddress());
+                zip.setText(String.valueOf(ratData.getIncidentZip()));
+                borough.setText(ratData.getBorough());
+                city.setText(ratData.getCity());
+                latitude.setText(String.format(Locale.ENGLISH, "%8f", ratData.getLatitude()));
+                longitude.setText(String.format(Locale.ENGLISH, "%8f", ratData.getLongitude()));
+            } else {
+                Log.d(TAG, "No rat data passed in.");
+            }
         }
 
         key.addTextChangedListener(new TextWatcher() {
@@ -102,7 +105,7 @@ public class RatEntryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (RatDateTime.isDateTime(text)) {
+                if (DateFilterer.parse(text) != null) {
                     date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack,
                             null));
                 } else {
@@ -208,7 +211,7 @@ public class RatEntryActivity extends AppCompatActivity {
                 Log.d(TAG, "Improperly formatted input detected in the key");
                 return;
             }
-            if (!RatDateTime.isDateTime(date.getText().toString())) {
+            if (DateFilterer.parse(date.getText().toString()) == null) {
                 Log.d(TAG, "Improperly formatted input detected in the date time");
                 return;
             }
