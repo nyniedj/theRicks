@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by DKrystine on 11/12/2017.
+ * Created by Daisha Braxton on 11/12/2017.
  */
 public class UserDAOTest {
     @Before

@@ -96,8 +96,8 @@ public class GraphActivity extends AppCompatActivity {
             db.loadData(tempAdapter, loadedData, filters);
         });
 
-        TextView dateSeperator = findViewById(R.id.date_separator_graph_text);
-        dateSeperator.setVisibility(View.GONE);
+        TextView dateSeparator = findViewById(R.id.date_separator_graph_text);
+        dateSeparator.setVisibility(View.GONE);
 
         date1Edit = findViewById(R.id.date1_graph);
         date1Edit.setVisibility(View.GONE);
