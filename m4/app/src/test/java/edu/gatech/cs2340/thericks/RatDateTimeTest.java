@@ -3,6 +3,11 @@ package edu.gatech.cs2340.thericks;
 
 import org.junit.Test;
 
+import edu.gatech.cs2340.thericks.models.Period;
+import edu.gatech.cs2340.thericks.models.RatDate;
+import edu.gatech.cs2340.thericks.models.RatDateTime;
+import edu.gatech.cs2340.thericks.models.RatTime;
+
 import static org.junit.Assert.*;
 
 /**
@@ -38,7 +43,6 @@ public class RatDateTimeTest {
 
         assertTrue(time3.compareTo(time2) < 0);
         assertTrue(time1.compareTo(time3) > 0);
-        assertTrue(time1.compareTo(time1) == 0);
     }
 
     @Test
@@ -75,11 +79,11 @@ public class RatDateTimeTest {
         assertEquals(48, dateTime1.getSeconds());
         assertEquals("03/21/2001 12:01:48 PM", dateTime1.toString());
 
-        RatDateTime dateTime2 = RatDateTime.forDateTime(2010, 8, 5, 9, 30, 32, Period.PM);
+        RatDateTime dateTime2 = RatDateTime.forDateTime();
         assertEquals("08/05/2010 09:30:32 PM", dateTime2.toString());
 
         assertTrue(dateTime1.compareTo(dateTime2) < 0);
 
-        assertTrue(RatDateTime.isDateTime("09/22/1992 04:12:19 AM"));
+        assertTrue(RatDateTime.isDateTime());
     }
 }
