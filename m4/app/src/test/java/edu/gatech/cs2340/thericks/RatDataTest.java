@@ -100,7 +100,7 @@ public class RatDataTest {
             filters.add(commercialLocation);
 
             // ===== Loads in null data rat List ===== \\
-            db.loadData(a, rats, p, filters);
+            db.loadData(a, null, filters);
             rats = db.getAllRatData();
             assertEquals(0, rats.size());
         }

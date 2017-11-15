@@ -3,8 +3,6 @@ package edu.gatech.cs2340.thericks.database;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Daisha Braxton on 11/12/2017.
  */
