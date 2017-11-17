@@ -217,6 +217,13 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
             context.startActivity(intent);
         });
 
+        profileButton.setOnClickListener((View v) -> {
+            Log.d(TAG, "Profile button pressed");
+            Context context = v.getContext();
+            Intent intent = new Intent(context, FilterActivity.class);
+            context.startActivity(intent);
+        });
+
         reportRatButton.setOnClickListener((View v) -> {
             Log.d(TAG, "Report a Rat button pushed");
             Context context = v.getContext();

@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.thericks.controllers;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +23,12 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -32,6 +38,7 @@ import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.Months;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.utils.DateFilterer;
+import edu.gatech.cs2340.thericks.utils.SerializablePredicate;
 
 /**
  * Created by Cameron on 11/3/2017.
@@ -45,21 +52,20 @@ public class GraphActivity extends AppCompatActivity {
     //default dates to filter out rat data that occurs between the dates
     private static final String beginDateString = "01/01/2015 12:00:00 AM";
     private static final String endDateString = "10/01/2015 12:00:00 AM";
-    private Date begin = DateFilterer.parse(beginDateString);
-    private Date end = DateFilterer.parse(endDateString);
+    private static final Date begin = DateFilterer.parse(beginDateString);
+    private static final Date end = DateFilterer.parse(endDateString);
 
     private LineChart chart;
 
     private ProgressBar progressBar;
 
-    private ArrayList<RatData> loadedData;
+    private List<RatData> loadedData;
 
-    private ArrayList<Predicate<RatData>> filters;
-    private Predicate<RatData> dateInRange;
+    private List<Predicate<RatData>> filters;
 
-    private EditText date1Edit;
-    private EditText date2Edit;
     private Button applyFiltersButton;
+
+    private TextView noDataText;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -70,90 +76,22 @@ public class GraphActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.graph_progress_bar);
 
+        noDataText = findViewById(R.id.no_data_graph_text);
+        noDataText.setVisibility(View.GONE);
+
         chart = findViewById(R.id.chart);
         chart.setVisibility(View.GONE);
 
         applyFiltersButton = findViewById(R.id.apply_filters_button_graph);
         applyFiltersButton.setVisibility(View.GONE);
         applyFiltersButton.setOnClickListener(v -> {
-            begin = DateFilterer.parse(date1Edit.getText().toString());
-            end = DateFilterer.parse(date2Edit.getText().toString());
-            filters.remove(dateInRange);
-            dateInRange = DateFilterer.createDateRangeFilter(begin, end);
-            filters.add(dateInRange);
-            applyFiltersButton.setEnabled(false);
-            ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
-
-                @Override
-                public void notifyDataSetChanged() {
-                    super.notifyDataSetChanged();
-                    Log.d(TAG, "Notified that the data finished loading");
-                    displayGraph();
-                }
-            };
-            progressBar.setVisibility(View.VISIBLE);
-            RatDatabase db = new RatDatabase();
-            db.loadData(tempAdapter, loadedData, filters);
-        });
-
-        TextView dateSeperator = findViewById(R.id.date_separator_graph_text);
-        dateSeperator.setVisibility(View.GONE);
-
-        date1Edit = findViewById(R.id.date1_graph);
-        date1Edit.setVisibility(View.GONE);
-        date1Edit.setText(beginDateString);
-        date1Edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String text = charSequence.toString();
-                if (DateFilterer.parse(text) != null) {
-                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
-                    applyFiltersButton.setEnabled(true);
-                } else {
-                    Log.d(TAG, "Improperly formatted input detected: " + text);
-                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
-                    applyFiltersButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-        date2Edit = findViewById(R.id.date2_graph);
-        date2Edit.setVisibility(View.GONE);
-        date2Edit.setText(endDateString);
-        date2Edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String text = charSequence.toString();
-                if (DateFilterer.parse(text) != null) {
-                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack, null));
-                    applyFiltersButton.setEnabled(true);
-                } else {
-                    Log.d(TAG, getString(R.string.improper_date_input) + text);
-                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(), R.color.errorPrimary, null));
-                    applyFiltersButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
+            Context context = v.getContext();
+            Intent intent = new Intent(context, FilterActivity.class);
+            startActivityForResult(intent, FilterActivity.GET_FILTERS);
         });
 
         filters = new ArrayList<>();
-
-        dateInRange = DateFilterer.createDateRangeFilter(begin, end);
-        filters.add(dateInRange);
+        filters.add(DateFilterer.createDateRangeFilter(begin, end));
 
         loadedData = new ArrayList<>();
         ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
@@ -170,62 +108,111 @@ public class GraphActivity extends AppCompatActivity {
         db.loadData(tempAdapter, loadedData, filters);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FilterActivity.GET_FILTERS) {
+            if (resultCode == RESULT_OK) {
+                filters.clear();
+                filters.addAll((List<Predicate<RatData>>) data.getSerializableExtra("PREDICATES"));
+                applyFiltersButton.setEnabled(false);
+                ArrayAdapter<RatData> tempAdapter = new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
+
+                    @Override
+                    public void notifyDataSetChanged() {
+                        super.notifyDataSetChanged();
+                        Log.d(TAG, "Notified that the data finished loading");
+                        displayGraph();
+                    }
+                };
+                progressBar.setVisibility(View.VISIBLE);
+                RatDatabase db = new RatDatabase();
+                db.loadData(tempAdapter, loadedData, filters);
+            }
+        }
+    }
+
     /**
      * Displays the graph, calculates the bounds for the specified date range,
      * and gets the needed data from the database
      */
     private void displayGraph() {
-        Log.d(TAG, "Displaying graph");
-
         progressBar.setVisibility(View.VISIBLE);
+        chart.setVisibility(View.GONE);
+        noDataText.setVisibility(View.GONE);
         applyFiltersButton.setEnabled(false);
 
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.setTime(begin);
-        int beginMonth = cal.get(Calendar.MONTH);
-        int beginYear = cal.get(Calendar.YEAR);
-        cal.clear();
+        Log.d(TAG, "Sorting data");
+        loadedData.sort(new Comparator<RatData>() {
 
-        cal.setTime(end);
-        int endMonth = cal.get(Calendar.MONTH);
-        int endYear = cal.get(Calendar.YEAR);
-        cal.clear();
+            @Override
+            public int compare(RatData ratData1, RatData ratData2) {
+                Date date1 = DateFilterer.parse(ratData1.getCreatedDateTime());
+                Date date2 = DateFilterer.parse(ratData2.getCreatedDateTime());
+                if (date1 == null && date2 == null) {
+                    return 0;
+                }
+                if (date1 == null) {
+                    return -1;
+                }
+                if (date2 == null) {
+                    return 1;
+                }
+                return date1.compareTo(date2);
+            }
 
-        int monthDif = (endMonth + (endYear * 12)) - (beginMonth + (beginYear * 12));
-        Date[] domainDates = new Date[monthDif];
-        for (int i = 0; i < domainDates.length; i++) {
-            int month = beginMonth + i;
-            int year = beginYear + ((month + 1) / 12);
-            month = ((month + 1) % 12) - 1;
+        });
+
+        Log.d(TAG, "Displaying graph");
+
+        if (!loadedData.isEmpty()) {
+            Calendar cal = Calendar.getInstance();
             cal.clear();
-            cal.set(Calendar.MONTH, month);
-            cal.set(Calendar.YEAR, year);
-            domainDates[i] = cal.getTime();
+            cal.setTime(DateFilterer.parse(loadedData.get(0).getCreatedDateTime()));
+            int beginMonth = cal.get(Calendar.MONTH);
+            int beginYear = cal.get(Calendar.YEAR);
+            cal.clear();
+
+            cal.setTime(DateFilterer.parse(loadedData.get(loadedData.size() - 1).getCreatedDateTime()));
+            int endMonth = cal.get(Calendar.MONTH);
+            int endYear = cal.get(Calendar.YEAR);
+            cal.clear();
+
+            int monthDif = (endMonth + (endYear * 12)) - (beginMonth + (beginYear * 12));
+            Date[] domainDates = new Date[monthDif];
+            for (int i = 0; i < domainDates.length; i++) {
+                int month = beginMonth + i;
+                int year = beginYear + ((month + 1) / 12);
+                month = ((month + 1) % 12) - 1;
+                cal.clear();
+                cal.set(Calendar.MONTH, month);
+                cal.set(Calendar.YEAR, year);
+                domainDates[i] = cal.getTime();
+            }
+
+            List<Entry> entries = new ArrayList<>();
+            for (int i = 1; i < domainDates.length; i++) {
+                entries.add(new Entry(i, DateFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
+            }
+
+            LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
+            LineData lineData = new LineData(dataSet);
+            chart.setData(lineData);
+
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setValueFormatter(new MyXAxisValueFormatter(domainDates));
+            xAxis.setLabelRotationAngle(60);
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            chart.invalidate();
+
+            chart.setVisibility(View.VISIBLE);
+        } else {
+            noDataText.setVisibility(View.VISIBLE);
         }
-
-        List<Entry> entries = new ArrayList<>();
-        for (int i = 1; i < domainDates.length; i++) {
-            entries.add(new Entry(i, DateFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
-        }
-
-        Log.e(TAG, entries.toString());
-
-        LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new MyXAxisValueFormatter(domainDates));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        chart.invalidate();
 
         progressBar.setVisibility(View.GONE);
-        chart.setVisibility(View.VISIBLE);
-        date1Edit.setVisibility(View.VISIBLE);
-        date2Edit.setVisibility(View.VISIBLE);
         applyFiltersButton.setVisibility(View.VISIBLE);
+        applyFiltersButton.setEnabled(true);
     }
 
     public class MyXAxisValueFormatter implements IAxisValueFormatter {

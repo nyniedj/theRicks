@@ -1,5 +1,6 @@
 package edu.gatech.cs2340.thericks.utils;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,11 +19,13 @@ import edu.gatech.cs2340.thericks.models.RatData;
  */
 
 public class DateFilterer {
-    private static final DateFormat FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
+    public static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
+    public static final DateFormat TIME_FORMAT = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
     public static Date parse(String input) {
         try {
-            return FORMAT.parse(input);
+            return DATE_TIME_FORMAT.parse(input);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -35,7 +38,7 @@ public class DateFilterer {
      * @param end the end date
      * @return the predicate
      */
-    public static Predicate<RatData> createDateRangeFilter(Date begin, Date end) {
+    public static SerializablePredicate<RatData> createDateRangeFilter(Date begin, Date end) {
         return ratData -> {
             Date d = parse(ratData.getCreatedDateTime());
             return d != null && (begin == null || !d.before(begin))
