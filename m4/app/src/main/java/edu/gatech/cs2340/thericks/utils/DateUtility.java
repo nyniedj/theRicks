@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
@@ -18,10 +19,23 @@ import edu.gatech.cs2340.thericks.models.RatData;
  * Created by Ben Lashley on 11/1/2017.
  */
 
-public class DateFilterer {
+public class DateUtility {
     public static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
     public static final DateFormat TIME_FORMAT = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+
+    public static Date LAST_MONTH;
+    {
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH);
+        if (month > 0) {
+            cal.set(Calendar.MONTH, month - 1);
+        } else {
+            cal.set(Calendar.MONTH, Calendar.DECEMBER);
+            cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
+        }
+        LAST_MONTH = cal.getTime();
+    }
 
     public static Date parse(String input) {
         try {

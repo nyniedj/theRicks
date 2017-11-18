@@ -17,7 +17,7 @@ import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;
-import edu.gatech.cs2340.thericks.utils.DateFilterer;
+import edu.gatech.cs2340.thericks.utils.DateUtility;
 
 /**
  * Created by Cameron on 10/6/2017.
@@ -105,7 +105,7 @@ public class RatEntryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = charSequence.toString();
-                if (DateFilterer.parse(text) != null) {
+                if (DateUtility.parse(text) != null) {
                     date.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorBlack,
                             null));
                 } else {
@@ -211,7 +211,7 @@ public class RatEntryActivity extends AppCompatActivity {
                 Log.d(TAG, "Improperly formatted input detected in the key");
                 return;
             }
-            if (DateFilterer.parse(date.getText().toString()) == null) {
+            if (DateUtility.parse(date.getText().toString()) == null) {
                 Log.d(TAG, "Improperly formatted input detected in the date time");
                 return;
             }

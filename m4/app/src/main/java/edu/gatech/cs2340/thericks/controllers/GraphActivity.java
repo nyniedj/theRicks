@@ -3,15 +3,11 @@ package edu.gatech.cs2340.thericks.controllers;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,11 +19,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -37,8 +30,7 @@ import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.Months;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.utils.DateFilterer;
-import edu.gatech.cs2340.thericks.utils.SerializablePredicate;
+import edu.gatech.cs2340.thericks.utils.DateUtility;
 
 /**
  * Created by Cameron on 11/3/2017.
@@ -52,8 +44,8 @@ public class GraphActivity extends AppCompatActivity {
     //default dates to filter out rat data that occurs between the dates
     private static final String beginDateString = "01/01/2015 12:00:00 AM";
     private static final String endDateString = "10/01/2015 12:00:00 AM";
-    private static final Date begin = DateFilterer.parse(beginDateString);
-    private static final Date end = DateFilterer.parse(endDateString);
+    private static final Date begin = DateUtility.parse(beginDateString);
+    private static final Date end = DateUtility.parse(endDateString);
 
     private LineChart chart;
 
@@ -91,7 +83,7 @@ public class GraphActivity extends AppCompatActivity {
         });
 
         filters = new ArrayList<>();
-        filters.add(DateFilterer.createDateRangeFilter(begin, end));
+        filters.add(FilterActivity.DEFAULT_FILTER);
 
         loadedData = new ArrayList<>();
         ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
@@ -146,8 +138,8 @@ public class GraphActivity extends AppCompatActivity {
 
             @Override
             public int compare(RatData ratData1, RatData ratData2) {
-                Date date1 = DateFilterer.parse(ratData1.getCreatedDateTime());
-                Date date2 = DateFilterer.parse(ratData2.getCreatedDateTime());
+                Date date1 = DateUtility.parse(ratData1.getCreatedDateTime());
+                Date date2 = DateUtility.parse(ratData2.getCreatedDateTime());
                 if (date1 == null && date2 == null) {
                     return 0;
                 }
@@ -167,12 +159,12 @@ public class GraphActivity extends AppCompatActivity {
         if (!loadedData.isEmpty()) {
             Calendar cal = Calendar.getInstance();
             cal.clear();
-            cal.setTime(DateFilterer.parse(loadedData.get(0).getCreatedDateTime()));
+            cal.setTime(DateUtility.parse(loadedData.get(0).getCreatedDateTime()));
             int beginMonth = cal.get(Calendar.MONTH);
             int beginYear = cal.get(Calendar.YEAR);
             cal.clear();
 
-            cal.setTime(DateFilterer.parse(loadedData.get(loadedData.size() - 1).getCreatedDateTime()));
+            cal.setTime(DateUtility.parse(loadedData.get(loadedData.size() - 1).getCreatedDateTime()));
             int endMonth = cal.get(Calendar.MONTH);
             int endYear = cal.get(Calendar.YEAR);
             cal.clear();
@@ -191,7 +183,7 @@ public class GraphActivity extends AppCompatActivity {
 
             List<Entry> entries = new ArrayList<>();
             for (int i = 1; i < domainDates.length; i++) {
-                entries.add(new Entry(i, DateFilterer.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
+                entries.add(new Entry(i, DateUtility.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
             }
 
             LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.DatePicker;
-import android.widget.Filter;
 import android.widget.TimePicker;
 
 import java.io.Serializable;
@@ -26,7 +25,7 @@ import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.utils.DateFilterer;
+import edu.gatech.cs2340.thericks.utils.DateUtility;
 import edu.gatech.cs2340.thericks.utils.SerializablePredicate;
 
 /**
@@ -36,7 +35,10 @@ import edu.gatech.cs2340.thericks.utils.SerializablePredicate;
  */
 public class FilterActivity extends AppCompatActivity {
 
-    public static final int GET_FILTERS = 0;
+    public static final int GET_FILTERS = 700;
+
+    public static final Predicate<RatData> DEFAULT_FILTER =
+            DateUtility.createDateRangeFilter(DateUtility.LAST_MONTH, Calendar.getInstance().getTime());
 
     private CheckedTextView dateAndTimeCheck;
 
@@ -47,25 +49,28 @@ public class FilterActivity extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filters);
 
-        dateAndTimeCheck = findViewById(R.id.date_filter_check_text);
+        if (savedInstanceState == null) {
+            setContentView(R.layout.activity_filters);
 
-        date1Button = findViewById(R.id.date_button_filter_1);
-        date2Button = findViewById(R.id.date_button_filter_2);
-        time1Button = findViewById(R.id.time_button_filter_1);
-        time2Button = findViewById(R.id.time_button_filter_2);
+            dateAndTimeCheck = findViewById(R.id.date_filter_check_text);
 
-        Calendar cal = Calendar.getInstance();
-        date1Button.setText(DateFilterer.DATE_FORMAT.format(cal.getTime()));
-        date2Button.setText(DateFilterer.DATE_FORMAT.format(cal.getTime()));
-        time1Button.setText(DateFilterer.TIME_FORMAT.format(cal.getTime()));
-        time2Button.setText(DateFilterer.TIME_FORMAT.format(cal.getTime()));
+            date1Button = findViewById(R.id.date_button_filter_1);
+            date2Button = findViewById(R.id.date_button_filter_2);
+            time1Button = findViewById(R.id.time_button_filter_1);
+            time2Button = findViewById(R.id.time_button_filter_2);
 
-        date1Button.setVisibility(View.GONE);
-        date2Button.setVisibility(View.GONE);
-        time1Button.setVisibility(View.GONE);
-        time2Button.setVisibility(View.GONE);
+            Calendar cal = Calendar.getInstance();
+            date1Button.setText(DateUtility.DATE_FORMAT.format(cal.getTime()));
+            date2Button.setText(DateUtility.DATE_FORMAT.format(cal.getTime()));
+            time1Button.setText(DateUtility.TIME_FORMAT.format(cal.getTime()));
+            time2Button.setText(DateUtility.TIME_FORMAT.format(cal.getTime()));
+
+            date1Button.setVisibility(View.GONE);
+            date2Button.setVisibility(View.GONE);
+            time1Button.setVisibility(View.GONE);
+            time2Button.setVisibility(View.GONE);
+        }
     }
 
     public void onApplyButtonClicked(View v) {
@@ -75,13 +80,13 @@ public class FilterActivity extends AppCompatActivity {
         if (dateAndTimeCheck.isChecked()) {
             Calendar date1 = Calendar.getInstance();
             try {
-                date1.setTime(DateFilterer.DATE_FORMAT.parse(date1Button.getText().toString()));
+                date1.setTime(DateUtility.DATE_FORMAT.parse(date1Button.getText().toString()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             Calendar time1 = Calendar.getInstance();
             try {
-                time1.setTime(DateFilterer.TIME_FORMAT.parse(time1Button.getText().toString()));
+                time1.setTime(DateUtility.TIME_FORMAT.parse(time1Button.getText().toString()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -89,19 +94,19 @@ public class FilterActivity extends AppCompatActivity {
             date1.set(Calendar.MINUTE, time1.get(Calendar.MINUTE));
             Calendar date2 = Calendar.getInstance();
             try {
-                date2.setTime(DateFilterer.DATE_FORMAT.parse(date2Button.getText().toString()));
+                date2.setTime(DateUtility.DATE_FORMAT.parse(date2Button.getText().toString()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             Calendar time2 = Calendar.getInstance();
             try {
-                time2.setTime(DateFilterer.TIME_FORMAT.parse(time2Button.getText().toString()));
+                time2.setTime(DateUtility.TIME_FORMAT.parse(time2Button.getText().toString()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             date2.set(Calendar.HOUR, time2.get(Calendar.HOUR));
             date2.set(Calendar.MINUTE, time2.get(Calendar.MINUTE));
-            predicateList.add(DateFilterer.createDateRangeFilter(date1.getTime(), date2.getTime()));
+            predicateList.add(DateUtility.createDateRangeFilter(date1.getTime(), date2.getTime()));
         }
 
         Intent intent = new Intent();
@@ -134,7 +139,7 @@ public class FilterActivity extends AppCompatActivity {
     public void showDate1PickerDialog(View v) {
         Calendar cal = Calendar.getInstance();
         try {
-            cal.setTime(DateFilterer.DATE_FORMAT.parse(date1Button.getText().toString()));
+            cal.setTime(DateUtility.DATE_FORMAT.parse(date1Button.getText().toString()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -150,7 +155,7 @@ public class FilterActivity extends AppCompatActivity {
                 cal.set(Calendar.YEAR, year);
                 cal.set(Calendar.MONTH, month);
                 cal.set(Calendar.DAY_OF_MONTH, day);
-                date1Button.setText(DateFilterer.DATE_FORMAT.format(cal.getTime()));
+                date1Button.setText(DateUtility.DATE_FORMAT.format(cal.getTime()));
             }
 
         });
@@ -165,7 +170,7 @@ public class FilterActivity extends AppCompatActivity {
     public void showDate2PickerDialog(View v) {
         Calendar cal = Calendar.getInstance();
         try {
-            cal.setTime(DateFilterer.DATE_FORMAT.parse(date2Button.getText().toString()));
+            cal.setTime(DateUtility.DATE_FORMAT.parse(date2Button.getText().toString()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -181,7 +186,7 @@ public class FilterActivity extends AppCompatActivity {
                 cal.set(Calendar.YEAR, year);
                 cal.set(Calendar.MONTH, month);
                 cal.set(Calendar.DAY_OF_MONTH, day);
-                date2Button.setText(DateFilterer.DATE_FORMAT.format(cal.getTime()));
+                date2Button.setText(DateUtility.DATE_FORMAT.format(cal.getTime()));
             }
 
         });
@@ -196,7 +201,7 @@ public class FilterActivity extends AppCompatActivity {
     public void showTime1PickerDialog(View v) {
         Calendar cal = Calendar.getInstance();
         try {
-            cal.setTime(DateFilterer.TIME_FORMAT.parse(time1Button.getText().toString()));
+            cal.setTime(DateUtility.TIME_FORMAT.parse(time1Button.getText().toString()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -210,7 +215,7 @@ public class FilterActivity extends AppCompatActivity {
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, hour);
                 cal.set(Calendar.MINUTE, minute);
-                time1Button.setText(DateFilterer.TIME_FORMAT.format(cal.getTime()));
+                time1Button.setText(DateUtility.TIME_FORMAT.format(cal.getTime()));
             }
 
         });
@@ -224,7 +229,7 @@ public class FilterActivity extends AppCompatActivity {
     public void showTime2PickerDialog(View v) {
         Calendar cal = Calendar.getInstance();
         try {
-            cal.setTime(DateFilterer.TIME_FORMAT.parse(time2Button.getText().toString()));
+            cal.setTime(DateUtility.TIME_FORMAT.parse(time2Button.getText().toString()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -238,7 +243,7 @@ public class FilterActivity extends AppCompatActivity {
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, hour);
                 cal.set(Calendar.MINUTE, minute);
-                time2Button.setText(DateFilterer.TIME_FORMAT.format(cal.getTime()));
+                time2Button.setText(DateUtility.TIME_FORMAT.format(cal.getTime()));
             }
 
         });
