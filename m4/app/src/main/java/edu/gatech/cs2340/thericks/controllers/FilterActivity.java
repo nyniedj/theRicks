@@ -76,56 +76,54 @@ public class FilterActivity extends AppCompatActivity {
             date2Button.setText(filter.getEndDateStr());
             time1Button.setText(filter.getBeginTimeStr());
             time2Button.setText(filter.getEndTimeStr());
-            onDateAndTimeCheckClicked(dateAndTimeCheck);
+            if (filter.isPredicateEnabled(RatFilter.DATE)) {
+                onDateAndTimeCheckClicked(dateAndTimeCheck);
+            }
         }
 
         if (filter.hasPredicate(RatFilter.LOCATION_TYPE)) {
             locationTypeEdit.setText(filter.getLocationType());
-            onLocationTypeCheckClicked(locationTypeCheck);
+            if (filter.isPredicateEnabled(RatFilter.LOCATION_TYPE)) {
+                onLocationTypeCheckClicked(locationTypeCheck);
+            }
         }
     }
 
     public void onApplyButtonClicked(View v) {
-        if (dateAndTimeCheck.isChecked()) {
-            Calendar date1 = Calendar.getInstance();
-            try {
-                date1.setTime(DateUtility.DATE_FORMAT.parse(date1Button.getText().toString()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Calendar time1 = Calendar.getInstance();
-            try {
-                time1.setTime(DateUtility.TIME_FORMAT.parse(time1Button.getText().toString()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            date1.set(Calendar.HOUR, time1.get(Calendar.HOUR));
-            date1.set(Calendar.MINUTE, time1.get(Calendar.MINUTE));
-            Calendar date2 = Calendar.getInstance();
-            try {
-                date2.setTime(DateUtility.DATE_FORMAT.parse(date2Button.getText().toString()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Calendar time2 = Calendar.getInstance();
-            try {
-                time2.setTime(DateUtility.TIME_FORMAT.parse(time2Button.getText().toString()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            date2.set(Calendar.HOUR, time2.get(Calendar.HOUR));
-            date2.set(Calendar.MINUTE, time2.get(Calendar.MINUTE));
-            filter.setBeginDate(date1.getTime());
-            filter.setEndDate(date2.getTime());
-        } else {
-            filter.clearDatePredicate();
+        Calendar date1 = Calendar.getInstance();
+        try {
+            date1.setTime(DateUtility.DATE_FORMAT.parse(date1Button.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        Calendar time1 = Calendar.getInstance();
+        try {
+            time1.setTime(DateUtility.TIME_FORMAT.parse(time1Button.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        date1.set(Calendar.HOUR, time1.get(Calendar.HOUR));
+        date1.set(Calendar.MINUTE, time1.get(Calendar.MINUTE));
+        Calendar date2 = Calendar.getInstance();
+        try {
+            date2.setTime(DateUtility.DATE_FORMAT.parse(date2Button.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar time2 = Calendar.getInstance();
+        try {
+            time2.setTime(DateUtility.TIME_FORMAT.parse(time2Button.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        date2.set(Calendar.HOUR, time2.get(Calendar.HOUR));
+        date2.set(Calendar.MINUTE, time2.get(Calendar.MINUTE));
+        filter.setBeginDate(date1.getTime());
+        filter.setEndDate(date2.getTime());
+        filter.setPredicateEnabled(RatFilter.DATE, dateAndTimeCheck.isChecked());
 
-        if (locationTypeCheck.isChecked()) {
-            filter.setLocationType(locationTypeEdit.getText().toString());
-        } else {
-            filter.clearLocationTypePredicate();
-        }
+        filter.setLocationType(locationTypeEdit.getText().toString());
+        filter.setPredicateEnabled(RatFilter.LOCATION_TYPE, locationTypeCheck.isChecked());
 
         Intent intent = new Intent();
         intent.putExtra(FILTER, filter);
