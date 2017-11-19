@@ -1,5 +1,6 @@
 package edu.gatech.cs2340.thericks.models;
 
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -26,15 +27,31 @@ import edu.gatech.cs2340.thericks.utils.DateUtility;
  */
 public class RatFilter implements Parcelable {
 
-    private static final String DATE = "DATE";
-    private static final String LOCATION_TYPE = "LOCATION_TYPE";
+    public static final String DATE = "DATE";
+    public static final String LOCATION_TYPE = "LOCATION_TYPE";
+    public static final String ZIP = "ZIP";
+    public static final String ADDRESS = "ADDRESS";
+    public static final String CITY = "CITY";
+    public static final String BOROUGH = "BOROUGH";
+    public static final String LATITUDE = "LATITUDE";
+    public static final String LONGITUDE = "LONGITUDE";
 
     private Map<String, Predicate<RatData>> predicates;
 
+    // raw data
     private String beginDateStr;
     private String beginTimeStr;
     private String endDateStr;
     private String endTimeStr;
+    private String locationType;
+    private Integer zip;
+    private String address;
+    private String city;
+    private String borough;
+    private Double minLatitude;
+    private Double maxLatitude;
+    private Double minLongitude;
+    private Double maxLongitude;
 
     private RatFilter() {
         predicates = new HashMap<>();
@@ -53,8 +70,34 @@ public class RatFilter implements Parcelable {
         }
     }
 
-    private void buildPredicates() {
-        buildDatePredicate();
+    private void buildAllPredicates() {
+        if (beginDateStr != null
+                && beginTimeStr != null
+                && endDateStr != null
+                && endTimeStr != null) {
+            buildDatePredicate();
+        }
+        if (locationType != null) {
+            buildLocationTypePredicate();
+        }
+        if (zip != null) {
+            buildZipPredicate();
+        }
+        if (address != null) {
+            buildAddressPredicate();
+        }
+        if (city != null) {
+            buildCityPredicate();
+        }
+        if (borough != null ) {
+            buildBoroughPredicate();
+        }
+        if (minLatitude != null && maxLatitude != null) {
+            buildLatitudePredicate();
+        }
+        if (minLongitude != null && maxLongitude != null) {
+            buildLongitudePredicate();
+        }
     }
 
     private void buildDatePredicate() {
@@ -63,12 +106,128 @@ public class RatFilter implements Parcelable {
                 DateUtility.parse(endDateStr + " " + endTimeStr)));
     }
 
+    private void buildLocationTypePredicate() {
+        predicates.put(LOCATION_TYPE, new Predicate<RatData>() {
+
+            @Override
+            public boolean test(RatData ratData) {
+                return ratData.getLocationType().equalsIgnoreCase(locationType);
+            }
+
+        });
+    }
+
+    private void buildZipPredicate() {
+        predicates.put(ZIP, new Predicate<RatData>() {
+
+            @Override
+            public boolean test(RatData ratData) {
+                return ratData.getIncidentZip() == zip;
+            }
+
+        });
+    }
+
+    private void buildAddressPredicate() {
+        predicates.put(ADDRESS, new Predicate<RatData>() {
+
+            @Override
+            public boolean test(RatData ratData) {
+                return ratData.getIncidentAddress().contains(address);
+            }
+
+        });
+    }
+
+    private void buildCityPredicate() {
+        predicates.put(CITY, new Predicate<RatData>() {
+
+            @Override
+            public boolean test(RatData ratData) {
+                return ratData.getCity().equalsIgnoreCase(city);
+            }
+
+        });
+    }
+
+    private void buildBoroughPredicate() {
+        predicates.put(BOROUGH, new Predicate<RatData>() {
+
+            @Override
+            public boolean test(RatData ratData) {
+                return ratData.getBorough().equalsIgnoreCase(borough);
+            }
+
+        });
+    }
+
+    private void buildLatitudePredicate() {
+        predicates.put(LATITUDE, new Predicate<RatData>() {
+
+            @Override
+            public boolean test(RatData ratData) {
+                return ratData.getLatitude() >= minLatitude
+                        && ratData.getLatitude() <= maxLatitude;
+            }
+
+        });
+    }
+
+    private void buildLongitudePredicate() {
+        predicates.put(LONGITUDE, new Predicate<RatData>() {
+
+            @Override
+            public boolean test(RatData ratData) {
+                return ratData.getLongitude() >= minLongitude
+                        && ratData.getLongitude() <= maxLongitude;
+            }
+
+        });
+    }
+
     public void clearDatePredicate() {
         beginDateStr = null;
         beginTimeStr = null;
         endDateStr = null;
         endTimeStr = null;
         predicates.put(DATE, null);
+    }
+
+    public void clearLocationTypePredicate() {
+        locationType = null;
+        predicates.put(LOCATION_TYPE, null);
+    }
+
+    public void clearZipPredicate() {
+        zip = null;
+        predicates.put(ZIP, null);
+    }
+
+    public void clearAddressPredicate() {
+        address = null;
+        predicates.put(ADDRESS, null);
+    }
+
+    public void clearCityPredicate() {
+        city = null;
+        predicates.put(CITY, null);
+    }
+
+    public void clearBoroughPredicate() {
+        borough = null;
+        predicates.put(BOROUGH, null);
+    }
+
+    public void clearLatitudePredicate() {
+        minLatitude = null;
+        maxLatitude = null;
+        predicates.put(LATITUDE, null);
+    }
+
+    public void clearLongitudePredicate() {
+        minLongitude = null;
+        maxLongitude = null;
+        predicates.put(LONGITUDE, null);
     }
 
     public void setBeginDate(Date beginDate) {
@@ -87,8 +246,61 @@ public class RatFilter implements Parcelable {
         }
     }
 
-    public boolean hasDateFilter() {
-        return predicates.get(DATE) != null;
+    public void setLocationType(String locationType) {
+        this.locationType = locationType;
+        buildLocationTypePredicate();
+    }
+
+    public void setZip(int zip) {
+        this.zip = zip;
+        buildZipPredicate();
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+        buildAddressPredicate();
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+        buildCityPredicate();
+    }
+
+    public void setBorough(String borough) {
+        this.borough = borough;
+        buildBoroughPredicate();
+    }
+
+    public void setMinLatitude(double minLatitude) {
+        this.minLatitude = minLatitude;
+        if (maxLatitude != null) {
+            buildLatitudePredicate();
+        }
+    }
+
+    public void setMaxLatitude(double maxLatitude) {
+        this.maxLatitude = maxLatitude;
+        if (minLatitude != null) {
+            buildLatitudePredicate();
+        }
+    }
+
+    public void setMinLongitude(double minLongitude) {
+        this.minLongitude = minLongitude;
+        if (maxLongitude != null) {
+            buildLongitudePredicate();
+        }
+    }
+
+    public void setMaxLongitude(double maxLongitude) {
+        this.maxLongitude = maxLongitude;
+        if (minLongitude != null) {
+            buildLongitudePredicate();
+        }
+    }
+
+    public boolean hasPredicate(String key) {
+        return predicates.get(key) != null;
     }
 
     public String getBeginDateStr() {
@@ -105,6 +317,42 @@ public class RatFilter implements Parcelable {
 
     public String getEndTimeStr() {
         return endTimeStr;
+    }
+
+    public String getLocationType() {
+        return locationType;
+    }
+
+    public int getZip() {
+        return zip;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getBorough() {
+        return borough;
+    }
+
+    public double getMinLatitude() {
+        return minLatitude;
+    }
+
+    public double getMaxLatitude() {
+        return maxLatitude;
+    }
+
+    public double getMinLongitude() {
+        return minLongitude;
+    }
+
+    public double getMaxLongitude() {
+        return maxLongitude;
     }
 
     public List<Predicate<RatData>> getPredicates() {
@@ -127,7 +375,16 @@ public class RatFilter implements Parcelable {
         beginTimeStr = in.readString();
         endDateStr = in.readString();
         endTimeStr = in.readString();
-        buildPredicates();
+        locationType = in.readString();
+        zip = (Integer) in.readValue(Integer.class.getClassLoader());
+        address = in.readString();
+        city = in.readString();
+        borough = in.readString();
+        minLatitude = (Double) in.readValue(Double.class.getClassLoader());
+        maxLatitude = (Double) in.readValue(Double.class.getClassLoader());
+        minLongitude = (Double) in.readValue(Double.class.getClassLoader());
+        maxLongitude = (Double) in.readValue(Double.class.getClassLoader());
+        buildAllPredicates();
     }
 
     @Override
@@ -141,6 +398,15 @@ public class RatFilter implements Parcelable {
         parcel.writeString(beginTimeStr);
         parcel.writeString(endDateStr);
         parcel.writeString(endTimeStr);
+        parcel.writeString(locationType);
+        parcel.writeValue(zip);
+        parcel.writeString(address);
+        parcel.writeString(city);
+        parcel.writeString(borough);
+        parcel.writeValue(minLatitude);
+        parcel.writeValue(maxLatitude);
+        parcel.writeValue(minLongitude);
+        parcel.writeValue(maxLongitude);
     }
 
     public static final Parcelable.Creator<RatFilter> CREATOR

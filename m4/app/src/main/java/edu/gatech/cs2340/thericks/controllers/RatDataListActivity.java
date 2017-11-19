@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class RatDataListActivity extends AppCompatActivity {
     private ListView ratDataList;
     private ProgressBar progressBar;
 
+    private Button editFiltersButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class RatDataListActivity extends AppCompatActivity {
 
         RatDatabase database = new RatDatabase();
         progressBar = findViewById(R.id.rat_data_list_progress_bar);
+
+        editFiltersButton = findViewById(R.id.data_list_edit_filters_button);
 
         if (adapter == null) {
             adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(),
@@ -109,6 +114,8 @@ public class RatDataListActivity extends AppCompatActivity {
         public void notifyDataSetChanged() {
             super.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
+            editFiltersButton.setEnabled(true);
+
         }
 
         @Override

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TimePicker;
 
 import java.text.ParseException;
@@ -40,11 +41,14 @@ public class FilterActivity extends AppCompatActivity {
     private static final String TIME_2 = "TIME2";
 
     private CheckedTextView dateAndTimeCheck;
+    private CheckedTextView locationTypeCheck;
 
     private Button date1Button;
     private Button date2Button;
     private Button time1Button;
     private Button time2Button;
+
+    private EditText locationTypeEdit;
 
     private RatFilter filter;
 
@@ -57,24 +61,31 @@ public class FilterActivity extends AppCompatActivity {
         time1Button = findViewById(R.id.time_button_filter_1);
         time2Button = findViewById(R.id.time_button_filter_2);
 
+        locationTypeEdit = findViewById(R.id.location_type_filter_edit);
+
         dateAndTimeCheck = findViewById(R.id.date_filter_check_text);
+        locationTypeCheck = findViewById(R.id.location_type_filter_check_text);
 
         filter = getIntent().getParcelableExtra(FILTER);
         if (filter == null) {
             filter = RatFilter.getDefaultInstance();
         }
 
-        if (filter.hasDateFilter()) {
+        if (filter.hasPredicate(RatFilter.DATE)) {
             date1Button.setText(filter.getBeginDateStr());
             date2Button.setText(filter.getEndDateStr());
             time1Button.setText(filter.getBeginTimeStr());
             time2Button.setText(filter.getEndTimeStr());
             onDateAndTimeCheckClicked(dateAndTimeCheck);
         }
+
+        if (filter.hasPredicate(RatFilter.LOCATION_TYPE)) {
+            locationTypeEdit.setText(filter.getLocationType());
+            onLocationTypeCheckClicked(locationTypeCheck);
+        }
     }
 
     public void onApplyButtonClicked(View v) {
-        //Date predicate
         if (dateAndTimeCheck.isChecked()) {
             Calendar date1 = Calendar.getInstance();
             try {
@@ -110,6 +121,12 @@ public class FilterActivity extends AppCompatActivity {
             filter.clearDatePredicate();
         }
 
+        if (locationTypeCheck.isChecked()) {
+            filter.setLocationType(locationTypeEdit.getText().toString());
+        } else {
+            filter.clearLocationTypePredicate();
+        }
+
         Intent intent = new Intent();
         intent.putExtra(FILTER, filter);
         setResult(RESULT_OK, intent);
@@ -138,6 +155,16 @@ public class FilterActivity extends AppCompatActivity {
             date2Button.setVisibility(View.VISIBLE);
             time1Button.setVisibility(View.VISIBLE);
             time2Button.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onLocationTypeCheckClicked(View v) {
+        if (locationTypeCheck.isChecked()) {
+            locationTypeCheck.setChecked(false);
+            locationTypeEdit.setVisibility(View.GONE);
+        } else {
+            locationTypeCheck.setChecked(true);
+            locationTypeEdit.setVisibility(View.VISIBLE);
         }
     }
 
