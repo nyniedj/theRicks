@@ -14,10 +14,12 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Locale;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatFilter;
@@ -35,13 +37,14 @@ public class FilterActivity extends AppCompatActivity {
     public static final int GET_FILTER = 700;
     public static final String FILTER = "FILTER";
 
-    private static final String DATE_1 = "DATE1";
-    private static final String DATE_2 = "DATE2";
-    private static final String TIME_1 = "TIME1";
-    private static final String TIME_2 = "TIME2";
-
     private CheckedTextView dateAndTimeCheck;
     private CheckedTextView locationTypeCheck;
+    private CheckedTextView zipCheck;
+    private CheckedTextView addressCheck;
+    private CheckedTextView cityCheck;
+    private CheckedTextView boroughCheck;
+    private CheckedTextView latitudeCheck;
+    private CheckedTextView longitudeCheck;
 
     private Button date1Button;
     private Button date2Button;
@@ -49,6 +52,17 @@ public class FilterActivity extends AppCompatActivity {
     private Button time2Button;
 
     private EditText locationTypeEdit;
+    private EditText zipEdit;
+    private EditText addressEdit;
+    private EditText cityEdit;
+    private EditText boroughEdit;
+    private EditText minLatitudeEdit;
+    private EditText maxLatitudeEdit;
+    private EditText minLongitudeEdit;
+    private EditText maxLongitudeEdit;
+
+    private TextView latSeparator;
+    private TextView longSeparator;
 
     private RatFilter filter;
 
@@ -62,9 +76,26 @@ public class FilterActivity extends AppCompatActivity {
         time2Button = findViewById(R.id.time_button_filter_2);
 
         locationTypeEdit = findViewById(R.id.location_type_filter_edit);
+        zipEdit = findViewById(R.id.zip_filter_edit);
+        addressEdit = findViewById(R.id.address_filter_edit);
+        cityEdit = findViewById(R.id.city_filter_edit);
+        boroughEdit = findViewById(R.id.borough_filter_edit);
+        minLatitudeEdit = findViewById(R.id.min_latitude_filter_edit);
+        maxLatitudeEdit = findViewById(R.id.max_latitude_filter_edit);
+        minLongitudeEdit = findViewById(R.id.min_longitude_filter_edit);
+        maxLongitudeEdit = findViewById(R.id.max_longitude_filter_edit);
 
         dateAndTimeCheck = findViewById(R.id.date_filter_check_text);
         locationTypeCheck = findViewById(R.id.location_type_filter_check_text);
+        zipCheck = findViewById(R.id.zip_filter_check_text);
+        addressCheck = findViewById(R.id.address_filter_check_text);
+        cityCheck = findViewById(R.id.city_filter_check_text);
+        boroughCheck = findViewById(R.id.borough_filter_check_text);
+        latitudeCheck = findViewById(R.id.latitude_filter_check_text);
+        longitudeCheck = findViewById(R.id.longitude_filter_check_text);
+
+        latSeparator = findViewById(R.id.lat_separator_filter_text);
+        longSeparator = findViewById(R.id.long_separator_filter_text);
 
         filter = getIntent().getParcelableExtra(FILTER);
         if (filter == null) {
@@ -85,6 +116,50 @@ public class FilterActivity extends AppCompatActivity {
             locationTypeEdit.setText(filter.getLocationType());
             if (filter.isPredicateEnabled(RatFilter.LOCATION_TYPE)) {
                 onLocationTypeCheckClicked(locationTypeCheck);
+            }
+        }
+
+        if (filter.hasPredicate(RatFilter.ZIP)) {
+            zipEdit.setText(String.format(Locale.ENGLISH, "%d", filter.getZip()));
+            if (filter.isPredicateEnabled(RatFilter.ZIP)) {
+                onZipCheckClicked(zipCheck);
+            }
+        }
+
+        if (filter.hasPredicate(RatFilter.ADDRESS)) {
+            addressEdit.setText(filter.getAddress());
+            if (filter.isPredicateEnabled(RatFilter.ADDRESS)) {
+                onAddressCheckClicked(addressCheck);
+            }
+        }
+
+        if (filter.hasPredicate(RatFilter.CITY)) {
+            cityEdit.setText(filter.getCity());
+            if (filter.isPredicateEnabled(RatFilter.CITY)) {
+                onCityCheckClicked(cityCheck);
+            }
+        }
+
+        if (filter.hasPredicate(RatFilter.BOROUGH)) {
+            boroughEdit.setText(filter.getBorough());
+            if (filter.isPredicateEnabled(RatFilter.BOROUGH)) {
+                onBoroughCheckClicked(boroughCheck);
+            }
+        }
+
+        if (filter.hasPredicate(RatFilter.LATITUDE)) {
+            minLatitudeEdit.setText(String.format(Locale.ENGLISH, "%f", filter.getMinLatitude()));
+            maxLatitudeEdit.setText(String.format(Locale.ENGLISH, "%f", filter.getMaxLatitude()));
+            if (filter.isPredicateEnabled(RatFilter.LATITUDE)) {
+                onLatitudeCheckClicked(latitudeCheck);
+            }
+        }
+
+        if (filter.hasPredicate(RatFilter.LONGITUDE)) {
+            minLongitudeEdit.setText(String.format(Locale.ENGLISH, "%f", filter.getMinLongitude()));
+            maxLongitudeEdit.setText(String.format(Locale.ENGLISH, "%f", filter.getMaxLongitude()));
+            if (filter.isPredicateEnabled(RatFilter.LONGITUDE)) {
+                onLongitudeCheckClicked(longitudeCheck);
             }
         }
     }
@@ -125,6 +200,46 @@ public class FilterActivity extends AppCompatActivity {
         filter.setLocationType(locationTypeEdit.getText().toString());
         filter.setPredicateEnabled(RatFilter.LOCATION_TYPE, locationTypeCheck.isChecked());
 
+        try {
+            filter.setZip(Integer.parseInt(zipEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            filter.setZip(null);
+        }
+        filter.setPredicateEnabled(RatFilter.ZIP, zipCheck.isChecked());
+
+        filter.setAddress(addressEdit.getText().toString());
+        filter.setPredicateEnabled(RatFilter.ADDRESS, addressCheck.isChecked());
+
+        filter.setCity(cityEdit.getText().toString());
+        filter.setPredicateEnabled(RatFilter.CITY, cityCheck.isChecked());
+
+        filter.setBorough(boroughEdit.getText().toString());
+        filter.setPredicateEnabled(RatFilter.BOROUGH, boroughCheck.isChecked());
+
+        try {
+            filter.setMinLatitude(Double.parseDouble(minLatitudeEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            filter.setMinLatitude(null);
+        }
+        try {
+            filter.setMaxLatitude(Double.parseDouble(maxLatitudeEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            filter.setMaxLatitude(null);
+        }
+        filter.setPredicateEnabled(RatFilter.LATITUDE, latitudeCheck.isChecked());
+
+        try {
+            filter.setMinLongitude(Double.parseDouble(minLongitudeEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            filter.setMinLongitude(null);
+        }
+        try {
+            filter.setMaxLongitude(Double.parseDouble(maxLongitudeEdit.getText().toString()));
+        } catch (NumberFormatException e) {
+            filter.setMaxLongitude(null);
+        }
+        filter.setPredicateEnabled(RatFilter.LONGITUDE, longitudeCheck.isChecked());
+
         Intent intent = new Intent();
         intent.putExtra(FILTER, filter);
         setResult(RESULT_OK, intent);
@@ -138,6 +253,13 @@ public class FilterActivity extends AppCompatActivity {
 
     public void onClearButtonClicked(View v) {
         dateAndTimeCheck.setChecked(false);
+        locationTypeCheck.setChecked(false);
+        zipCheck.setChecked(false);
+        addressCheck.setChecked(false);
+        cityCheck.setChecked(false);
+        boroughCheck.setChecked(false);
+        latitudeCheck.setChecked(false);
+        longitudeCheck.setChecked(false);
     }
 
     public void onDateAndTimeCheckClicked(View v) {
@@ -163,6 +285,74 @@ public class FilterActivity extends AppCompatActivity {
         } else {
             locationTypeCheck.setChecked(true);
             locationTypeEdit.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onZipCheckClicked(View v) {
+        if (zipCheck.isChecked()) {
+            zipCheck.setChecked(false);
+            zipEdit.setVisibility(View.GONE);
+        } else {
+            zipCheck.setChecked(true);
+            zipEdit.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onAddressCheckClicked(View v) {
+        if (addressCheck.isChecked()) {
+            addressCheck.setChecked(false);
+            addressEdit.setVisibility(View.GONE);
+        } else {
+            addressCheck.setChecked(true);
+            addressEdit.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onCityCheckClicked(View v) {
+        if (cityCheck.isChecked()) {
+            cityCheck.setChecked(false);
+            cityEdit.setVisibility(View.GONE);
+        } else {
+            cityCheck.setChecked(true);
+            cityEdit.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onBoroughCheckClicked(View v) {
+        if (boroughCheck.isChecked()) {
+            boroughCheck.setChecked(false);
+            boroughEdit.setVisibility(View.GONE);
+        } else {
+            boroughCheck.setChecked(true);
+            boroughEdit.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onLatitudeCheckClicked(View v) {
+        if (latitudeCheck.isChecked()) {
+            latitudeCheck.setChecked(false);
+            minLatitudeEdit.setVisibility(View.GONE);
+            maxLatitudeEdit.setVisibility(View.GONE);
+            latSeparator.setVisibility(View.GONE);
+        } else {
+            latitudeCheck.setChecked(true);
+            minLatitudeEdit.setVisibility(View.VISIBLE);
+            maxLatitudeEdit.setVisibility(View.VISIBLE);
+            latSeparator.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onLongitudeCheckClicked(View v) {
+        if (longitudeCheck.isChecked()) {
+            longitudeCheck.setChecked(false);
+            minLongitudeEdit.setVisibility(View.GONE);
+            maxLongitudeEdit.setVisibility(View.GONE);
+            longSeparator.setVisibility(View.GONE);
+        } else {
+            longitudeCheck.setChecked(true);
+            minLongitudeEdit.setVisibility(View.VISIBLE);
+            maxLongitudeEdit.setVisibility(View.VISIBLE);
+            longSeparator.setVisibility(View.VISIBLE);
         }
     }
 
@@ -285,7 +475,7 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     public interface DialogFragmentCallback {
-        public void onResultCallback(Bundle bundle);
+        void onResultCallback(Bundle bundle);
     }
 
     public static class FilterDatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {

@@ -137,7 +137,7 @@ public class RatFilter implements Parcelable {
 
             @Override
             public boolean test(RatData ratData) {
-                return ratData.getIncidentAddress().contains(address);
+                return ratData.getIncidentAddress().toLowerCase().contains(address.toLowerCase());
             }
 
         });
@@ -220,9 +220,11 @@ public class RatFilter implements Parcelable {
         buildLocationTypePredicate();
     }
 
-    public void setZip(int zip) {
+    public void setZip(Integer zip) {
         this.zip = zip;
-        buildZipPredicate();
+        if (zip != null ) {
+            buildZipPredicate();
+        }
     }
 
     public void setAddress(String address) {
@@ -240,30 +242,34 @@ public class RatFilter implements Parcelable {
         buildBoroughPredicate();
     }
 
-    public void setMinLatitude(double minLatitude) {
+    public void setMinLatitude(Double minLatitude) {
         this.minLatitude = minLatitude;
-        if (maxLatitude != null) {
+        if (minLatitude != null
+                && maxLatitude != null) {
             buildLatitudePredicate();
         }
     }
 
-    public void setMaxLatitude(double maxLatitude) {
+    public void setMaxLatitude(Double maxLatitude) {
         this.maxLatitude = maxLatitude;
-        if (minLatitude != null) {
+        if (minLatitude != null
+                && maxLatitude != null) {
             buildLatitudePredicate();
         }
     }
 
-    public void setMinLongitude(double minLongitude) {
+    public void setMinLongitude(Double minLongitude) {
         this.minLongitude = minLongitude;
-        if (maxLongitude != null) {
+        if (maxLongitude != null
+                && minLongitude != null) {
             buildLongitudePredicate();
         }
     }
 
-    public void setMaxLongitude(double maxLongitude) {
+    public void setMaxLongitude(Double maxLongitude) {
         this.maxLongitude = maxLongitude;
-        if (minLongitude != null) {
+        if (minLongitude != null
+                && maxLongitude != null) {
             buildLongitudePredicate();
         }
     }
@@ -296,7 +302,7 @@ public class RatFilter implements Parcelable {
         return locationType;
     }
 
-    public int getZip() {
+    public Integer getZip() {
         return zip;
     }
 
@@ -312,19 +318,19 @@ public class RatFilter implements Parcelable {
         return borough;
     }
 
-    public double getMinLatitude() {
+    public Double getMinLatitude() {
         return minLatitude;
     }
 
-    public double getMaxLatitude() {
+    public Double getMaxLatitude() {
         return maxLatitude;
     }
 
-    public double getMinLongitude() {
+    public Double getMinLongitude() {
         return minLongitude;
     }
 
-    public double getMaxLongitude() {
+    public Double getMaxLongitude() {
         return maxLongitude;
     }
 
@@ -396,30 +402,62 @@ public class RatFilter implements Parcelable {
         parcel.writeString(beginTimeStr);
         parcel.writeString(endDateStr);
         parcel.writeString(endTimeStr);
-        parcel.writeByte((byte) (enabledMap.get(DATE) ? 1 : 0));
+        if (enabledMap.get(DATE) != null && enabledMap.get(DATE)) {
+            parcel.writeByte((byte) 1);
+        } else {
+            parcel.writeByte((byte) 0);
+        }
 
         parcel.writeString(locationType);
-        parcel.writeByte((byte) (enabledMap.get(LOCATION_TYPE) ? 1 : 0));
+        if (enabledMap.get(LOCATION_TYPE) != null && enabledMap.get(LOCATION_TYPE)) {
+            parcel.writeByte((byte) 1);
+        } else {
+            parcel.writeByte((byte) 0);
+        }
 
         parcel.writeValue(zip);
-        parcel.writeByte((byte) (enabledMap.get(ZIP) ? 1 : 0));
+        if (enabledMap.get(ZIP) != null && enabledMap.get(ZIP)) {
+            parcel.writeByte((byte) 1);
+        } else {
+            parcel.writeByte((byte) 0);
+        }
 
         parcel.writeString(address);
-        parcel.writeByte((byte) (enabledMap.get(ADDRESS) ? 1 : 0));
+        if (enabledMap.get(ADDRESS) != null && enabledMap.get(ADDRESS)) {
+            parcel.writeByte((byte) 1);
+        } else {
+            parcel.writeByte((byte) 0);
+        }
 
         parcel.writeString(city);
-        parcel.writeByte((byte) (enabledMap.get(CITY) ? 1 : 0));
+        if (enabledMap.get(CITY) != null && enabledMap.get(CITY)) {
+            parcel.writeByte((byte) 1);
+        } else {
+            parcel.writeByte((byte) 0);
+        }
 
         parcel.writeString(borough);
-        parcel.writeByte((byte) (enabledMap.get(BOROUGH) ? 1 : 0));
+        if (enabledMap.get(BOROUGH) != null && enabledMap.get(BOROUGH)) {
+            parcel.writeByte((byte) 1);
+        } else {
+            parcel.writeByte((byte) 0);
+        }
 
         parcel.writeValue(minLatitude);
         parcel.writeValue(maxLatitude);
-        parcel.writeByte((byte) (enabledMap.get(LATITUDE) ? 1 : 0));
+        if (enabledMap.get(LATITUDE) != null && enabledMap.get(LATITUDE)) {
+            parcel.writeByte((byte) 1);
+        } else {
+            parcel.writeByte((byte) 0);
+        }
 
         parcel.writeValue(minLongitude);
         parcel.writeValue(maxLongitude);
-        parcel.writeByte((byte) (enabledMap.get(LONGITUDE) ? 1 : 0));
+        if (enabledMap.get(LONGITUDE) != null && enabledMap.get(LONGITUDE)) {
+            parcel.writeByte((byte) 1);
+        } else {
+            parcel.writeByte((byte) 0);
+        }
     }
 
     public static final Parcelable.Creator<RatFilter> CREATOR
