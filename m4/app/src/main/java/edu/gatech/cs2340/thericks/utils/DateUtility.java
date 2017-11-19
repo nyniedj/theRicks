@@ -24,8 +24,7 @@ public class DateUtility {
     public static final DateFormat TIME_FORMAT = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
-    public static Date LAST_MONTH;
-    {
+    public static Date getLastMonth() {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
         if (month > 0) {
@@ -34,7 +33,7 @@ public class DateUtility {
             cal.set(Calendar.MONTH, Calendar.DECEMBER);
             cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
         }
-        LAST_MONTH = cal.getTime();
+        return cal.getTime();
     }
 
     public static Date parse(String input) {
@@ -52,7 +51,7 @@ public class DateUtility {
      * @param end the end date
      * @return the predicate
      */
-    public static SerializablePredicate<RatData> createDateRangeFilter(Date begin, Date end) {
+    public static Predicate<RatData> createDateRangeFilter(Date begin, Date end) {
         return ratData -> {
             Date d = parse(ratData.getCreatedDateTime());
             return d != null && (begin == null || !d.before(begin))

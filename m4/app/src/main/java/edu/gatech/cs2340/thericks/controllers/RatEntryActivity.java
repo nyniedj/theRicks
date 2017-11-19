@@ -247,22 +247,8 @@ public class RatEntryActivity extends AppCompatActivity {
                     borough.getText().toString(),
                     dLatitude,
                     dLongitude);
+            setResult(RESULT_OK);
             finish();
-
-//            Log.d(TAG, "Valid rat data entered, passing new RatData to parent activity");
-//            Intent intent = new Intent();
-//            intent.putExtra("edu.gatech.cs2340.thericks.RatData", new RatData(iKey,
-//                    date.getText().toString(),
-//                    locationType.getText().toString(),
-//                    iZip,
-//                    address.getText().toString(),
-//                    city.getText().toString(),
-//                    borough.getText().toString(),
-//                    dLatitude,
-//                    dLongitude));
-//            intent.putExtra("INDEX", index);
-//            setResult(RESULT_OK, intent);
-//            finish();
         });
     }
 }

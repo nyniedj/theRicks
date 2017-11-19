@@ -18,12 +18,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatFilter;
 
 /**
  * Created by Cameron on 10/5/2017.
@@ -36,7 +36,7 @@ public class RatDataListActivity extends AppCompatActivity {
 
     private CustomListAdapter adapter;
     /* Filters for displayed rat data */
-    private  List<Predicate<RatData>> filters;
+    private RatFilter filter;
 
     private ListView ratDataList;
     private ProgressBar progressBar;
@@ -72,22 +72,18 @@ public class RatDataListActivity extends AppCompatActivity {
             startActivityForResult(intent, EDIT_ENTRY);
         });
 
-        /* NOTE: Hard coded predicates for testing display filters.
-        Remove once user can add filters. */
-        Predicate<RatData> inJamaica = ratData -> "Jamaica".equalsIgnoreCase(ratData.getCity());
-        Predicate<RatData> commercialLocation = ratData ->
-                "Commercial Building".equalsIgnoreCase(ratData.getLocationType());
-        if (filters == null) {
-            filters = new ArrayList<>();
-        }
-        filters.add(inJamaica);
-        filters.add(commercialLocation);
-        /* End of predicates */
+        filter = RatFilter.getDefaultInstance();
 
         // Load in rat data
         Log.d(TAG, "Calling the RatDatabase to load the data");
         progressBar.setVisibility(View.VISIBLE);
-        database.loadData(adapter, adapter.listData, filters);
+        database.loadData(adapter, adapter.listData, filter);
+    }
+
+    public void onEditFiltersButtonClicked(View v) {
+        Intent intent = new Intent(this, FilterActivity.class);
+        intent.putExtra(FilterActivity.FILTER, filter);
+        startActivityForResult(intent, FilterActivity.GET_FILTER);
     }
 
     /**
@@ -159,14 +155,22 @@ public class RatDataListActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((adapter != null) && (filters != null)) {
-            Log.d(TAG, "Updating list view to show changes to database");
-            adapter.listData.clear();
-            adapter.listData.addAll(new RatDatabase().getFilteredRatData(filters));
-            adapter.notifyDataSetChanged();
+        if (requestCode == EDIT_ENTRY) {
+            if (resultCode == RESULT_OK) {
+                if ((adapter != null) && (filter != null)) {
+                    Log.d(TAG, "Updating list view to show changes to database");
+                    RatDatabase db = new RatDatabase();
+                    db.loadData(adapter, adapter.listData, filter);
+                }
+            }
+        } else if (requestCode == FilterActivity.GET_FILTER) {
+            if (resultCode == RESULT_OK) {
+                filter = data.getParcelableExtra(FilterActivity.FILTER);
+                RatDatabase db = new RatDatabase();
+                db.loadData(adapter, adapter.listData, filter);
+            }
         }
     }
 }

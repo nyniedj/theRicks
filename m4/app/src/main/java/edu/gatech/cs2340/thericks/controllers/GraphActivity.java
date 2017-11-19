@@ -24,12 +24,12 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.Months;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatFilter;
 import edu.gatech.cs2340.thericks.utils.DateUtility;
 
 /**
@@ -41,19 +41,13 @@ public class GraphActivity extends AppCompatActivity {
 
     private static final String TAG = GraphActivity.class.getSimpleName();
 
-    //default dates to filter out rat data that occurs between the dates
-    private static final String beginDateString = "01/01/2015 12:00:00 AM";
-    private static final String endDateString = "10/01/2015 12:00:00 AM";
-    private static final Date begin = DateUtility.parse(beginDateString);
-    private static final Date end = DateUtility.parse(endDateString);
-
     private LineChart chart;
 
     private ProgressBar progressBar;
 
     private List<RatData> loadedData;
 
-    private List<Predicate<RatData>> filters;
+    private RatFilter filter;
 
     private Button applyFiltersButton;
 
@@ -74,16 +68,16 @@ public class GraphActivity extends AppCompatActivity {
         chart = findViewById(R.id.chart);
         chart.setVisibility(View.GONE);
 
+        filter = RatFilter.getDefaultInstance();
+
         applyFiltersButton = findViewById(R.id.apply_filters_button_graph);
         applyFiltersButton.setVisibility(View.GONE);
         applyFiltersButton.setOnClickListener(v -> {
             Context context = v.getContext();
             Intent intent = new Intent(context, FilterActivity.class);
-            startActivityForResult(intent, FilterActivity.GET_FILTERS);
+            intent.putExtra(FilterActivity.FILTER, filter);
+            startActivityForResult(intent, FilterActivity.GET_FILTER);
         });
-
-        filters = new ArrayList<>();
-        filters.add(FilterActivity.DEFAULT_FILTER);
 
         loadedData = new ArrayList<>();
         ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
@@ -97,15 +91,14 @@ public class GraphActivity extends AppCompatActivity {
         };
 
         RatDatabase db = new RatDatabase();
-        db.loadData(tempAdapter, loadedData, filters);
+        db.loadData(tempAdapter, loadedData, filter);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FilterActivity.GET_FILTERS) {
+        if (requestCode == FilterActivity.GET_FILTER) {
             if (resultCode == RESULT_OK) {
-                filters.clear();
-                filters.addAll((List<Predicate<RatData>>) data.getSerializableExtra("PREDICATES"));
+                filter = data.getParcelableExtra(FilterActivity.FILTER);
                 applyFiltersButton.setEnabled(false);
                 ArrayAdapter<RatData> tempAdapter = new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
 
@@ -118,7 +111,7 @@ public class GraphActivity extends AppCompatActivity {
                 };
                 progressBar.setVisibility(View.VISIBLE);
                 RatDatabase db = new RatDatabase();
-                db.loadData(tempAdapter, loadedData, filters);
+                db.loadData(tempAdapter, loadedData, filter);
             }
         }
     }

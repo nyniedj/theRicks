@@ -34,9 +34,10 @@
     <string name="cancel_entry_message">Cancel Entry</string>
 
     <string name="date_time_label">Date and Time</string>
-    <string name="apply_filters_message">Apply Filters</string>
+    <string name="apply_filters_message">Edit Filters</string>
     <string name="cancel_message">Cancel</string>
-    <string name="no_matching_data_label">No data found</string>
+    <string name="no_matching_data_label">No data found, try different filters</string>
+    <string name="clear_message">Clear</string>
 
     <string name="date_label">Date</string>
     <string name="city_label">City</string>

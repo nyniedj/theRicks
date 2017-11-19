@@ -17,6 +17,7 @@ import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatFilter;
 
 /**
  * Async task that loads in rat data from the csv file and inserts it into a SQLite database.
@@ -127,7 +128,7 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
         if ((data != null) && (adapter != null)) {
             data.clear();
             RatDatabase db = new RatDatabase();
-            data.addAll(db.getFilteredRatData(filters));
+            data.addAll(db.getFilteredRatData(new RatFilter(filters)));
             adapter.notifyDataSetChanged();
         }
     }
@@ -145,11 +146,11 @@ class LoadRatDataTask extends AsyncTask<SQLiteDatabase, Void, Long> {
      * updated in onPostExecute
      * @param a the ArrayAdapter that returns the views for each RatData Object
      * @param data the list of RatData Objects whose views will be added
-     * @param filters the filters used to select certain RatData Objects
+     * @param filter the filters used to select certain RatData Objects
      */
-    void attachViews(ArrayAdapter a, List<RatData> data, List<Predicate<RatData>> filters) {
+    void attachViews(ArrayAdapter a, List<RatData> data, RatFilter filter) {
         adapter = a;
         this.data = new ArrayList<>(data);
-        this.filters = new ArrayList<>(filters);
+        this.filters = new ArrayList<>(filter.getPredicates());
     }
 }

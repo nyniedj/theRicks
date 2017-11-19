@@ -86,4 +86,35 @@ public class RatDateTimeTest {
 
         assertTrue(RatDateTime.isDateTime());
     }
+
+    @Test
+    public void testRatDateCompareTo() {
+        //Fringe condition of a null object being passed in
+        assertTrue(RatDate.forDate("08/28/2001").compareTo(null) > 0);
+
+        //First branch where the year in the first date is less than the second, in spite of the month and day
+        assertTrue(RatDate.forDate("08/28/2001").compareTo(RatDate.forDate("03/11/2015")) < 0);
+
+        //Second branch where the year in the second date is less than the first, in spite of the month and day
+        assertTrue(RatDate.forDate("03/08/2013").compareTo(RatDate.forDate("11/25/2008")) > 0);
+
+        //Third branch where the years are equal, but the month in the first date is less than the month in the
+        //second, in spite of the day
+        assertTrue(RatDate.forDate("01/21/2011").compareTo(RatDate.forDate("10/01/2011")) < 0);
+
+        //Fourth branch where the years are equal, but the month in the second date is less than the month in the
+        //first, in spite of the day
+        assertTrue(RatDate.forDate("10/05/2004").compareTo(RatDate.forDate("03/21/2004")) > 0);
+
+        //Fifth branch where the years and months are equal, but the day in the first date is less than the day
+        //in the second
+        assertTrue(RatDate.forDate("08/13/2010").compareTo(RatDate.forDate("08/25/2010")) < 0);
+
+        //Sixth branch where the years and months are equal, but the day in the second date is less than the day
+        //in the first
+        assertTrue(RatDate.forDate("08/23/2019").compareTo(RatDate.forDate("08/03/2019")) > 0);
+
+        //Seventh and final branch where the dates are exactly equal
+        assertTrue(RatDate.forDate("09/17/2002").compareTo(RatDate.forDate("09/17/2002")) == 0);
+    }
 }

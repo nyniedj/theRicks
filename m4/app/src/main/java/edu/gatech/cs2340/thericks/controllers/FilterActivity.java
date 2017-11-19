@@ -15,18 +15,12 @@ import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-import java.io.Serializable;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
-import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatFilter;
 import edu.gatech.cs2340.thericks.utils.DateUtility;
-import edu.gatech.cs2340.thericks.utils.SerializablePredicate;
 
 /**
  * Created by Cameron on 11/15/2017.
@@ -35,10 +29,15 @@ import edu.gatech.cs2340.thericks.utils.SerializablePredicate;
  */
 public class FilterActivity extends AppCompatActivity {
 
-    public static final int GET_FILTERS = 700;
+    private static final String TAG = FilterActivity.class.getSimpleName();
 
-    public static final Predicate<RatData> DEFAULT_FILTER =
-            DateUtility.createDateRangeFilter(DateUtility.LAST_MONTH, Calendar.getInstance().getTime());
+    public static final int GET_FILTER = 700;
+    public static final String FILTER = "FILTER";
+
+    private static final String DATE_1 = "DATE1";
+    private static final String DATE_2 = "DATE2";
+    private static final String TIME_1 = "TIME1";
+    private static final String TIME_2 = "TIME2";
 
     private CheckedTextView dateAndTimeCheck;
 
@@ -47,35 +46,34 @@ public class FilterActivity extends AppCompatActivity {
     private Button time1Button;
     private Button time2Button;
 
+    private RatFilter filter;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_filters);
 
-        if (savedInstanceState == null) {
-            setContentView(R.layout.activity_filters);
+        date1Button = findViewById(R.id.date_button_filter_1);
+        date2Button = findViewById(R.id.date_button_filter_2);
+        time1Button = findViewById(R.id.time_button_filter_1);
+        time2Button = findViewById(R.id.time_button_filter_2);
 
-            dateAndTimeCheck = findViewById(R.id.date_filter_check_text);
+        dateAndTimeCheck = findViewById(R.id.date_filter_check_text);
 
-            date1Button = findViewById(R.id.date_button_filter_1);
-            date2Button = findViewById(R.id.date_button_filter_2);
-            time1Button = findViewById(R.id.time_button_filter_1);
-            time2Button = findViewById(R.id.time_button_filter_2);
+        filter = getIntent().getParcelableExtra(FILTER);
+        if (filter == null) {
+            filter = RatFilter.getDefaultInstance();
+        }
 
-            Calendar cal = Calendar.getInstance();
-            date1Button.setText(DateUtility.DATE_FORMAT.format(cal.getTime()));
-            date2Button.setText(DateUtility.DATE_FORMAT.format(cal.getTime()));
-            time1Button.setText(DateUtility.TIME_FORMAT.format(cal.getTime()));
-            time2Button.setText(DateUtility.TIME_FORMAT.format(cal.getTime()));
-
-            date1Button.setVisibility(View.GONE);
-            date2Button.setVisibility(View.GONE);
-            time1Button.setVisibility(View.GONE);
-            time2Button.setVisibility(View.GONE);
+        if (filter.hasDateFilter()) {
+            date1Button.setText(filter.getBeginDateStr());
+            date2Button.setText(filter.getEndDateStr());
+            time1Button.setText(filter.getBeginTimeStr());
+            time2Button.setText(filter.getEndTimeStr());
+            onDateAndTimeCheckClicked(dateAndTimeCheck);
         }
     }
 
     public void onApplyButtonClicked(View v) {
-        List<SerializablePredicate<RatData>> predicateList = new ArrayList<>();
-
         //Date predicate
         if (dateAndTimeCheck.isChecked()) {
             Calendar date1 = Calendar.getInstance();
@@ -106,11 +104,14 @@ public class FilterActivity extends AppCompatActivity {
             }
             date2.set(Calendar.HOUR, time2.get(Calendar.HOUR));
             date2.set(Calendar.MINUTE, time2.get(Calendar.MINUTE));
-            predicateList.add(DateUtility.createDateRangeFilter(date1.getTime(), date2.getTime()));
+            filter.setBeginDate(date1.getTime());
+            filter.setEndDate(date2.getTime());
+        } else {
+            filter.clearDatePredicate();
         }
 
         Intent intent = new Intent();
-        intent.putExtra("PREDICATES", (Serializable) predicateList);
+        intent.putExtra(FILTER, filter);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -120,7 +121,11 @@ public class FilterActivity extends AppCompatActivity {
         finish();
     }
 
-    public void dateAndTimeCheckClicked(View v) {
+    public void onClearButtonClicked(View v) {
+        dateAndTimeCheck.setChecked(false);
+    }
+
+    public void onDateAndTimeCheckClicked(View v) {
         if (dateAndTimeCheck.isChecked()) {
             dateAndTimeCheck.setChecked(false);
             date1Button.setVisibility(View.GONE);

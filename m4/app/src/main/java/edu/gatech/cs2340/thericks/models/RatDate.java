@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.thericks.models;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -129,7 +130,11 @@ public final class RatDate implements Comparable<RatDate>, Serializable{
     }
 
     @Override
-    public int compareTo(@NonNull RatDate ratDate) {
+    public int compareTo(@Nullable RatDate ratDate) {
+        if (ratDate == null) {
+            return 1;
+        }
+
         if (year < ratDate.year) {
             return -1;
         } else if (year > ratDate.year) {

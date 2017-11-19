@@ -3,14 +3,10 @@ package edu.gatech.cs2340.thericks.controllers;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,16 +19,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatFilter;
 import edu.gatech.cs2340.thericks.models.User;
-import edu.gatech.cs2340.thericks.utils.DateUtility;
 
 /**
  * Created by Cameron on 10/6/2017.
@@ -63,16 +56,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
     private Button returnToDashButton;
     private Button applyFiltersButton;
 
-    private EditText date1Edit;
-    private EditText date2Edit;
-    // Begin and end of default date range for map markers.
-    private static final String DEFAULT_START_DATE = "08/01/2017 12:00:00 AM";
-    private static final String DEFAULT_END_DATE = "08/11/2017 12:00:00 AM";
-
-    private List<Predicate<RatData>> filters;
-    private Predicate<RatData> dateInRange;
-
-    private TextView dateSeparator;
+    private RatFilter filter;
 
     private ProgressBar progressBar;
 
@@ -101,70 +85,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         applyFiltersButton = findViewById(R.id.apply_filters_button);
         applyFiltersButton.setVisibility(View.GONE);
 
-        filters = new ArrayList<>();
-        //default date to filter out rat data that occurs after the specified date
-        Date begin = DateUtility.parse(DEFAULT_START_DATE);
-        Date end = DateUtility.parse(DEFAULT_END_DATE);
-        dateInRange = DateUtility.createDateRangeFilter(begin, end);
-        filters.add(dateInRange);
-
-        date1Edit = findViewById(R.id.date1_dash_map);
-        date1Edit.setVisibility(View.GONE);
-        date1Edit.setText(DEFAULT_START_DATE);
-        date1Edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String text = charSequence.toString();
-                if (DateUtility.parse(text) != null) {
-                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(),
-                            R.color.colorBlack, null));
-                    applyFiltersButton.setEnabled(true);
-                } else {
-                    Log.d(TAG, "Improperly formatted input detected: " + text);
-                    date1Edit.setTextColor(ResourcesCompat.getColor(getResources(),
-                            R.color.errorPrimary, null));
-                    applyFiltersButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-        date2Edit = findViewById(R.id.date2_dash_map);
-        date2Edit.setVisibility(View.GONE);
-        date2Edit.setText(DEFAULT_END_DATE);
-        date2Edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String text = charSequence.toString();
-                if (DateUtility.parse(text) != null) {
-                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(),
-                            R.color.colorBlack, null));
-                    applyFiltersButton.setEnabled(true);
-                } else {
-                    Log.d(TAG, "Improperly formatted input detected: " + text);
-                    date2Edit.setTextColor(ResourcesCompat.getColor(getResources(),
-                            R.color.errorPrimary, null));
-                    applyFiltersButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-
-        dateSeparator = findViewById(R.id.date_separator_dash_map_text);
-        dateSeparator.setVisibility(View.GONE);
+        filter = RatFilter.getDefaultInstance();
 
         onMap = false;
 
@@ -192,11 +113,6 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
 
                 returnToDashButton.setVisibility(View.VISIBLE);
                 applyFiltersButton.setVisibility(View.VISIBLE);
-
-                date1Edit.setVisibility(View.VISIBLE);
-                date2Edit.setVisibility(View.VISIBLE);
-
-                dateSeparator.setVisibility(View.VISIBLE);
 
                 onMap = !onMap;
                 map.getUiSettings().setAllGesturesEnabled(onMap);
@@ -254,11 +170,6 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
                 returnToDashButton.setVisibility(View.GONE);
                 applyFiltersButton.setVisibility(View.GONE);
 
-                date1Edit.setVisibility(View.GONE);
-                date2Edit.setVisibility(View.GONE);
-
-                dateSeparator.setVisibility(View.GONE);
-
                 onMap = !onMap;
                 map.getUiSettings().setAllGesturesEnabled(onMap);
 
@@ -269,26 +180,22 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         });
 
         applyFiltersButton.setOnClickListener(v -> {
-            Date beginRange = DateUtility.parse(date1Edit.getText().toString());
-            Date endRange = DateUtility.parse(date2Edit.getText().toString());
-            filters.remove(dateInRange);
-            dateInRange = DateUtility.createDateRangeFilter(beginRange, endRange);
-            filters.add(dateInRange);
-            loadFilteredMapMarkers();
+            Intent intent = new Intent(v.getContext(), FilterActivity.class);
+            intent.putExtra(FilterActivity.FILTER, filter);
+            startActivityForResult(intent, FilterActivity.GET_FILTER);
         });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Log.d(TAG, "Received result from RatEntryActivity");
-//        if (requestCode == ADD_RAT_DATA_REQUEST) {
-//            if (resultCode == RESULT_OK) {
-//                Bundle b = data.getExtras();
-//                RatData passedData = b.getParcelable("edu.gatech.cs2340.thericks.RatData");
-//                LoadedFilteredDataHolder.add(passedData);
-//            }
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "Received result from RatEntryActivity");
+        if (requestCode == FilterActivity.GET_FILTER) {
+            if (resultCode == RESULT_OK) {
+                filter = data.getParcelableExtra(FilterActivity.FILTER);
+                loadFilteredMapMarkers();
+            }
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -306,12 +213,10 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
      */
     private void loadFilteredMapMarkers() {
         progressBar.setVisibility(View.VISIBLE);
-        date1Edit.setEnabled(false);
-        date2Edit.setEnabled(false);
         returnToDashButton.setEnabled(false);
         applyFiltersButton.setEnabled(false);
 
-        List<RatData> filteredList = new RatDatabase().getFilteredRatData(filters);
+        List<RatData> filteredList = new RatDatabase().getFilteredRatData(filter);
         map.clear();
         for (RatData r: filteredList) {
             MarkerOptions markerOptions = new MarkerOptions();
@@ -323,8 +228,6 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         progressBar.setVisibility(View.GONE);
         returnToDashButton.setEnabled(true);
         applyFiltersButton.setEnabled(true);
-        date1Edit.setEnabled(true);
-        date2Edit.setEnabled(true);
     }
 
     class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {

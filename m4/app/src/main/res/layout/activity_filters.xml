@@ -7,23 +7,42 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/apply_label"
-        android:onClick="onApplyButtonClicked"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel_message"
-        android:onClick="onCancelButtonClicked"/>
+        <Button
+            android:id="@+id/apply_filters_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apply_label"
+            android:onClick="onApplyButtonClicked"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_message"
+            android:onClick="onCancelButtonClicked"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/apply_filters_button"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clear_message"
+            android:onClick="onClearButtonClicked"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <android.support.constraint.ConstraintLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
@@ -36,7 +55,7 @@
                 android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                 android:checked="false"
                 android:gravity="center_vertical"
-                android:onClick="dateAndTimeCheckClicked"
+                android:onClick="onDateAndTimeCheckClicked"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -46,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:onClick="showDate1PickerDialog"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/date_filter_check_text"/>
 
@@ -55,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:onClick="showDate2PickerDialog"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/date_filter_check_text"
                 app:layout_constraintRight_toRightOf="parent"/>
 
@@ -64,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:onClick="showTime1PickerDialog"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/date_button_filter_1"/>
 
@@ -73,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:onClick="showTime2PickerDialog"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/date_button_filter_2"
                 app:layout_constraintRight_toRightOf="parent"/>
 
