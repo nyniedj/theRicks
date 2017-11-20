@@ -8,6 +8,8 @@ import edu.gatech.cs2340.thericks.models.RatDate;
 import edu.gatech.cs2340.thericks.models.RatDateTime;
 import edu.gatech.cs2340.thericks.models.RatTime;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 /**
