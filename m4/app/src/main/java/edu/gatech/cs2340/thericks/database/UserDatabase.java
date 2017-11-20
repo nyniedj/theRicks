@@ -3,6 +3,8 @@ package edu.gatech.cs2340.thericks.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.List;
+
 import edu.gatech.cs2340.thericks.models.Privilege;
 import edu.gatech.cs2340.thericks.models.User;
 import edu.gatech.cs2340.thericks.models.UserDataSource;
@@ -35,22 +37,21 @@ public class UserDatabase implements UserDataSource {
         UserDAO.createUser(db, username, password, privilege);
     }
 
-// --Commented out by Inspection START (11/13/2017 1:33 AM):
-//    @Override
-//    public void deleteUser(String username) {
-//        UserDAO.deleteUser(db, username);
-//    }
-// --Commented out by Inspection STOP (11/13/2017 1:33 AM)
+    @Override
+    public void deleteUser(String username) {
+        UserDAO.deleteUser(db, username);
+    }
+
 
     @Override
     public User getUserByUsername(String username) {
         return UserDAO.getUserByUsername(db, username);
     }
 
-// --Commented out by Inspection START (11/13/2017 1:33 AM):
-//    @Override
-//    public List<User> getAllUsers() {
-//        return UserDAO.getAllUsers(db);
-//    }
-// --Commented out by Inspection STOP (11/13/2017 1:33 AM)
+
+    @Override
+    public List<User> getAllUsers() {
+        return UserDAO.getAllUsers(db);
+    }
+
 }

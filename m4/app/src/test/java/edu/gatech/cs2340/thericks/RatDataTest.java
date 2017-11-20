@@ -17,10 +17,12 @@ import static org.mockito.Mockito.*;
 
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatFilter;
 
-/**
- * Created by Nylah Julmice on 11/3/17.
- */
+//*
+// * Created by Nylah Julmice on 11/3/17.
+
+
 
 public class RatDataTest {
 
@@ -100,7 +102,7 @@ public class RatDataTest {
             filters.add(commercialLocation);
 
             // ===== Loads in null data rat List ===== \\
-            db.loadData(a, null, filters);
+            db.loadData(a, null, new RatFilter(filters));
             rats = db.getAllRatData();
             assertEquals(0, rats.size());
         }
