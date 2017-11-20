@@ -18,9 +18,10 @@ import static org.mockito.Mockito.*;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.RatData;
 
-/**
+*
  * Created by Nylah Julmice on 11/3/17.
- */
+
+
 
 public class RatDataTest {
 
