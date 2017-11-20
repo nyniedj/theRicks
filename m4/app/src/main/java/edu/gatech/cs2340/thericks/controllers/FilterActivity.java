@@ -572,10 +572,8 @@ public class FilterActivity extends AppCompatActivity {
 
             // Create a new instance of DatePickerDialog and return it
             Activity act = getActivity();
-            if (act != null) {
-                return new DatePickerDialog(act, this, year, month, day);
-            }
-            return null;
+            assert act != null;
+            return new DatePickerDialog(act, this, year, month, day);
         }
 
         /**
