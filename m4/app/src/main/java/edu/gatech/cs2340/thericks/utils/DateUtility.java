@@ -21,9 +21,15 @@ import edu.gatech.cs2340.thericks.models.RatData;
 public class DateUtility {
     private static final DateFormat DATE_TIME_FORMAT
             = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
-    public static final DateFormat TIME_FORMAT = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
-    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+    public static final DateFormat TIME_FORMAT
+            = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
+    public static final DateFormat DATE_FORMAT
+            = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
+    /**
+     * Returns a Date object containing the date exactly one month from today
+     * @return the Date one month ago
+     */
     public static Date getLastMonth() {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
@@ -36,6 +42,11 @@ public class DateUtility {
         return cal.getTime();
     }
 
+    /**
+     * Parses the input String using the static DATE_TIME_FORMAT DateFormat object
+     * @param input the String to parse
+     * @return the Date resulting from the String
+     */
     public static Date parse(String input) {
         try {
             return DATE_TIME_FORMAT.parse(input);

@@ -85,6 +85,10 @@ public class RatDataListActivity extends AppCompatActivity {
         database.loadData(adapter, adapter.listData, filter);
     }
 
+    /**
+     * Handler for the edit filter button being clicked. Launches the FilterActivity for a result
+     * @param v the clicked view
+     */
     public void onEditFiltersButtonClicked(View v) {
         Intent intent = new Intent(this, FilterActivity.class);
         intent.putExtra(FilterActivity.FILTER, filter);

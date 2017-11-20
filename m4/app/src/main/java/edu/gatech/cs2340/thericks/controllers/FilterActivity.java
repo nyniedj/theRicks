@@ -157,14 +157,21 @@ public class FilterActivity extends AppCompatActivity {
         }
 
         if (filter.hasPredicate(RatFilter.LONGITUDE)) {
-            minLongitudeEdit.setText(String.format(Locale.ENGLISH, "%f", filter.getMinLongitude()));
-            maxLongitudeEdit.setText(String.format(Locale.ENGLISH, "%f", filter.getMaxLongitude()));
+            minLongitudeEdit.setText(
+                    String.format(Locale.ENGLISH, "%f", filter.getMinLongitude()));
+            maxLongitudeEdit.setText(
+                    String.format(Locale.ENGLISH, "%f", filter.getMaxLongitude()));
             if (filter.isPredicateEnabled(RatFilter.LONGITUDE)) {
                 onLongitudeCheckClicked(longitudeCheck);
             }
         }
     }
 
+    /**
+     * Handler method for when the apply filter button is pressed. Consolidates the data in the
+     * activity into the RatFilter object
+     * @param v the clicked view
+     */
     public void onApplyButtonClicked(View v) {
         Calendar date1 = Calendar.getInstance();
         try {
@@ -247,11 +254,19 @@ public class FilterActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Handles the cancel button being clicked. Cancels the result
+     * @param v the clicked view
+     */
     public void onCancelButtonClicked(View v) {
         setResult(RESULT_CANCELED);
         finish();
     }
 
+    /**
+     * Handles the clear button being pressed. Un-checks all filters
+     * @param v the clicked view
+     */
     public void onClearButtonClicked(View v) {
         dateAndTimeCheck.setChecked(false);
         locationTypeCheck.setChecked(false);
@@ -261,8 +276,13 @@ public class FilterActivity extends AppCompatActivity {
         boroughCheck.setChecked(false);
         latitudeCheck.setChecked(false);
         longitudeCheck.setChecked(false);
+        filter.disableAllPredicates();
     }
 
+    /**
+     * Toggles the date and time filter views
+     * @param v the clicked view
+     */
     public void onDateAndTimeCheckClicked(View v) {
         if (dateAndTimeCheck.isChecked()) {
             dateAndTimeCheck.setChecked(false);
@@ -279,6 +299,10 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Toggles location type filter view
+     * @param v the clicked view
+     */
     public void onLocationTypeCheckClicked(View v) {
         if (locationTypeCheck.isChecked()) {
             locationTypeCheck.setChecked(false);
@@ -289,6 +313,10 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Toggles zip code filter views
+     * @param v the clicked view
+     */
     public void onZipCheckClicked(View v) {
         if (zipCheck.isChecked()) {
             zipCheck.setChecked(false);
@@ -299,6 +327,10 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Toggles the address filter views
+     * @param v the clicked view
+     */
     public void onAddressCheckClicked(View v) {
         if (addressCheck.isChecked()) {
             addressCheck.setChecked(false);
@@ -309,6 +341,10 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Toggles the city filter views
+     * @param v the clicked view
+     */
     public void onCityCheckClicked(View v) {
         if (cityCheck.isChecked()) {
             cityCheck.setChecked(false);
@@ -319,6 +355,10 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Toggles the borough filter views
+     * @param v the clicked view
+     */
     public void onBoroughCheckClicked(View v) {
         if (boroughCheck.isChecked()) {
             boroughCheck.setChecked(false);
@@ -329,6 +369,10 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Toggles the latitude filter views
+     * @param v the clicked view
+     */
     public void onLatitudeCheckClicked(View v) {
         if (latitudeCheck.isChecked()) {
             latitudeCheck.setChecked(false);
@@ -343,6 +387,10 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Toggles the longitude filter views
+     * @param v the clicked view
+     */
     public void onLongitudeCheckClicked(View v) {
         if (longitudeCheck.isChecked()) {
             longitudeCheck.setChecked(false);
@@ -357,6 +405,11 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handler for the first date button being clicked. Displays a date selection dialog and
+     * gets a result from it, putting it in the text of the button
+     * @param v the clicked view
+     */
     public void showDate1PickerDialog(View v) {
         Calendar cal = Calendar.getInstance();
         try {
@@ -383,6 +436,11 @@ public class FilterActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    /**
+     * Handler for the second date button being clicked. Displays a date selection dialog and
+     * gets a result from it, putting it in the text of the button
+     * @param v the clicked view
+     */
     public void showDate2PickerDialog(View v) {
         Calendar cal = Calendar.getInstance();
         try {
@@ -409,6 +467,11 @@ public class FilterActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    /**
+     * Handler for the first time button being clicked. Displays a time selection dialog and
+     * gets a result from it, putting it in the text of the button
+     * @param v the clicked view
+     */
     public void showTime1PickerDialog(View v) {
         Calendar cal = Calendar.getInstance();
         try {
@@ -432,6 +495,11 @@ public class FilterActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    /**
+     * Handler for the second time button being clicked. Displays a time selection dialog and
+     * gets a result from it, putting it in the text of the button
+     * @param v the clicked view
+     */
     public void showTime2PickerDialog(View v) {
         Calendar cal = Calendar.getInstance();
         try {
@@ -455,10 +523,21 @@ public class FilterActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    /**
+     * A callback interface for obtaining the result from a dialog
+     */
     public interface DialogFragmentCallback {
+
+        /**
+         * Callback method for passing a result Bundle
+         * @param bundle the result bundle
+         */
         void onResultCallback(Bundle bundle);
     }
 
+    /**
+     * A class for displaying a date picker dialog
+     */
     public static class FilterDatePickerFragment
             extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
@@ -477,6 +556,10 @@ public class FilterActivity extends AppCompatActivity {
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
+        /**
+         * Sets the callback to obtain the result of the dialog
+         * @param callback a callback implementing object
+         */
         public void setCallback(DialogFragmentCallback callback) {
             this.callback = callback;
         }
@@ -492,6 +575,9 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * A class for displaying a time picker dialog and obtaining a result from it
+     */
     public static class FilterTimePickerFragment
             extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
@@ -510,6 +596,10 @@ public class FilterActivity extends AppCompatActivity {
                     hour, minute, DateFormat.is24HourFormat(getActivity()));
         }
 
+        /**
+         * Sets the callback to obtain the result of the dialog
+         * @param callback a callback implementing object
+         */
         public void setCallback(DialogFragmentCallback callback) {
             this.callback = callback;
         }
