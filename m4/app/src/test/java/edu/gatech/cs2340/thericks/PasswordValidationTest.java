@@ -152,4 +152,43 @@ public class PasswordValidationTest {
         assertFalse(failMessage, test(pw3));
         assertFalse(failMessage, test(pw4));
     }
+
+    @Test
+    public void testValidPassword() {
+        String pw1 = "V@lidPassw0rd!";
+        String pw2 = "DJfirej38502&%@!$8";
+        String pw3 = "F84jiajia";
+        String pw4 = "Aa1!!!!!!!!!!!!!!!!";
+
+        String failMessage = "A password meeting all criteria is considered invalid; should be valid";
+        assertTrue(failMessage, test(pw1));
+        assertTrue(failMessage, test(pw2));
+        assertTrue(failMessage, test(pw3));
+        assertTrue(failMessage, test(pw4));
+    }
+
+    @Test
+    public void testMultipleProblems() {
+        String pw1 = "S0 Wr^ng";
+        String pw2 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&1A";
+        String pw3 = "\nLol";
+        String pw4 = "^Uea^";
+        String pw5 = "all_lowercase";
+        String pw6 = "ALL_UPPERCASE";
+        String pw7 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1";
+        String pw8 = "all lower1";
+        String pw9 = "all upper1";
+        String pw10 = "\t";
+
+        String failMessage = "A password containing multiple problems is considered valid; should be invalid";
+        assertFalse(failMessage, test(pw1));
+        assertFalse(failMessage, test(pw2));
+        assertFalse(failMessage, test(pw3));
+        assertFalse(failMessage, test(pw4));
+        assertFalse(failMessage, test(pw5));
+        assertFalse(failMessage, test(pw6));
+        assertFalse(failMessage, test(pw7));
+        assertFalse(failMessage, test(pw8));
+        assertFalse(failMessage, test(pw9));
+    }
 }
