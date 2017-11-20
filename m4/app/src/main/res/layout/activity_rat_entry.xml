@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_key_text"
                 android:labelFor="@+id/rat_data_key_entry"
@@ -30,6 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_key_entry"
                 android:layout_width="0dp"
@@ -40,6 +42,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="number" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_date_text"
                 android:labelFor="@+id/rat_data_date_entry"
@@ -51,6 +54,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rat_data_key_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_date_entry"
                 android:layout_width="0dp"
@@ -61,6 +65,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="datetime" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_location_type_text"
                 android:labelFor="@+id/rat_data_location_type_entry"
@@ -72,6 +77,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rat_data_date_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_location_type_entry"
                 android:layout_width="0dp"
@@ -82,6 +88,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="text" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_incident_address_text"
                 android:labelFor="@+id/rat_data_incident_address_entry"
@@ -93,6 +100,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rat_data_location_type_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_incident_address_entry"
                 android:layout_width="0dp"
@@ -103,6 +111,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="textPostalAddress" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_incident_zip_text"
                 android:labelFor="@+id/rat_data_incident_zip_entry"
@@ -114,6 +123,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rat_data_incident_address_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_incident_zip_entry"
                 android:layout_width="0dp"
@@ -124,6 +134,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="number" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_borough_text"
                 android:labelFor="@+id/rat_data_borough_entry"
@@ -135,6 +146,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rat_data_incident_zip_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_borough_entry"
                 android:layout_width="0dp"
@@ -145,6 +157,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="text" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_city_text"
                 android:labelFor="@+id/rat_data_city_entry"
@@ -156,6 +169,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rat_data_borough_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_city_entry"
                 android:layout_width="0dp"
@@ -166,6 +180,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="text" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_latitude_text"
                 android:labelFor="@+id/rat_data_latitude_entry"
@@ -177,6 +192,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rat_data_city_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_latitude_entry"
                 android:layout_width="0dp"
@@ -187,6 +203,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="numberDecimal" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <TextView
                 android:id="@+id/rat_data_longitude_text"
                 android:labelFor="@+id/rat_data_longitude_entry"
@@ -198,6 +215,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rat_data_latitude_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <EditText
                 android:id="@+id/rat_data_longitude_entry"
                 android:layout_width="0dp"
@@ -208,6 +226,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:inputType="numberDecimal" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <Button
                 android:id="@+id/rat_data_save_entry_button"
                 android:layout_width="wrap_content"
@@ -216,6 +235,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rat_data_longitude_entry"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
+            <!--suppress AndroidElementNotAllowed -->
             <Button
                 android:id="@+id/rat_data_cancel_entry_button"
                 android:layout_width="wrap_content"
