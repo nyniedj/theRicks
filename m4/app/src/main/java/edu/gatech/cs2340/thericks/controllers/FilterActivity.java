@@ -66,6 +66,7 @@ public class FilterActivity extends AppCompatActivity {
 
     private RatFilter filter;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filters);
@@ -364,20 +365,15 @@ public class FilterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         FilterDatePickerFragment newFragment = new FilterDatePickerFragment();
-        newFragment.setCallback(new DialogFragmentCallback() {
-
-            @Override
-            public void onResultCallback(Bundle bundle) {
-                int year = bundle.getInt("YEAR");
-                int month = bundle.getInt("MONTH");
-                int day = bundle.getInt("DAY");
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DAY_OF_MONTH, day);
-                date1Button.setText(DateUtility.DATE_FORMAT.format(cal.getTime()));
-            }
-
+        newFragment.setCallback(bundle -> {
+            int year = bundle.getInt("YEAR");
+            int month = bundle.getInt("MONTH");
+            int day = bundle.getInt("DAY");
+            Calendar cal1 = Calendar.getInstance();
+            cal1.set(Calendar.YEAR, year);
+            cal1.set(Calendar.MONTH, month);
+            cal1.set(Calendar.DAY_OF_MONTH, day);
+            date1Button.setText(DateUtility.DATE_FORMAT.format(cal1.getTime()));
         });
         Bundle args = new Bundle();
         args.putInt("YEAR", cal.get(Calendar.YEAR));
@@ -395,20 +391,15 @@ public class FilterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         FilterDatePickerFragment newFragment = new FilterDatePickerFragment();
-        newFragment.setCallback(new DialogFragmentCallback() {
-
-            @Override
-            public void onResultCallback(Bundle bundle) {
-                int year = bundle.getInt("YEAR");
-                int month = bundle.getInt("MONTH");
-                int day = bundle.getInt("DAY");
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DAY_OF_MONTH, day);
-                date2Button.setText(DateUtility.DATE_FORMAT.format(cal.getTime()));
-            }
-
+        newFragment.setCallback(bundle -> {
+            int year = bundle.getInt("YEAR");
+            int month = bundle.getInt("MONTH");
+            int day = bundle.getInt("DAY");
+            Calendar cal1 = Calendar.getInstance();
+            cal1.set(Calendar.YEAR, year);
+            cal1.set(Calendar.MONTH, month);
+            cal1.set(Calendar.DAY_OF_MONTH, day);
+            date2Button.setText(DateUtility.DATE_FORMAT.format(cal1.getTime()));
         });
         Bundle args = new Bundle();
         args.putInt("YEAR", cal.get(Calendar.YEAR));
@@ -426,18 +417,13 @@ public class FilterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         FilterTimePickerFragment newFragment = new FilterTimePickerFragment();
-        newFragment.setCallback(new DialogFragmentCallback() {
-
-            @Override
-            public void onResultCallback(Bundle bundle) {
-                int hour = bundle.getInt("HOUR");
-                int minute = bundle.getInt("MINUTE");
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.HOUR_OF_DAY, hour);
-                cal.set(Calendar.MINUTE, minute);
-                time1Button.setText(DateUtility.TIME_FORMAT.format(cal.getTime()));
-            }
-
+        newFragment.setCallback(bundle -> {
+            int hour = bundle.getInt("HOUR");
+            int minute = bundle.getInt("MINUTE");
+            Calendar cal1 = Calendar.getInstance();
+            cal1.set(Calendar.HOUR_OF_DAY, hour);
+            cal1.set(Calendar.MINUTE, minute);
+            time1Button.setText(DateUtility.TIME_FORMAT.format(cal1.getTime()));
         });
         Bundle args = new Bundle();
         args.putInt("HOUR", cal.get(Calendar.HOUR_OF_DAY));
@@ -454,18 +440,13 @@ public class FilterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         FilterTimePickerFragment newFragment = new FilterTimePickerFragment();
-        newFragment.setCallback(new DialogFragmentCallback() {
-
-            @Override
-            public void onResultCallback(Bundle bundle) {
-                int hour = bundle.getInt("HOUR");
-                int minute = bundle.getInt("MINUTE");
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.HOUR_OF_DAY, hour);
-                cal.set(Calendar.MINUTE, minute);
-                time2Button.setText(DateUtility.TIME_FORMAT.format(cal.getTime()));
-            }
-
+        newFragment.setCallback(bundle -> {
+            int hour = bundle.getInt("HOUR");
+            int minute = bundle.getInt("MINUTE");
+            Calendar cal1 = Calendar.getInstance();
+            cal1.set(Calendar.HOUR_OF_DAY, hour);
+            cal1.set(Calendar.MINUTE, minute);
+            time2Button.setText(DateUtility.TIME_FORMAT.format(cal1.getTime()));
         });
         Bundle args = new Bundle();
         args.putInt("HOUR", cal.get(Calendar.HOUR_OF_DAY));
@@ -478,7 +459,8 @@ public class FilterActivity extends AppCompatActivity {
         void onResultCallback(Bundle bundle);
     }
 
-    public static class FilterDatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    public static class FilterDatePickerFragment
+            extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         private DialogFragmentCallback callback;
 
@@ -499,6 +481,7 @@ public class FilterActivity extends AppCompatActivity {
             this.callback = callback;
         }
 
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             Bundle bundle = new Bundle();
@@ -509,7 +492,8 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
-    public static class FilterTimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+    public static class FilterTimePickerFragment
+            extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
         DialogFragmentCallback callback;
 
@@ -530,6 +514,7 @@ public class FilterActivity extends AppCompatActivity {
             this.callback = callback;
         }
 
+        @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
             Bundle bundle = new Bundle();

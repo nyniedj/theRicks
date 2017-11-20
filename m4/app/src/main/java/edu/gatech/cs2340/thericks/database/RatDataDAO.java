@@ -3,6 +3,8 @@ package edu.gatech.cs2340.thericks.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +21,7 @@ import edu.gatech.cs2340.thericks.models.RatData;
 
 class RatDataDAO {
 
-    // --Commented out by Inspection (11/13/2017 1:30 AM):private static final String TAG = RatDataDAO.class.getSimpleName();
+    private static final String TAG = RatDataDAO.class.getSimpleName();
 
     private static final int INITIAL_CAPACITY = 100100;
 
@@ -42,6 +44,7 @@ class RatDataDAO {
 // --Commented out by Inspection STOP (11/13/2017 1:35 AM)
 
     static void onCreate(SQLiteDatabase sqLiteDatabase) {
+        Log.d(TAG, "Creating database");
         String query = "CREATE TABLE IF NOT EXISTS " + TABLE_RAT_DATA + "(" +
                 COLUMN_KEY + " INTEGER PRIMARY KEY, " +
                 COLUMN_DATE_TIME + " TEXT, " +

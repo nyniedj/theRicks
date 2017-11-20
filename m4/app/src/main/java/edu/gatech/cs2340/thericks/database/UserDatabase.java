@@ -1,6 +1,7 @@
 package edu.gatech.cs2340.thericks.database;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import edu.gatech.cs2340.thericks.models.Privilege;
 import edu.gatech.cs2340.thericks.models.User;
@@ -14,7 +15,7 @@ import edu.gatech.cs2340.thericks.models.UserDataSource;
  */
 
 public class UserDatabase implements UserDataSource {
-    // --Commented out by Inspection (11/13/2017 1:30 AM):private static final String TAG = UserDatabase.class.getSimpleName();
+    private static final String TAG = UserDatabase.class.getSimpleName();
     private SQLiteDatabase db;
 
     /**
@@ -30,6 +31,7 @@ public class UserDatabase implements UserDataSource {
 
     @Override
     public void createUser(String username, String password, Privilege privilege) {
+        Log.d(TAG, "Creating user");
         UserDAO.createUser(db, username, password, privilege);
     }
 

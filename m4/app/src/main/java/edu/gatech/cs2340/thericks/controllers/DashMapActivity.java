@@ -235,8 +235,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         private final View myContentsView;
 
         CustomInfoWindowAdapter(){
-            myContentsView = getLayoutInflater().inflate(R.layout.rat_marker_view, null
-            );
+            myContentsView = getLayoutInflater().inflate(R.layout.rat_marker_view, null);
         }
 
         @Override

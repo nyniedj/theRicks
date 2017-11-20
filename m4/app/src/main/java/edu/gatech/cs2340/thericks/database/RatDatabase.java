@@ -4,9 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.models.RatDataSource;

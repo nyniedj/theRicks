@@ -21,7 +21,6 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +39,8 @@ import edu.gatech.cs2340.thericks.utils.DateUtility;
 public class GraphActivity extends AppCompatActivity {
 
     private static final String TAG = GraphActivity.class.getSimpleName();
+
+    private static final float X_LABEL_ROTATION = 60f;
 
     private LineChart chart;
 
@@ -80,7 +81,8 @@ public class GraphActivity extends AppCompatActivity {
         });
 
         loadedData = new ArrayList<>();
-        ArrayAdapter<RatData> tempAdapter= new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
+        ArrayAdapter<RatData> tempAdapter
+                = new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
 
             @Override
             public void notifyDataSetChanged() {
@@ -100,7 +102,8 @@ public class GraphActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 filter = data.getParcelableExtra(FilterActivity.FILTER);
                 applyFiltersButton.setEnabled(false);
-                ArrayAdapter<RatData> tempAdapter = new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
+                ArrayAdapter<RatData> tempAdapter = new ArrayAdapter<RatData>(
+                        getApplicationContext(), ArrayAdapter.NO_SELECTION) {
 
                     @Override
                     public void notifyDataSetChanged() {
@@ -127,24 +130,19 @@ public class GraphActivity extends AppCompatActivity {
         applyFiltersButton.setEnabled(false);
 
         Log.d(TAG, "Sorting data");
-        loadedData.sort(new Comparator<RatData>() {
-
-            @Override
-            public int compare(RatData ratData1, RatData ratData2) {
-                Date date1 = DateUtility.parse(ratData1.getCreatedDateTime());
-                Date date2 = DateUtility.parse(ratData2.getCreatedDateTime());
-                if (date1 == null && date2 == null) {
-                    return 0;
-                }
-                if (date1 == null) {
-                    return -1;
-                }
-                if (date2 == null) {
-                    return 1;
-                }
-                return date1.compareTo(date2);
+        loadedData.sort((ratData1, ratData2) -> {
+            Date date1 = DateUtility.parse(ratData1.getCreatedDateTime());
+            Date date2 = DateUtility.parse(ratData2.getCreatedDateTime());
+            if ((date1 == null) && (date2 == null)) {
+                return 0;
             }
-
+            if (date1 == null) {
+                return -1;
+            }
+            if (date2 == null) {
+                return 1;
+            }
+            return date1.compareTo(date2);
         });
 
         Log.d(TAG, "Displaying graph");
@@ -157,17 +155,19 @@ public class GraphActivity extends AppCompatActivity {
             int beginYear = cal.get(Calendar.YEAR);
             cal.clear();
 
-            cal.setTime(DateUtility.parse(loadedData.get(loadedData.size() - 1).getCreatedDateTime()));
+            cal.setTime(DateUtility.parse(
+                    loadedData.get(loadedData.size() - 1).getCreatedDateTime()));
             int endMonth = cal.get(Calendar.MONTH);
             int endYear = cal.get(Calendar.YEAR);
             cal.clear();
 
-            int monthDif = (endMonth + (endYear * 12)) - (beginMonth + (beginYear * 12));
+            int monthDif = (endMonth + (endYear * Months.values().length))
+                    - (beginMonth + (beginYear * Months.values().length));
             Date[] domainDates = new Date[monthDif];
             for (int i = 0; i < domainDates.length; i++) {
                 int month = beginMonth + i;
-                int year = beginYear + ((month + 1) / 12);
-                month = ((month + 1) % 12) - 1;
+                int year = beginYear + ((month + 1) / Months.values().length);
+                month = ((month + 1) % Months.values().length) - 1;
                 cal.clear();
                 cal.set(Calendar.MONTH, month);
                 cal.set(Calendar.YEAR, year);
@@ -176,7 +176,8 @@ public class GraphActivity extends AppCompatActivity {
 
             List<Entry> entries = new ArrayList<>();
             for (int i = 1; i < domainDates.length; i++) {
-                entries.add(new Entry(i, DateUtility.filterByDate(domainDates[i - 1], domainDates[i], loadedData).size()));
+                entries.add(new Entry(i, DateUtility.filterByDate(domainDates[i - 1],
+                        domainDates[i], loadedData).size()));
             }
 
             LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
@@ -185,7 +186,7 @@ public class GraphActivity extends AppCompatActivity {
 
             XAxis xAxis = chart.getXAxis();
             xAxis.setValueFormatter(new MyXAxisValueFormatter(domainDates));
-            xAxis.setLabelRotationAngle(60);
+            xAxis.setLabelRotationAngle(X_LABEL_ROTATION);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
             chart.invalidate();
@@ -205,14 +206,14 @@ public class GraphActivity extends AppCompatActivity {
         private final Date[] mValues;
 
         MyXAxisValueFormatter(Date[] values) {
-            this.mValues = values;
+            this.mValues = values.clone();
         }
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             // "value" represents the position of the label on the axis (x or y)
             int intValue = (int) value;
-            if (intValue < mValues.length && intValue >= 0) {
+            if ((intValue < mValues.length) && (intValue >= 0)) {
                 Calendar c = Calendar.getInstance();
                 c.clear();
                 c.setTime(mValues[intValue]);

@@ -1,6 +1,5 @@
 package edu.gatech.cs2340.thericks.models;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.io.Serializable;

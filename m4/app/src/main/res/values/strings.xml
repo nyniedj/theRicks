@@ -53,5 +53,4 @@
     <string name="usernameText">text that shows the profile username</string>
     <string name="settings_title_header">settings title header</string>
     <string name="settings">SETTINGS</string>
-    <string name="improper_date_input">Improperly formatted input detected: </string>
 </resources>

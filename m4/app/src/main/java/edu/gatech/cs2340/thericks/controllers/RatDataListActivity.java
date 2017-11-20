@@ -133,24 +133,26 @@ public class RatDataListActivity extends AppCompatActivity {
             return position;
         }
 
+        @Override
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            View convertView1 = convertView;
             ViewHolder holder;
-            if (convertView == null) {
-                convertView = layoutInflater.inflate(R.layout.rat_list_row_view, null);
+            if (convertView1 == null) {
+                convertView1 = layoutInflater.inflate(R.layout.rat_list_row_view, null);
                 holder = new ViewHolder();
-                holder.cityView = convertView.findViewById(R.id.rat_data_city_text);
-                holder.addressView = convertView.findViewById(R.id.rat_data_incident_address_text);
-                holder.createdDateView = convertView.findViewById(R.id.rat_data_date_text);
-                convertView.setTag(holder);
+                holder.cityView = convertView1.findViewById(R.id.rat_data_city_text);
+                holder.addressView = convertView1.findViewById(R.id.rat_data_incident_address_text);
+                holder.createdDateView = convertView1.findViewById(R.id.rat_data_date_text);
+                convertView1.setTag(holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (ViewHolder) convertView1.getTag();
             }
 
             holder.cityView.setText(listData.get(position).getCity());
             holder.addressView.setText(listData.get(position).getIncidentAddress());
             holder.createdDateView.setText(listData.get(position).getCreatedDateTime());
-            return convertView;
+            return convertView1;
         }
         /**
          * Holds all of the views for each RatData Object

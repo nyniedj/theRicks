@@ -1,6 +1,5 @@
 package edu.gatech.cs2340.thericks.utils;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +19,8 @@ import edu.gatech.cs2340.thericks.models.RatData;
  */
 
 public class DateUtility {
-    public static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
+    private static final DateFormat DATE_TIME_FORMAT
+            = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
     public static final DateFormat TIME_FORMAT = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
@@ -54,8 +54,8 @@ public class DateUtility {
     public static Predicate<RatData> createDateRangeFilter(Date begin, Date end) {
         return ratData -> {
             Date d = parse(ratData.getCreatedDateTime());
-            return d != null && (begin == null || !d.before(begin))
-                    && (end == null || !d.after(end));
+            return (d != null) && ((begin == null) || !d.before(begin))
+                    && ((end == null) || !d.after(end));
         };
     }
 
