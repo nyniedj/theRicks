@@ -1,5 +1,7 @@
 package edu.gatech.cs2340.thericks.models;
 
+import java.util.List;
+
 /**
  * Interface for a source of user data with basic operations for managing a user table.
  *
@@ -24,12 +26,16 @@ public interface UserDataSource {
 //    void deleteUser(String username);
 // --Commented out by Inspection STOP (11/13/2017 1:30 AM)
 
+    void deleteUser(String username);
+
     /**
      * Getter for a user
      * @param username user's username
      * @return the user with that username
      */
     User getUserByUsername(String username);
+
+    List<User> getAllUsers();
 
 // --Commented out by Inspection START (11/13/2017 1:30 AM):
 //    /**

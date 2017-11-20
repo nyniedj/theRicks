@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.gatech.cs2340.thericks.models.Privilege;
 import edu.gatech.cs2340.thericks.models.User;
 import edu.gatech.cs2340.thericks.utils.Security;
@@ -104,17 +107,15 @@ class UserDAO {
     }
 
 
-// --Commented out by Inspection START (11/13/2017 1:35 AM):
-//    /**
-//     * Removes the user with the provided key
-//     *
-//     * @param db database to search in
-//     * @param username the username of the user to delete
-//     */
-//    static void deleteUser(SQLiteDatabase db, String username) {
-//        db.delete(TABLE_USERS, COLUMN_USERNAME + "=?", new String[]{ username });
-//    }
-// --Commented out by Inspection STOP (11/13/2017 1:35 AM)
+    /**
+     * Removes the user with the provided key
+     *
+     * @param db database to search in
+     * @param username the username of the user to delete
+     */
+    static void deleteUser(SQLiteDatabase db, String username) {
+        db.delete(TABLE_USERS, COLUMN_USERNAME + "=?", new String[]{ username });
+    }
 
 
 
@@ -145,31 +146,29 @@ class UserDAO {
         return user;
     }
 
-// --Commented out by Inspection START (11/13/2017 1:35 AM):
-//    /**
-//     * Get all users as a list.
-//     *
-//     * @param db the database to search in
-//     * @return all users in a list
-//     */
-//    static List<User> getAllUsers(SQLiteDatabase db) {
-//        List<User> userList = new ArrayList<>();
-//        String selectAllQuery = "SELECT * FROM " + TABLE_USERS;
-//
-//        Cursor cursor = db.rawQuery(selectAllQuery, null);
-//
-//        // Loop through all rows and add as new user instance
-//        if (cursor.moveToFirst()) {
-//            do {
-//                // Create user from values of the current row
-//                User user = cursorToUser(cursor);
-//                // Add rat data to list
-//                userList.add(user);
-//            } while (cursor.moveToNext());
-//        }
-//        // Free up cursor
-//        cursor.close();
-//        return userList;
-//    }
-// --Commented out by Inspection STOP (11/13/2017 1:35 AM)
+    /**
+     * Get all users as a list.
+     *
+     * @param db the database to search in
+     * @return all users in a list
+     */
+    static List<User> getAllUsers(SQLiteDatabase db) {
+        List<User> userList = new ArrayList<>();
+        String selectAllQuery = "SELECT * FROM " + TABLE_USERS;
+
+        Cursor cursor = db.rawQuery(selectAllQuery, null);
+
+        // Loop through all rows and add as new user instance
+        if (cursor.moveToFirst()) {
+            do {
+                // Create user from values of the current row
+                User user = cursorToUser(cursor);
+                // Add rat data to list
+                userList.add(user);
+            } while (cursor.moveToNext());
+        }
+        // Free up cursor
+        cursor.close();
+        return userList;
+    }
 }
