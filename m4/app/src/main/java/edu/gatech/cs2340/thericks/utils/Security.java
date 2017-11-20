@@ -113,11 +113,11 @@ public class Security {
      * @param pw the password to validate
      * @return true if password is valid, false if not
      */
-    public static boolean validatePassword(@SuppressWarnings("TypeMayBeWeakened") String pw) {
+    public static boolean validatePassword(CharSequence pw) {
         if (pw == null) {
             return false;
         }
-        if (pw.length() < MIN_PASSWORD_LENGTH || pw.length() > MAX_PASSWORD_LENGTH) {
+        if ((pw.length() < MIN_PASSWORD_LENGTH) || (pw.length() > MAX_PASSWORD_LENGTH)) {
             return false;
         }
 
@@ -138,7 +138,7 @@ public class Security {
             } else if (Character.isWhitespace(c)) {
                 hasWhiteSpace = true;
                 break;
-            } else if (!Character.isLetterOrDigit(c) && SPECIAL_CHARACTERS.indexOf(c) < 0) {
+            } else if (!Character.isLetterOrDigit(c) && (SPECIAL_CHARACTERS.indexOf(c) < 0)) {
                 hasInvalidChar = true;
                 break;
             }

@@ -119,7 +119,6 @@ public class RatDataListActivity extends AppCompatActivity {
             super.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
             editFiltersButton.setEnabled(true);
-
         }
 
         @Override

@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
  */
 public final class RatDate implements Comparable<RatDate>, Serializable{
 
-    private int year;
-    private int month;
-    private int day;
+    private final int year;
+    private final int month;
+    private final int day;
 
     private RatDate(int year, int month, int day) {
         this.year = year;
@@ -57,17 +57,19 @@ public final class RatDate implements Comparable<RatDate>, Serializable{
         return null;
     }
 
-    /**
-     * Builds a new RatDate from the passed RatDate, effectively cloning it
-     * @param d the RatDate to build a RatDate from
-     * @return the new RatDate
-     */
-    public static RatDate forDate(RatDate d) {
-        if (d != null) {
-            return new RatDate(d.getYear(), d.getMonth(), d.getDay());
-        }
-        return null;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Builds a new RatDate from the passed RatDate, effectively cloning it
+//     * @param d the RatDate to build a RatDate from
+//     * @return the new RatDate
+//     */
+//    public static RatDate forDate(RatDate d) {
+//        if (d != null) {
+//            return new RatDate(d.getYear(), d.getMonth(), d.getDay());
+//        }
+//        return null;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
     /**
      * Checks if the passed String contains a date
@@ -104,29 +106,35 @@ public final class RatDate implements Comparable<RatDate>, Serializable{
         return day;
     }
 
-    /**
-     * Sets the year to the specified value
-     * @param year the year to be set to
-     */
-    public void setYear(int year) {
-        this.year = year;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Sets the year to the specified value
+//     * @param year the year to be set to
+//     */
+//    public void setYear(int year) {
+//        this.year = year;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
-    /**
-     * Sets the month to the specified value
-     * @param month the month to be set to
-     */
-    public void setMonth(int month) {
-        this.month = month;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Sets the month to the specified value
+//     * @param month the month to be set to
+//     */
+//    public void setMonth(int month) {
+//        this.month = month;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
-    /**
-     * Sets the day to the specified value
-     * @param day the day to be set to
-     */
-    public void setDay(int day) {
-        this.day = day;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Sets the day to the specified value
+//     * @param day the day to be set to
+//     */
+//    public void setDay(int day) {
+//        this.day = day;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
     @Override
     public int compareTo(@Nullable RatDate ratDate) {

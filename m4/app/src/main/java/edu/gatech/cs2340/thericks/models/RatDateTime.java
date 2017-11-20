@@ -11,24 +11,26 @@ import java.io.Serializable;
  */
 public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
 
-    private RatDate date;
-    private RatTime time;
+    private final RatDate date;
+    private final RatTime time;
 
-    private RatDateTime(RatDate date, RatTime time) {
-        this.date = date;
-        this.time = time;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    private RatDateTime(RatDate date, RatTime time) {
+//        this.date = date;
+//        this.time = time;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
     private RatDateTime(String dateTimeDef) {
         date = RatDate.forDate(dateTimeDef);
         time = RatTime.forTime(dateTimeDef);
     }
 
-    private RatDateTime(int year, int month, int day, int hour, int minute, int second,
-                        Period period) {
-        date = RatDate.forDate(year, month, day);
-        time = RatTime.forTime(hour, minute, second, period);
-    }
+//    private RatDateTime(int year, int month, int day, int hour, int minute, int second,
+//                        Period period) {
+//        date = RatDate.forDate(year, month, day);
+//        time = RatTime.forTime(hour, minute, second, period);
+//    }
 
     /**
      * Creates a new RatDateTime from the passed String, returns
@@ -44,17 +46,19 @@ public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
         return null;
     }
 
-    /**
-     * Builds a new RatDateTime from the passed RatDateTime, effectively cloning it
-     * @param r the RatDateTime to build a new RatDateTime from
-     * @return the new RatDateTime
-     */
-    public static RatDateTime forDateTime(RatDateTime r) {
-        if (r != null) {
-            return new RatDateTime(RatDate.forDate(r.getDate()), RatTime.forTime(r.getTime()));
-        }
-        return null;
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Builds a new RatDateTime from the passed RatDateTime, effectively cloning it
+//     * @param r the RatDateTime to build a new RatDateTime from
+//     * @return the new RatDateTime
+//     */
+//    public static RatDateTime forDateTime(RatDateTime r) {
+//        if (r != null) {
+//            return new RatDateTime(RatDate.forDate(r.getDate()), RatTime.forTime(r.getTime()));
+//        }
+//        return null;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
     /**
      * Checks if the passed String contains a date and time
@@ -112,13 +116,15 @@ public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
         return time.getHours();
     }
 
-    /**
-     * Getter for military time
-     * @return the 24-hour
-     */
-    public int get24Hours() {
-        return time.get24Hours();
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Getter for military time
+//     * @return the 24-hour
+//     */
+//    public int get24Hours() {
+//        return time.get24Hours();
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
     /**
      * Getter for minutes
@@ -136,85 +142,105 @@ public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
         return time.getSeconds();
     }
 
-    /**
-     * Getter for period
-     * @return the period
-     */
-    public Period getPeriod() {
-        return time.getPeriod();
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Getter for period
+//     * @return the period
+//     */
+//    public Period getPeriod() {
+//        return time.getPeriod();
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for date
-     * @param date new date
-     */
-    public void setDate(RatDate date) {
-        this.date = date;
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for date
+//     * @param date new date
+//     */
+//    public void setDate(RatDate date) {
+//        this.date = date;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for time
-     * @param time new time
-     */
-    public void setTime(RatTime time) {
-        this.time = time;
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for time
+//     * @param time new time
+//     */
+//    public void setTime(RatTime time) {
+//        this.time = time;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for year
-     * @param year new year
-     */
-    public void setYear(int year) {
-        date.setYear(year);
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for year
+//     * @param year new year
+//     */
+//    public void setYear(int year) {
+//        date.setYear(year);
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for month
-     * @param month new month
-     */
-    public void setMonth(int month) {
-        date.setMonth(month);
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for month
+//     * @param month new month
+//     */
+//    public void setMonth(int month) {
+//        date.setMonth(month);
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for day
-     * @param day new day
-     */
-    public void setDay(int day) {
-        date.setDay(day);
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for day
+//     * @param day new day
+//     */
+//    public void setDay(int day) {
+//        date.setDay(day);
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for hours
-     * @param hours new hours
-     */
-    public void setHours(int hours) {
-        time.setHours(hours);
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for hours
+//     * @param hours new hours
+//     */
+//    public void setHours(int hours) {
+//        time.setHours(hours);
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for minutes
-     * @param minutes new minutes
-     */
-    public void setMinutes(int minutes) {
-        time.setMinutes(minutes);
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for minutes
+//     * @param minutes new minutes
+//     */
+//    public void setMinutes(int minutes) {
+//        time.setMinutes(minutes);
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for seconds
-     * @param seconds new seconds
-     */
-    public void setSeconds(int seconds) {
-        time.setSeconds(seconds);
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for seconds
+//     * @param seconds new seconds
+//     */
+//    public void setSeconds(int seconds) {
+//        time.setSeconds(seconds);
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
-    /**
-     * Setter for period
-     * @param period new period
-     */
-    public void setPeriod(Period period) {
-        time.setPeriod(period);
-    }
+// --Commented out by Inspection START (11/20/2017 12:51 PM):
+//    /**
+//     * Setter for period
+//     * @param period new period
+//     */
+//    public void setPeriod(Period period) {
+//        time.setPeriod(period);
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:51 PM)
 
     @Override
     public int compareTo(@NonNull RatDateTime ratDateTime) {

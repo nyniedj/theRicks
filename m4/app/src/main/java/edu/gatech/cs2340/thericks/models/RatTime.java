@@ -16,11 +16,11 @@ public final class RatTime implements Comparable<RatTime>, Serializable{
 
     private static final int HOURS_IN_HALF_DAY = 12;
 
-    private int seconds;
-    private int minutes;
-    private int hours;
+    private final int seconds;
+    private final int minutes;
+    private final int hours;
 
-    private Period period;
+    private final Period period;
 
     private RatTime(int hours, int minutes, int seconds, Period period) {
         this.hours = hours;
@@ -65,17 +65,19 @@ public final class RatTime implements Comparable<RatTime>, Serializable{
         return null;
     }
 
-    /**
-     * Builds a new RatTime from the passed RatTime, effectively cloning it
-     * @param t the RatTime to build a RatTime from
-     * @return the new RatTime
-     */
-    static RatTime forTime(RatTime t) {
-        if (t != null) {
-            return new RatTime(t.getHours(), t.getMinutes(), t.getSeconds(), t.getPeriod());
-        }
-        return null;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Builds a new RatTime from the passed RatTime, effectively cloning it
+//     * @param t the RatTime to build a RatTime from
+//     * @return the new RatTime
+//     */
+//    static RatTime forTime(RatTime t) {
+//        if (t != null) {
+//            return new RatTime(t.getHours(), t.getMinutes(), t.getSeconds(), t.getPeriod());
+//        }
+//        return null;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
     /**
      * Checks if the passed String contains a time
@@ -132,37 +134,45 @@ public final class RatTime implements Comparable<RatTime>, Serializable{
         return period;
     }
 
-    /**
-     * Sets the hours to the specified value
-     * @param hours the hours to be set to
-     */
-    void setHours(int hours) {
-        this.hours = hours;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Sets the hours to the specified value
+//     * @param hours the hours to be set to
+//     */
+//    void setHours(int hours) {
+//        this.hours = hours;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
-    /**
-     * Sets the minutes to the specified value
-     * @param minutes the minutes to be set to
-     */
-    void setMinutes(int minutes) {
-        this.minutes = minutes;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Sets the minutes to the specified value
+//     * @param minutes the minutes to be set to
+//     */
+//    void setMinutes(int minutes) {
+//        this.minutes = minutes;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
-    /**
-     * Sets the seconds to the specified value
-     * @param seconds the seconds to be set to
-     */
-    void setSeconds(int seconds) {
-        this.seconds = seconds;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Sets the seconds to the specified value
+//     * @param seconds the seconds to be set to
+//     */
+//    void setSeconds(int seconds) {
+//        this.seconds = seconds;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
-    /**
-     * Sets the period to the specified value
-     * @param period the period to be set to
-     */
-    void setPeriod(Period period) {
-        this.period = period;
-    }
+// --Commented out by Inspection START (11/20/2017 12:52 PM):
+//    /**
+//     * Sets the period to the specified value
+//     * @param period the period to be set to
+//     */
+//    void setPeriod(Period period) {
+//        this.period = period;
+//    }
+// --Commented out by Inspection STOP (11/20/2017 12:52 PM)
 
     @Override
     public int compareTo(@NonNull RatTime ratTime) {
