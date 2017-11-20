@@ -18,14 +18,10 @@ public interface UserDataSource {
     @SuppressWarnings("unused")
     void createUser(String username, String password, Privilege privilege);
 
-// --Commented out by Inspection START (11/13/2017 1:30 AM):
-//    /**
-//     * Deletes a user
-//     * @param username user's username
-//     */
-//    void deleteUser(String username);
-// --Commented out by Inspection STOP (11/13/2017 1:30 AM)
-
+    /**
+     * Deletes a user
+     * @param username user's username
+     */
     void deleteUser(String username);
 
     /**
@@ -35,13 +31,9 @@ public interface UserDataSource {
      */
     User getUserByUsername(String username);
 
+    /**
+      * Getter for all users
+      * @return a list of all users
+      */
     List<User> getAllUsers();
-
-// --Commented out by Inspection START (11/13/2017 1:30 AM):
-//    /**
-//     * Getter for all users
-//     * @return a list of all users
-//     */
-//    List<User> getAllUsers();
-// --Commented out by Inspection STOP (11/13/2017 1:30 AM)
 }
