@@ -79,7 +79,7 @@ public class RatDateTimeTest {
         assertEquals(48, dateTime1.getSeconds());
         assertEquals("03/21/2001 12:01:48 PM", dateTime1.toString());
 
-        RatDateTime dateTime2 = RatDateTime.forDateTime();
+        RatDateTime dateTime2 = RatDateTime.forDateTime("08/05/2010 09:30:32 PM");
         assertEquals("08/05/2010 09:30:32 PM", dateTime2.toString());
 
         assertTrue(dateTime1.compareTo(dateTime2) < 0);

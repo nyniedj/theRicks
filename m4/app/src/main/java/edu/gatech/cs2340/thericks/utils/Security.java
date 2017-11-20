@@ -21,21 +21,24 @@ import edu.gatech.cs2340.thericks.models.Login;
 
 public class Security {
 
-    /** Number of iterations for password encryption **/
+    // Number of iterations for password encryption
     private static final int ITERATIONS = 20000;
 
-    /** Size in bytes of salt **/
+    // Size in bytes of salt
     private static final int SALT_LENGTH = 16;
 
     /** Size in bytes of encrypted key **/
     private static final int KEY_LENGTH = 32;
 
-    /** See validatePassword() for complete password criteria **/
+    // See validatePassword() for complete password criteria
     private static final int MIN_PASSWORD_LENGTH = 8;
     private static final int MAX_PASSWORD_LENGTH = 32;
 
     private static final int MIN_USERNAME_LENGTH = 6;
     private static final int MAX_USERNAME_LENGTH = 32;
+
+    // Special characters allowed for password
+    private static final String SPECIAL_CHARACTERS = "!@#$%&?_";
 
 
     /**
@@ -102,19 +105,46 @@ public class Security {
     /**
      * Checks if password meets criteria to be considered valid.
      * Criteria (must meet all):
-     *  (?=.*[0-9]) at least one digit
-     *  (?=.*[a-z]) at least one lowercase letter
-     *  (?=.*[A-Z]) at least one uppercase letter
-     *  (?=\\S+$)   no whitespace
-     *  .{MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH}     length between min and max (inclusive)
+     *  - at least one digit
+     *  - at least one lowercase letter
+     *  - at least one uppercase letter
+     *  - no whitespace
+     *  - length between min and max (inclusive)
      *
      * @param pw the password to validate
      * @return true if password is valid, false if not
      */
     public static boolean validatePassword(@SuppressWarnings("TypeMayBeWeakened") String pw) {
-        final Pattern pat = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{"
-                + MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}$");
-        return (pw != null) && pat.matcher(pw).matches();
+        if (pw == null) {
+            return false;
+        }
+        if (pw.length() < MIN_PASSWORD_LENGTH || pw.length() > MAX_PASSWORD_LENGTH) {
+            return false;
+        }
+
+        boolean hasInvalidChar = false;
+        boolean hasDigit = false;
+        boolean hasLower = false;
+        boolean hasUpper = false;
+        boolean hasWhiteSpace = false;
+
+        for (int i = 0; i < pw.length(); i++) {
+            char c = pw.charAt(i);
+            if (!hasDigit && Character.isDigit(c)) {
+                hasDigit = true;
+            } else if (!hasLower && Character.isLowerCase(c)) {
+                hasLower = true;
+            } else if (!hasUpper && Character.isUpperCase(c)) {
+                hasUpper = true;
+            } else if (Character.isWhitespace(c)) {
+                hasWhiteSpace = true;
+                break;
+            } else if (!Character.isLetterOrDigit(c) && SPECIAL_CHARACTERS.indexOf(c) < 0) {
+                hasInvalidChar = true;
+                break;
+            }
+        }
+        return hasDigit && hasLower && hasUpper && !hasWhiteSpace && !hasInvalidChar;
     }
 
     /**

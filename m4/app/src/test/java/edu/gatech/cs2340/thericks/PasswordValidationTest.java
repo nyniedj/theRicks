@@ -9,11 +9,12 @@ import edu.gatech.cs2340.thericks.utils.Security;
  * Unit tests for validating passwords.
  *
  * Criteria for valid password (must meet all):
- *  (?=.*[0-9]) at least one digit
- *  (?=.*[a-z]) at least one lowercase letter
- *  (?=.*[A-Z]) at least one uppercase letter
- *  (?=\\S+$)   no whitespace
- *  .{MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH}     length between min (8) and max (32) (inclusive)
+ *  - at least one digit
+ *  - at least one lowercase letter
+ *  - at least one uppercase letter
+ *  - no invalid chars; i.e. not alphanumeric or a member of SPECIAL_CHARACTERS !@#$%&?_
+ *  - no whitespace
+ *  - length between min (8) and max (32), inclusive
  *
  * Created by Ben Lashley on 11/3/2017.
  */
@@ -72,6 +73,80 @@ public class PasswordValidationTest {
         String pw4 = "\n\t l0tsOfWhitespace";
 
         String failMessage = "A password containing whitespace is considered valid, should be invalid";
+        assertFalse(failMessage, test(pw1));
+        assertFalse(failMessage, test(pw2));
+        assertFalse(failMessage, test(pw3));
+        assertFalse(failMessage, test(pw4));
+    }
+
+    @Test
+    public void testNoUppercase() {
+        String pw1 = "alllower3";
+        String pw2 = "its2low4me";
+        String pw3 = "aaaaaaaaaah2";
+
+        String failMessage = "A password containing no uppercase letter is considered valid; should be invalid";
+        assertFalse(failMessage, test(pw1));
+        assertFalse(failMessage, test(pw2));
+        assertFalse(failMessage, test(pw3));
+    }
+
+    @Test
+    public void testNoLowercase() {
+        String pw1 = "ALLUPPER3";
+        String pw2 = "ITSLOOKINGUP4ME";
+        String pw3 = "AAAAAAAAAAAAAAH2";
+
+        String failMessage = "A password containing no lowercase letter is considered valid; should be invalid";
+        assertFalse(failMessage, test(pw1));
+        assertFalse(failMessage, test(pw2));
+        assertFalse(failMessage, test(pw3));
+    }
+
+    @Test
+    public void testNoDigit() {
+        String pw1 = "IHateNumbers";
+        String pw2 = "QwertyAsdf";
+        String pw3 = "MyNumPadIsBroken";
+
+        String failMessage = "A password containing no digit is considered valid; should be invalid";
+        assertFalse(failMessage, test(pw1));
+        assertFalse(failMessage, test(pw2));
+        assertFalse(failMessage, test(pw3));
+    }
+
+    @Test
+    public void testValidChars() {
+        String pw1 = "myP@ssw0rd";
+        String pw2 = "#Password1";
+        String pw3 = "SIEFJOeijofaijf489w5&&";
+        String pw4 = "DJFoie8439wEJO$jifoa$IJF";
+        String pw5 = "350jtgijfIEjf%jsid";
+        String pw6 = "i4hjg9?o4jiDjg";
+        String pw7 = "afji_eDF349";
+        String pw8 = "!fia8Dgaqzio";
+        String pw9 = "1Aa#?$&&%_!@";
+
+        String failMessage = "A password with valid special characters is considered invalid; should be valid";
+        assertTrue(failMessage, test(pw1));
+        assertTrue(failMessage, test(pw2));
+        assertTrue(failMessage, test(pw3));
+        assertTrue(failMessage, test(pw4));
+        assertTrue(failMessage, test(pw5));
+        assertTrue(failMessage, test(pw6));
+        assertTrue(failMessage, test(pw7));
+        assertTrue(failMessage, test(pw8));
+        assertTrue(failMessage, test(pw9));
+    }
+
+    @Test
+    public void testInvalidChars() {
+        String pw1 = "EFijfa3d++";    // + is invalid
+        String pw2 = "Fzeta*efj3t4";  // * is invalid
+        String pw3 = "E#Fazjfiz^dj}"; // ^ is invalid
+        String pw4 = "iejFEj#$?(";    // ( is invalid
+
+        String failMessage = "A password containing invalid character(s) is considered valid; should be invalid";
         assertFalse(failMessage, test(pw1));
         assertFalse(failMessage, test(pw2));
         assertFalse(failMessage, test(pw3));
