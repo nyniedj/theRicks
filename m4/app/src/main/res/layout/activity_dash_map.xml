@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -90,38 +89,9 @@
         android:id="@+id/apply_filters_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/apply_label"
+        android:text="@string/apply_filters_message"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
-
-    <EditText
-        android:id="@+id/date2_dash_map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/apply_filters_button"
-        tools:ignore="LabelFor"
-        android:inputType="datetime" />
-
-    <TextView
-        android:id="@+id/date_separator_dash_map_text"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/date_separator_label"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintRight_toLeftOf="@id/date2_dash_map"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <EditText
-        android:id="@+id/date1_dash_map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/date_separator_dash_map_text"
-        tools:ignore="LabelFor"
-        android:inputType="datetime" />
 
     <Button
         android:id="@+id/return_to_dashboard_button"

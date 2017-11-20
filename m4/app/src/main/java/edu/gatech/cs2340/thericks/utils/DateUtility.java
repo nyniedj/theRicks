@@ -3,6 +3,7 @@ package edu.gatech.cs2340.thericks.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
@@ -17,12 +18,38 @@ import edu.gatech.cs2340.thericks.models.RatData;
  * Created by Ben Lashley on 11/1/2017.
  */
 
-public class DateFilterer {
-    private static final DateFormat FORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
+public class DateUtility {
+    private static final DateFormat DATE_TIME_FORMAT
+            = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
+    public static final DateFormat TIME_FORMAT
+            = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
+    public static final DateFormat DATE_FORMAT
+            = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
+    /**
+     * Returns a Date object containing the date exactly one month from today
+     * @return the Date one month ago
+     */
+    public static Date getLastMonth() {
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH);
+        if (month > 0) {
+            cal.set(Calendar.MONTH, month - 1);
+        } else {
+            cal.set(Calendar.MONTH, Calendar.DECEMBER);
+            cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
+        }
+        return cal.getTime();
+    }
+
+    /**
+     * Parses the input String using the static DATE_TIME_FORMAT DateFormat object
+     * @param input the String to parse
+     * @return the Date resulting from the String
+     */
     public static Date parse(String input) {
         try {
-            return FORMAT.parse(input);
+            return DATE_TIME_FORMAT.parse(input);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -38,8 +65,8 @@ public class DateFilterer {
     public static Predicate<RatData> createDateRangeFilter(Date begin, Date end) {
         return ratData -> {
             Date d = parse(ratData.getCreatedDateTime());
-            return d != null && (begin == null || !d.before(begin))
-                    && (end == null || !d.after(end));
+            return (d != null) && ((begin == null) || !d.before(begin))
+                    && ((end == null) || !d.after(end));
         };
     }
 

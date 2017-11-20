@@ -45,14 +45,6 @@ public final class RatDateTime implements Comparable<RatDateTime>, Serializable{
     }
 
     /**
-     * Creates a new RatDateTime from the passed data
-     * @return the new RatDateTime
-     */
-    public static RatDateTime forDateTime() {
-        return new RatDateTime(2010, 8, 5, 9, 30, 32, Period.PM);
-    }
-
-    /**
      * Builds a new RatDateTime from the passed RatDateTime, effectively cloning it
      * @param r the RatDateTime to build a new RatDateTime from
      * @return the new RatDateTime

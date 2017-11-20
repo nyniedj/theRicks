@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by Cameron on 10/5/2017.
  * Holds all information for a rat entry
  */
-public class RatData implements Parcelable{
+public class RatData implements Parcelable {
 
     private final int key;
     private final String createdDateTime;

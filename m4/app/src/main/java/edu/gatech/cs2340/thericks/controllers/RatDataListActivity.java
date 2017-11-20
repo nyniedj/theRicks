@@ -12,18 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import edu.gatech.cs2340.thericks.R;
 import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.database.RatTrackerApplication;
 import edu.gatech.cs2340.thericks.models.RatData;
+import edu.gatech.cs2340.thericks.models.RatFilter;
 
 /**
  * Created by Cameron on 10/5/2017.
@@ -36,10 +37,12 @@ public class RatDataListActivity extends AppCompatActivity {
 
     private CustomListAdapter adapter;
     /* Filters for displayed rat data */
-    private  List<Predicate<RatData>> filters;
+    private RatFilter filter;
 
     private ListView ratDataList;
     private ProgressBar progressBar;
+
+    private Button editFiltersButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class RatDataListActivity extends AppCompatActivity {
 
         RatDatabase database = new RatDatabase();
         progressBar = findViewById(R.id.rat_data_list_progress_bar);
+
+        editFiltersButton = findViewById(R.id.data_list_edit_filters_button);
 
         if (adapter == null) {
             adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(),
@@ -72,22 +77,22 @@ public class RatDataListActivity extends AppCompatActivity {
             startActivityForResult(intent, EDIT_ENTRY);
         });
 
-        /* NOTE: Hard coded predicates for testing display filters.
-        Remove once user can add filters. */
-        Predicate<RatData> inJamaica = ratData -> "Jamaica".equalsIgnoreCase(ratData.getCity());
-        Predicate<RatData> commercialLocation = ratData ->
-                "Commercial Building".equalsIgnoreCase(ratData.getLocationType());
-        if (filters == null) {
-            filters = new ArrayList<>();
-        }
-        filters.add(inJamaica);
-        filters.add(commercialLocation);
-        /* End of predicates */
+        filter = RatFilter.getDefaultInstance();
 
         // Load in rat data
         Log.d(TAG, "Calling the RatDatabase to load the data");
         progressBar.setVisibility(View.VISIBLE);
-        database.loadData(adapter, adapter.listData, filters);
+        database.loadData(adapter, adapter.listData, filter);
+    }
+
+    /**
+     * Handler for the edit filter button being clicked. Launches the FilterActivity for a result
+     * @param v the clicked view
+     */
+    public void onEditFiltersButtonClicked(View v) {
+        Intent intent = new Intent(this, FilterActivity.class);
+        intent.putExtra(FilterActivity.FILTER, filter);
+        startActivityForResult(intent, FilterActivity.GET_FILTER);
     }
 
     /**
@@ -113,6 +118,8 @@ public class RatDataListActivity extends AppCompatActivity {
         public void notifyDataSetChanged() {
             super.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
+            editFiltersButton.setEnabled(true);
+
         }
 
         @Override
@@ -130,24 +137,26 @@ public class RatDataListActivity extends AppCompatActivity {
             return position;
         }
 
+        @Override
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            View convertView1 = convertView;
             ViewHolder holder;
-            if (convertView == null) {
-                convertView = layoutInflater.inflate(R.layout.rat_list_row_view, null);
+            if (convertView1 == null) {
+                convertView1 = layoutInflater.inflate(R.layout.rat_list_row_view, null);
                 holder = new ViewHolder();
-                holder.cityView = convertView.findViewById(R.id.rat_data_city_text);
-                holder.addressView = convertView.findViewById(R.id.rat_data_incident_address_text);
-                holder.createdDateView = convertView.findViewById(R.id.rat_data_date_text);
-                convertView.setTag(holder);
+                holder.cityView = convertView1.findViewById(R.id.rat_data_city_text);
+                holder.addressView = convertView1.findViewById(R.id.rat_data_incident_address_text);
+                holder.createdDateView = convertView1.findViewById(R.id.rat_data_date_text);
+                convertView1.setTag(holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (ViewHolder) convertView1.getTag();
             }
 
             holder.cityView.setText(listData.get(position).getCity());
             holder.addressView.setText(listData.get(position).getIncidentAddress());
             holder.createdDateView.setText(listData.get(position).getCreatedDateTime());
-            return convertView;
+            return convertView1;
         }
         /**
          * Holds all of the views for each RatData Object
@@ -159,14 +168,22 @@ public class RatDataListActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((adapter != null) && (filters != null)) {
-            Log.d(TAG, "Updating list view to show changes to database");
-            adapter.listData.clear();
-            adapter.listData.addAll(new RatDatabase().getFilteredRatData(filters));
-            adapter.notifyDataSetChanged();
+        if (requestCode == EDIT_ENTRY) {
+            if (resultCode == RESULT_OK) {
+                if ((adapter != null) && (filter != null)) {
+                    Log.d(TAG, "Updating list view to show changes to database");
+                    RatDatabase db = new RatDatabase();
+                    db.loadData(adapter, adapter.listData, filter);
+                }
+            }
+        } else if (requestCode == FilterActivity.GET_FILTER) {
+            if (resultCode == RESULT_OK) {
+                filter = data.getParcelableExtra(FilterActivity.FILTER);
+                RatDatabase db = new RatDatabase();
+                db.loadData(adapter, adapter.listData, filter);
+            }
         }
     }
 }
