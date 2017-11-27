@@ -42,6 +42,8 @@ public class RatDataListActivity extends AppCompatActivity {
     private ListView ratDataList;
     private ProgressBar progressBar;
 
+    private boolean newDataIncoming;
+
     private Button editFiltersButton;
 
     @Override
@@ -69,18 +71,22 @@ public class RatDataListActivity extends AppCompatActivity {
 
         ratDataList.setAdapter(adapter);
         ratDataList.setOnItemClickListener((AdapterView<?> a, View v, int position, long id) -> {
-            Object o = ratDataList.getItemAtPosition(position);
-            Parcelable ratData = (RatData) o;
-            Context context = v.getContext();
-            Intent intent = new Intent(context, RatEntryActivity.class);
-            intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
-            startActivityForResult(intent, EDIT_ENTRY);
+            if (!newDataIncoming) {
+                Object o = ratDataList.getItemAtPosition(position);
+                Parcelable ratData = (RatData) o;
+                Context context = v.getContext();
+                Intent intent = new Intent(context, RatEntryActivity.class);
+                intent.putExtra("edu.gatech.cs2340.thericks.RatData", ratData);
+                startActivityForResult(intent, EDIT_ENTRY);
+            }
         });
 
         filter = RatFilter.getDefaultInstance();
 
         // Load in rat data
         Log.d(TAG, "Calling the RatDatabase to load the data");
+        newDataIncoming = true;
+        editFiltersButton.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
         database.loadData(adapter, adapter.listData, filter);
     }
@@ -117,8 +123,9 @@ public class RatDataListActivity extends AppCompatActivity {
         @Override
         public void notifyDataSetChanged() {
             super.notifyDataSetChanged();
-            progressBar.setVisibility(View.GONE);
+            newDataIncoming = false;
             editFiltersButton.setEnabled(true);
+            progressBar.setVisibility(View.GONE);
         }
 
         @Override
@@ -173,13 +180,20 @@ public class RatDataListActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 if ((adapter != null) && (filter != null)) {
                     Log.d(TAG, "Updating list view to show changes to database");
+                    editFiltersButton.setEnabled(false);
+                    progressBar.setVisibility(View.VISIBLE);
+                    newDataIncoming = true;
                     RatDatabase db = new RatDatabase();
                     db.loadData(adapter, adapter.listData, filter);
                 }
             }
         } else if (requestCode == FilterActivity.GET_FILTER) {
             if (resultCode == RESULT_OK) {
+                Log.d(TAG, "Updating list view to show changes to database");
                 filter = data.getParcelableExtra(FilterActivity.FILTER);
+                editFiltersButton.setEnabled(false);
+                progressBar.setVisibility(View.VISIBLE);
+                newDataIncoming = true;
                 RatDatabase db = new RatDatabase();
                 db.loadData(adapter, adapter.listData, filter);
             }

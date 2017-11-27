@@ -72,7 +72,7 @@ public class GraphActivity extends AppCompatActivity {
         filter = RatFilter.getDefaultInstance();
 
         applyFiltersButton = findViewById(R.id.apply_filters_button_graph);
-        applyFiltersButton.setVisibility(View.GONE);
+        applyFiltersButton.setEnabled(false);
         applyFiltersButton.setOnClickListener(v -> {
             Context context = v.getContext();
             Intent intent = new Intent(context, FilterActivity.class);
@@ -113,6 +113,8 @@ public class GraphActivity extends AppCompatActivity {
                     }
                 };
                 progressBar.setVisibility(View.VISIBLE);
+                chart.setVisibility(View.GONE);
+                noDataText.setVisibility(View.GONE);
                 RatDatabase db = new RatDatabase();
                 db.loadData(tempAdapter, loadedData, filter);
             }
@@ -124,9 +126,6 @@ public class GraphActivity extends AppCompatActivity {
      * and gets the needed data from the database
      */
     private void displayGraph() {
-        progressBar.setVisibility(View.VISIBLE);
-        chart.setVisibility(View.GONE);
-        noDataText.setVisibility(View.GONE);
         applyFiltersButton.setEnabled(false);
 
         Log.d(TAG, "Sorting data");
@@ -148,6 +147,8 @@ public class GraphActivity extends AppCompatActivity {
         Log.d(TAG, "Displaying graph");
 
         if (!loadedData.isEmpty()) {
+            noDataText.setVisibility(View.GONE);
+
             Calendar cal = Calendar.getInstance();
             cal.clear();
             cal.setTime(DateUtility.parse(loadedData.get(0).getCreatedDateTime()));
@@ -197,7 +198,6 @@ public class GraphActivity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.GONE);
-        applyFiltersButton.setVisibility(View.VISIBLE);
         applyFiltersButton.setEnabled(true);
     }
 
