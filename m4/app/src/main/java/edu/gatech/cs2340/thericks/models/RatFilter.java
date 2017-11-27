@@ -429,6 +429,7 @@ public class RatFilter implements Parcelable {
         RatFilter filter = new RatFilter();
         filter.setBeginDate(DateUtility.getLastMonth());
         filter.setEndDate(Calendar.getInstance().getTime());
+        filter.setPredicateEnabled(DATE, true);
         return filter;
     }
 

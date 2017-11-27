@@ -204,6 +204,8 @@ class RatDataDAO {
 
         Predicate<RatData> allPredicates = filters.stream().reduce(f -> true, Predicate::and);
 
+        Log.d(TAG, "Filtering rat data from database");
+
         // Loop through all rows and add as new rat data instance
         if (cursor.moveToFirst()) {
             do {

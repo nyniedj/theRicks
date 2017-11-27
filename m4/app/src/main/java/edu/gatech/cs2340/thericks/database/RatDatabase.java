@@ -42,12 +42,12 @@ public class RatDatabase implements RatDataSource {
     public void loadData(ArrayAdapter a, List<RatData> data, RatFilter filter) {
         if (!LoadRatDataTask.isReady()) {
             Log.d(TAG, "LoadRatDataTask was not ready to load data or data was already loaded");
-            if ((data != null) && (a != null)) {
-                data.clear();
-                data.addAll(getFilteredRatData(filter));
-                a.notifyDataSetChanged();
-            }
-            return;
+//            if ((data != null) && (a != null)) {
+//                data.clear();
+//                data.addAll(getFilteredRatData(filter));
+//                a.notifyDataSetChanged();
+//            }
+//            return;
         }
         Log.d(TAG, "Creating new LoadRatDataTask");
         LoadRatDataTask loadData = new LoadRatDataTask();
