@@ -1,6 +1,12 @@
 package edu.gatech.cs2340.thericks.controllers;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -10,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.view.View;
 
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -26,6 +33,8 @@ import edu.gatech.cs2340.thericks.utils.DateUtility;
 public class RatEntryActivity extends AppCompatActivity {
 
     private static final String TAG = RatEntryActivity.class.getSimpleName();
+
+    private static final int LOCATION_SERVICES_REQUEST = 999;
 
     private EditText key;
     private EditText date;
@@ -68,9 +77,11 @@ public class RatEntryActivity extends AppCompatActivity {
                 city.setText(ratData.getCity());
                 latitude.setText(String.format(Locale.ENGLISH, "%8f", ratData.getLatitude()));
                 longitude.setText(String.format(Locale.ENGLISH, "%8f", ratData.getLongitude()));
-            } else {
-                Log.d(TAG, "No rat data passed in.");
             }
+        } else {
+            Log.d(TAG, "No rat data passed in, passing in current defaults");
+            date.setText(DateUtility.DATE_TIME_FORMAT.format(Calendar.getInstance().getTime()));
+            populateCurrentLocation();
         }
 
         key.addTextChangedListener(new TextWatcher() {
@@ -250,5 +261,66 @@ public class RatEntryActivity extends AppCompatActivity {
             setResult(RESULT_OK);
             finish();
         });
+    }
+
+    private void populateCurrentLocation() {
+        Log.d(TAG, "Attempting to fetch a location");
+        LocationManager locMan = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (locMan.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[] {
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION},
+                        LOCATION_SERVICES_REQUEST);
+            } else {
+                locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        0, 0, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        Log.d(TAG, "Populating location");
+                        latitude.setText(String.format(Locale.ENGLISH, "%8f",
+                                location.getLatitude()));
+                        longitude.setText(String.format(Locale.ENGLISH, "%8f",
+                                location.getLongitude()));
+                        locMan.removeUpdates(this);
+                    }
+
+                    @Override
+                    public void onStatusChanged(String s, int i, Bundle bundle) {
+                        Log.d(TAG, "Status changed: " + s);
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String s) {
+                        Log.d(TAG, "Provider enabled: " + s);
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String s) {
+                        Log.d(TAG, "Provider disabled: " + s);
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.d(TAG, "Permissions request result recieved");
+        if (requestCode == LOCATION_SERVICES_REQUEST) {
+            for (int p: grantResults) {
+                if (p == PackageManager.PERMISSION_DENIED) {
+                    Log.d(TAG, "A location permission request was denied");
+                    return;
+                }
+            }
+            populateCurrentLocation();
+        }
     }
 }

@@ -19,7 +19,7 @@ import edu.gatech.cs2340.thericks.models.RatData;
  */
 
 public class DateUtility {
-    private static final DateFormat DATE_TIME_FORMAT
+    public static final DateFormat DATE_TIME_FORMAT
             = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
     public static final DateFormat TIME_FORMAT
             = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
