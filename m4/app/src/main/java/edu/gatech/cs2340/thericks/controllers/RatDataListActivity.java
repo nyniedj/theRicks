@@ -46,6 +46,8 @@ public class RatDataListActivity extends AppCompatActivity {
 
     private Button editFiltersButton;
 
+    private TextView noDataLosdedText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,8 @@ public class RatDataListActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.rat_data_list_progress_bar);
 
         editFiltersButton = findViewById(R.id.data_list_edit_filters_button);
+
+        noDataLosdedText = findViewById(R.id.no_data_list_text);
 
         if (adapter == null) {
             adapter = new CustomListAdapter(RatTrackerApplication.getAppContext(),
@@ -126,6 +130,11 @@ public class RatDataListActivity extends AppCompatActivity {
             newDataIncoming = false;
             editFiltersButton.setEnabled(true);
             progressBar.setVisibility(View.GONE);
+            if (listData.isEmpty()) {
+                noDataLosdedText.setVisibility(View.VISIBLE);
+            } else {
+                noDataLosdedText.setVisibility(View.GONE);
+            }
         }
 
         @Override
