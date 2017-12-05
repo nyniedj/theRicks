@@ -288,7 +288,7 @@ public class RatEntryActivity extends AppCompatActivity {
                                 location.getLatitude()));
                         longitude.setText(String.format(Locale.ENGLISH, "%8f",
                                 location.getLongitude()));
-                        locMan.removeUpdates(this);
+                        //locMan.removeUpdates(this);
                     }
 
                     @Override
