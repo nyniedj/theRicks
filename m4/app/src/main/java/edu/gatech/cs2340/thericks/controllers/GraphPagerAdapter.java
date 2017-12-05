@@ -45,6 +45,11 @@ public class GraphPagerAdapter extends FragmentStatePagerAdapter {
                     barGraph = new BarGraphFragment();
                 }
                 return barGraph;
+            case 2:
+                if (pieChart == null) {
+                    pieChart = new PieChartFragment();
+                }
+                return pieChart;
             default:
                 return null;
         }

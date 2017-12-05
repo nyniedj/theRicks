@@ -39,7 +39,7 @@ public class BarGraphFragment extends GraphFragment<RatData> {
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstance) {
-        Log.d(TAG, "Creating Ling Graph View");
+        Log.d(TAG, "Creating Bar Graph View");
 
         View view = layoutInflater.inflate(R.layout.activity_bar_graph, container, false);
 

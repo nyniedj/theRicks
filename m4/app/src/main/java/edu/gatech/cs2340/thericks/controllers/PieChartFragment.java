@@ -8,11 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,41 +29,39 @@ import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.utils.DateUtility;
 
 /**
- * Created by Cameron on 11/3/2017.
- * Holds the line graph
+ * Created by Cameron on 12/5/2017.
+ * Fragment for displaying a pie chart
  */
+public class PieChartFragment extends GraphFragment<RatData> {
 
-public class LineGraphFragment extends GraphFragment<RatData> {
+    private static final String TAG = BarGraphFragment.class.getSimpleName();
 
-    private static final String TAG = LineGraphFragment.class.getSimpleName();
+    private static final float FONT_SIZE = 12f;
 
-    private static final float X_LABEL_ROTATION = 60f;
-
-    private LineChart lineChart;
-
+    private PieChart pieChart;
     private TextView noDataText;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstance) {
-        Log.d(TAG, "Creating Line Graph View");
+        Log.d(TAG, "Creating Pie Graph View");
 
-        View view = layoutInflater.inflate(R.layout.activity_line_graph, container, false);
+        View view = layoutInflater.inflate(R.layout.activity_pie_chart, container, false);
 
-        noDataText = view.findViewById(R.id.no_data_line_graph_text);
+        noDataText = view.findViewById(R.id.no_data_pie_graph_text);
         noDataText.setVisibility(View.GONE);
 
-        lineChart = view.findViewById(R.id.line_chart);
-        lineChart.setVisibility(View.GONE);
+        pieChart = view.findViewById(R.id.pie_chart);
+        pieChart.setVisibility(View.GONE);
+
+        pieChart.setUsePercentValues(true);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setEntryLabelTextSize(FONT_SIZE);
 
         return view;
     }
 
-    /**
-     * Displays the graph, calculates the bounds for the specified date range,
-     * and gets the needed data from the database
-     */
+    @Override
     public void displayGraph(List<RatData> loadedData) {
-
         Log.d(TAG, "Sorting data");
         loadedData.sort((ratData1, ratData2) -> {
             Date date1 = DateUtility.parse(ratData1.getCreatedDateTime());
@@ -107,24 +109,44 @@ public class LineGraphFragment extends GraphFragment<RatData> {
                 domainDates[i] = cal.getTime();
             }
 
-            List<Entry> entries = new ArrayList<>();
+            DateXAxisValueFormatter formatter = new DateXAxisValueFormatter(domainDates);
+
+            List<PieEntry> entries = new ArrayList<>();
             for (int i = 1; i < domainDates.length; i++) {
-                entries.add(new Entry(i, DateUtility.filterByDate(domainDates[i - 1],
-                        domainDates[i], loadedData).size()));
+                entries.add(new PieEntry(DateUtility.filterByDate(domainDates[i - 1],
+                        domainDates[i], loadedData).size(), formatter.getFormattedValue(i, null)));
             }
 
-            LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
-            LineData lineData = new LineData(dataSet);
-            lineChart.setData(lineData);
+            PieDataSet dataSet = new PieDataSet(entries, "Rat Sightings");
 
-            XAxis xAxis = lineChart.getXAxis();
-            xAxis.setValueFormatter(new DateXAxisValueFormatter(domainDates));
-            xAxis.setLabelRotationAngle(X_LABEL_ROTATION);
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            ArrayList<Integer> colors = new ArrayList<Integer>();
 
-            lineChart.invalidate();
+            for (int c : ColorTemplate.VORDIPLOM_COLORS) {
+                colors.add(c);
+            }
+            for (int c : ColorTemplate.JOYFUL_COLORS) {
+                colors.add(c);
+            }
+            for (int c : ColorTemplate.COLORFUL_COLORS) {
+                colors.add(c);
+            }
+            for (int c : ColorTemplate.LIBERTY_COLORS) {
+                colors.add(c);
+            }
+            for (int c : ColorTemplate.PASTEL_COLORS) {
+                colors.add(c);
+            }
+            colors.add(ColorTemplate.getHoloBlue());
 
-            lineChart.setVisibility(View.VISIBLE);
+            dataSet.setColors(colors);
+            dataSet.setValueTextSize(FONT_SIZE);
+
+            PieData pieData = new PieData(dataSet);
+            pieChart.setData(pieData);
+
+            pieChart.invalidate();
+
+            pieChart.setVisibility(View.VISIBLE);
         } else {
             noDataText.setVisibility(View.VISIBLE);
         }
@@ -132,6 +154,6 @@ public class LineGraphFragment extends GraphFragment<RatData> {
 
     @Override
     public Chart getChart() {
-        return lineChart;
+        return pieChart;
     }
 }

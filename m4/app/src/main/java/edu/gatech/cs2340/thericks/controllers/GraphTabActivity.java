@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.github.mikephil.charting.charts.Chart;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class GraphTabActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private GraphPagerAdapter adapter;
 
-    private boolean[] displayed;
+    private boolean graphsLoading;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -62,6 +64,8 @@ public class GraphTabActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.addTab(
                 tabLayout.newTab().setText(getResources().getString(R.string.bar_graph_tab)));
+        tabLayout.addTab(
+                tabLayout.newTab().setText(getResources().getString(R.string.pie_chart_tab)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = findViewById(R.id.pager);
@@ -73,7 +77,7 @@ public class GraphTabActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                if (!adapter.isDisplayed(viewPager.getCurrentItem())) {
+                if (!graphsLoading && !adapter.isDisplayed(viewPager.getCurrentItem())) {
                     adapter.getItem(viewPager.getCurrentItem()).displayGraph(loadedData);
                     adapter.setDisplayed(viewPager.getCurrentItem(), true);
                 }
@@ -104,10 +108,13 @@ public class GraphTabActivity extends AppCompatActivity {
                 frag.displayGraph(loadedData);
                 adapter.setDisplayed(viewPager.getCurrentItem(), true);
 
+                graphsLoading = false;
                 progressBar.setVisibility(View.GONE);
                 applyFiltersButton.setEnabled(true);
             }
         };
+
+        graphsLoading = true;
 
         RatDatabase db = new RatDatabase();
         db.loadData(tempAdapter, loadedData, filter);
@@ -130,6 +137,7 @@ public class GraphTabActivity extends AppCompatActivity {
                         frag.displayGraph(loadedData);
                         adapter.setDisplayed(viewPager.getCurrentItem(), true);
 
+                        graphsLoading = false;
                         progressBar.setVisibility(View.GONE);
                         applyFiltersButton.setEnabled(true);
                     }
@@ -138,10 +146,14 @@ public class GraphTabActivity extends AppCompatActivity {
                 applyFiltersButton.setEnabled(false);
 
                 for (int i = 0; i < adapter.getCount(); i++) {
-                    adapter.getItem(i).getChart().setVisibility(View.GONE);
-                    adapter.setDisplayed(i, false);
+                    Chart chart = adapter.getItem(i).getChart();
+                    if (chart != null) {
+                        adapter.getItem(i).getChart().setVisibility(View.GONE);
+                        adapter.setDisplayed(i, false);
+                    }
                 }
 
+                graphsLoading = true;
                 RatDatabase db = new RatDatabase();
                 db.loadData(tempAdapter, loadedData, filter);
             }
