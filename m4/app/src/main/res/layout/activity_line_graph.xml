@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
+            android:id="@+id/line_chart"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="50dp"
@@ -16,7 +16,7 @@
             app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
-            android:id="@+id/no_data_graph_text"
+            android:id="@+id/no_data_line_graph_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_matching_data_label"

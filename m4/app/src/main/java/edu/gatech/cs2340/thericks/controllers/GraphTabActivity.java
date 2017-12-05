@@ -37,6 +37,8 @@ public class GraphTabActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private GraphPagerAdapter adapter;
 
+    private boolean[] displayed;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -58,6 +60,9 @@ public class GraphTabActivity extends AppCompatActivity {
         tabLayout.addTab(
                 tabLayout.newTab().setText(getResources().getString(R.string.line_graph_tab)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.addTab(
+                tabLayout.newTab().setText(getResources().getString(R.string.bar_graph_tab)));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = findViewById(R.id.pager);
         adapter = new GraphPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -68,7 +73,10 @@ public class GraphTabActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                adapter.getItem(viewPager.getCurrentItem()).displayGraph(loadedData);
+                if (!adapter.isDisplayed(viewPager.getCurrentItem())) {
+                    adapter.getItem(viewPager.getCurrentItem()).displayGraph(loadedData);
+                    adapter.setDisplayed(viewPager.getCurrentItem(), true);
+                }
             }
 
             @Override
@@ -91,8 +99,11 @@ public class GraphTabActivity extends AppCompatActivity {
             public void notifyDataSetChanged() {
                 super.notifyDataSetChanged();
                 Log.d(TAG, "Notified that the data finished loading");
+
                 GraphFragment<RatData> frag = adapter.getItem(viewPager.getCurrentItem());
                 frag.displayGraph(loadedData);
+                adapter.setDisplayed(viewPager.getCurrentItem(), true);
+
                 progressBar.setVisibility(View.GONE);
                 applyFiltersButton.setEnabled(true);
             }
@@ -114,16 +125,23 @@ public class GraphTabActivity extends AppCompatActivity {
                     public void notifyDataSetChanged() {
                         super.notifyDataSetChanged();
                         Log.d(TAG, "Notified that the data finished loading");
+
                         GraphFragment<RatData> frag = adapter.getItem(viewPager.getCurrentItem());
                         frag.displayGraph(loadedData);
+                        adapter.setDisplayed(viewPager.getCurrentItem(), true);
+
                         progressBar.setVisibility(View.GONE);
                         applyFiltersButton.setEnabled(true);
                     }
                 };
                 progressBar.setVisibility(View.VISIBLE);
                 applyFiltersButton.setEnabled(false);
-                GraphFragment<RatData> frag = adapter.getItem(viewPager.getCurrentItem());
-                frag.getChart().setVisibility(View.GONE);
+
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    adapter.getItem(i).getChart().setVisibility(View.GONE);
+                    adapter.setDisplayed(i, false);
+                }
+
                 RatDatabase db = new RatDatabase();
                 db.loadData(tempAdapter, loadedData, filter);
             }

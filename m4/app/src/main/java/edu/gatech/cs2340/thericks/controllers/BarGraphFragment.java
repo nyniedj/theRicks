@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,41 +25,35 @@ import edu.gatech.cs2340.thericks.models.RatData;
 import edu.gatech.cs2340.thericks.utils.DateUtility;
 
 /**
- * Created by Cameron on 11/3/2017.
- * Holds the line graph
+ * Created by Cameron on 12/5/2017.
+ * Class to display a bar graph representation of graph data
  */
+public class BarGraphFragment extends GraphFragment<RatData> {
 
-public class LineGraphFragment extends GraphFragment<RatData> {
-
-    private static final String TAG = LineGraphFragment.class.getSimpleName();
+    private static final String TAG = BarGraphFragment.class.getSimpleName();
 
     private static final float X_LABEL_ROTATION = 60f;
 
-    private LineChart lineChart;
-
+    private BarChart barChart;
     private TextView noDataText;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstance) {
         Log.d(TAG, "Creating Ling Graph View");
 
-        View view = layoutInflater.inflate(R.layout.activity_line_graph, container, false);
+        View view = layoutInflater.inflate(R.layout.activity_bar_graph, container, false);
 
-        noDataText = view.findViewById(R.id.no_data_line_graph_text);
+        noDataText = view.findViewById(R.id.no_data_bar_graph_text);
         noDataText.setVisibility(View.GONE);
 
-        lineChart = view.findViewById(R.id.line_chart);
-        lineChart.setVisibility(View.GONE);
+        barChart = view.findViewById(R.id.bar_chart);
+        barChart.setVisibility(View.GONE);
 
         return view;
     }
 
-    /**
-     * Displays the graph, calculates the bounds for the specified date range,
-     * and gets the needed data from the database
-     */
+    @Override
     public void displayGraph(List<RatData> loadedData) {
-
         Log.d(TAG, "Sorting data");
         loadedData.sort((ratData1, ratData2) -> {
             Date date1 = DateUtility.parse(ratData1.getCreatedDateTime());
@@ -107,24 +101,24 @@ public class LineGraphFragment extends GraphFragment<RatData> {
                 domainDates[i] = cal.getTime();
             }
 
-            List<Entry> entries = new ArrayList<>();
+            List<BarEntry> entries = new ArrayList<>();
             for (int i = 1; i < domainDates.length; i++) {
-                entries.add(new Entry(i, DateUtility.filterByDate(domainDates[i - 1],
+                entries.add(new BarEntry(i, DateUtility.filterByDate(domainDates[i - 1],
                         domainDates[i], loadedData).size()));
             }
 
-            LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
-            LineData lineData = new LineData(dataSet);
-            lineChart.setData(lineData);
+            BarDataSet dataSet = new BarDataSet(entries, "Rat Sightings");
+            BarData barData = new BarData(dataSet);
+            barChart.setData(barData);
 
-            XAxis xAxis = lineChart.getXAxis();
+            XAxis xAxis = barChart.getXAxis();
             xAxis.setValueFormatter(new DateXAxisValueFormatter(domainDates));
             xAxis.setLabelRotationAngle(X_LABEL_ROTATION);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-            lineChart.invalidate();
+            barChart.invalidate();
 
-            lineChart.setVisibility(View.VISIBLE);
+            barChart.setVisibility(View.VISIBLE);
         } else {
             noDataText.setVisibility(View.VISIBLE);
         }
@@ -132,6 +126,6 @@ public class LineGraphFragment extends GraphFragment<RatData> {
 
     @Override
     public Chart getChart() {
-        return lineChart;
+        return barChart;
     }
 }

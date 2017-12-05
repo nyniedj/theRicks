@@ -2,9 +2,13 @@ package edu.gatech.cs2340.thericks.controllers;
 
 
 
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.gatech.cs2340.thericks.models.RatData;
 
@@ -16,12 +20,15 @@ public class GraphPagerAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
 
     private GraphFragment<RatData> lineGraph;
-    private Fragment barGraph;
-    private Fragment pieChart;
+    private GraphFragment<RatData> barGraph;
+    private GraphFragment<RatData> pieChart;
+
+    private boolean[] isDisplayed;
 
     GraphPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
+        this.isDisplayed = new boolean[NumOfTabs];
     }
 
     @Override
@@ -33,9 +40,22 @@ public class GraphPagerAdapter extends FragmentStatePagerAdapter {
                     lineGraph = new LineGraphFragment();
                 };
                 return lineGraph;
+            case 1:
+                if (barGraph == null) {
+                    barGraph = new BarGraphFragment();
+                }
+                return barGraph;
             default:
                 return null;
         }
+    }
+
+    boolean isDisplayed(int position) {
+        return isDisplayed[position];
+    }
+
+    void setDisplayed(int position, boolean value) {
+        isDisplayed[position] = value;
     }
 
     @Override
