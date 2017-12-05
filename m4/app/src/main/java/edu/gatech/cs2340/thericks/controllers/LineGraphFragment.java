@@ -1,16 +1,13 @@
 package edu.gatech.cs2340.thericks.controllers;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -25,108 +22,45 @@ import java.util.Date;
 import java.util.List;
 
 import edu.gatech.cs2340.thericks.R;
-import edu.gatech.cs2340.thericks.database.RatDatabase;
 import edu.gatech.cs2340.thericks.models.Months;
 import edu.gatech.cs2340.thericks.models.RatData;
-import edu.gatech.cs2340.thericks.models.RatFilter;
 import edu.gatech.cs2340.thericks.utils.DateUtility;
 
 /**
  * Created by Cameron on 11/3/2017.
- * Holds multiple different graphs for displaying rat data
+ * Holds the line graph
  */
 
-public class GraphActivity extends AppCompatActivity {
+public class LineGraphFragment extends GraphFragment<RatData> {
 
-    private static final String TAG = GraphActivity.class.getSimpleName();
+    private static final String TAG = LineGraphFragment.class.getSimpleName();
 
     private static final float X_LABEL_ROTATION = 60f;
 
-    private LineChart chart;
-
-    private ProgressBar progressBar;
-
-    private List<RatData> loadedData;
-
-    private RatFilter filter;
-
-    private Button applyFiltersButton;
+    private LineChart lineChart;
 
     private TextView noDataText;
 
     @Override
-    public void onCreate(Bundle savedInstance) {
-        super.onCreate(savedInstance);
-        setContentView(R.layout.activity_graphs);
+    public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstance) {
+        Log.d(TAG, "Creating Ling Graph View");
 
-        Log.d(TAG, "Entered Graph Activity");
+        View view = layoutInflater.inflate(R.layout.activity_line_graph, container, false);
 
-        progressBar = findViewById(R.id.graph_progress_bar);
-
-        noDataText = findViewById(R.id.no_data_graph_text);
+        noDataText = view.findViewById(R.id.no_data_graph_text);
         noDataText.setVisibility(View.GONE);
 
-        chart = findViewById(R.id.chart);
-        chart.setVisibility(View.GONE);
+        lineChart = view.findViewById(R.id.chart);
+        lineChart.setVisibility(View.GONE);
 
-        filter = RatFilter.getDefaultInstance();
-
-        applyFiltersButton = findViewById(R.id.apply_filters_button_graph);
-        applyFiltersButton.setEnabled(false);
-        applyFiltersButton.setOnClickListener(v -> {
-            Context context = v.getContext();
-            Intent intent = new Intent(context, FilterActivity.class);
-            intent.putExtra(FilterActivity.FILTER, filter);
-            startActivityForResult(intent, FilterActivity.GET_FILTER);
-        });
-
-        loadedData = new ArrayList<>();
-        ArrayAdapter<RatData> tempAdapter
-                = new ArrayAdapter<RatData>(getApplicationContext(), ArrayAdapter.NO_SELECTION) {
-
-            @Override
-            public void notifyDataSetChanged() {
-                super.notifyDataSetChanged();
-                Log.d(TAG, "Notified that the data finished loading");
-                displayGraph();
-            }
-        };
-
-        RatDatabase db = new RatDatabase();
-        db.loadData(tempAdapter, loadedData, filter);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FilterActivity.GET_FILTER) {
-            if (resultCode == RESULT_OK) {
-                filter = data.getParcelableExtra(FilterActivity.FILTER);
-                applyFiltersButton.setEnabled(false);
-                ArrayAdapter<RatData> tempAdapter = new ArrayAdapter<RatData>(
-                        getApplicationContext(), ArrayAdapter.NO_SELECTION) {
-
-                    @Override
-                    public void notifyDataSetChanged() {
-                        super.notifyDataSetChanged();
-                        Log.d(TAG, "Notified that the data finished loading");
-                        displayGraph();
-                    }
-                };
-                progressBar.setVisibility(View.VISIBLE);
-                chart.setVisibility(View.GONE);
-                noDataText.setVisibility(View.GONE);
-                RatDatabase db = new RatDatabase();
-                db.loadData(tempAdapter, loadedData, filter);
-            }
-        }
+        return view;
     }
 
     /**
      * Displays the graph, calculates the bounds for the specified date range,
      * and gets the needed data from the database
      */
-    private void displayGraph() {
-        applyFiltersButton.setEnabled(false);
+    public void displayGraph(List<RatData> loadedData) {
 
         Log.d(TAG, "Sorting data");
         loadedData.sort((ratData1, ratData2) -> {
@@ -183,22 +117,24 @@ public class GraphActivity extends AppCompatActivity {
 
             LineDataSet dataSet = new LineDataSet(entries, "Rat Sightings");
             LineData lineData = new LineData(dataSet);
-            chart.setData(lineData);
+            lineChart.setData(lineData);
 
-            XAxis xAxis = chart.getXAxis();
+            XAxis xAxis = lineChart.getXAxis();
             xAxis.setValueFormatter(new MyXAxisValueFormatter(domainDates));
             xAxis.setLabelRotationAngle(X_LABEL_ROTATION);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-            chart.invalidate();
+            lineChart.invalidate();
 
-            chart.setVisibility(View.VISIBLE);
+            lineChart.setVisibility(View.VISIBLE);
         } else {
             noDataText.setVisibility(View.VISIBLE);
         }
+    }
 
-        progressBar.setVisibility(View.GONE);
-        applyFiltersButton.setEnabled(true);
+    @Override
+    public Chart getChart() {
+        return lineChart;
     }
 
     public class MyXAxisValueFormatter implements IAxisValueFormatter {

@@ -37,8 +37,8 @@
         <activity android:name=".controllers.RatDataListActivity" />
         <activity android:name=".controllers.RatEntryActivity" />
         <activity android:name=".controllers.DashMapActivity" />
-        <activity android:name=".controllers.GraphActivity" />
         <activity android:name=".controllers.FilterActivity" />
+        <activity android:name=".controllers.GraphTabActivity" />
     </application>
 
 </manifest>

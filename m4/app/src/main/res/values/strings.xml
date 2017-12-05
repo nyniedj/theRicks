@@ -53,4 +53,8 @@
     <string name="usernameText">text that shows the profile username</string>
     <string name="settings_title_header">settings title header</string>
     <string name="settings">SETTINGS</string>
+
+    <string name="line_graph_tab">Line Graph</string>
+    <string name="bar_graph_tab">Bar Graph</string>
+    <string name="pie_chart_tab">Pie Chart</string>
 </resources>

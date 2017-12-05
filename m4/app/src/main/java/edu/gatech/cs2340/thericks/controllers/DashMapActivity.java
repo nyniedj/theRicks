@@ -46,6 +46,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
 
     private boolean onMap;
 
+    private Button graphButton;
     private Button mapButton;
     private Button listRatDataButton;
     private Button profileButton;
@@ -72,12 +73,20 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         mapFragment.getMapAsync(this);
 
         mapButton = findViewById(R.id.map_button);
-        Button graphButton = findViewById(R.id.rat_graph_button);
+        graphButton = findViewById(R.id.rat_graph_button);
         listRatDataButton = findViewById(R.id.rat_data_list_button);
         profileButton = findViewById(R.id.profile_button);
         settingsButton = findViewById(R.id.settings_button);
         reportRatButton = findViewById(R.id.report_rat_button);
         logoutButton = findViewById(R.id.logout_button);
+
+//        mapButton.setVisibility(View.GONE);
+//        graphButton.setVisibility(View.GONE);
+//        listRatDataButton.setVisibility(View.GONE);
+//        profileButton.setVisibility(View.GONE);
+//        settingsButton.setVisibility(View.GONE);
+//        reportRatButton.setVisibility(View.GONE);
+//        logoutButton.setVisibility(View.GONE);
 
         returnToDashButton = findViewById(R.id.return_to_dashboard_button);
         returnToDashButton.setVisibility(View.GONE);
@@ -103,6 +112,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
             Log.d(TAG, "Rat Map Button pressed");
             if (map != null) {
                 mapButton.setVisibility(View.GONE);
+                graphButton.setVisibility(View.GONE);
                 listRatDataButton.setVisibility(View.GONE);
                 profileButton.setVisibility(View.GONE);
                 settingsButton.setVisibility(View.GONE);
@@ -122,7 +132,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         graphButton.setOnClickListener((View v) ->  {
             Log.d(TAG, "Graph button pressed");
             Context context = v.getContext();
-            Intent intent = new Intent(context, GraphActivity.class);
+            Intent intent = new Intent(context, GraphTabActivity.class);
             context.startActivity(intent);
         });
 
@@ -161,6 +171,7 @@ public class DashMapActivity extends AppCompatActivity implements OnMapReadyCall
         returnToDashButton.setOnClickListener(v -> {
             if (map != null) {
                 mapButton.setVisibility(View.VISIBLE);
+                graphButton.setVisibility(View.VISIBLE);
                 listRatDataButton.setVisibility(View.VISIBLE);
                 profileButton.setVisibility(View.VISIBLE);
                 settingsButton.setVisibility(View.VISIBLE);
